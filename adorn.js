@@ -187,10 +187,10 @@
 			toc = document.querySelector('nav.toc');
 
 		if( !toc ){
-			var head = document.querySelector('header,h1');
-			if( head.parentNode === document.body ){
+			var h1 = document.querySelectorAll('header,h1,h2');
+			if( h1 && h1.length>1 && h1[0].parentNode === document.body ){
 				toc = create('nav', {'class':'toc'});
-				document.body.insertBefore( toc, head.nextSibling );
+				document.body.insertBefore( toc, h1[0].nextSibling );
 			}
 		}
 
