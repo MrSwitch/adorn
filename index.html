@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<link rel="stylesheet" href="./adorn.css" />
+<script src="./adorn.js"></script>
+
+<h1>Adorn</h1>
+
+<blockquote>
+<p><b>Adorn</b>: not just an open source code repo, <b> a concept</b>. 
+<p>Adorn is your theme for plain markup. 
+<p>The idea is simple, make HTML tags look great, and add a little navigational aids to pages.
+</blockquote>
+
+<h2>Rules</h2>
+
+<ol>
+	<li>
+
+		<h3>//localhost/adorn/</h3>
+
+		<p>The adorn path must be available at http://localhost/adorn/ when developing. This means your assets can be referenced relative to the root, e.g. 
+
+			<script type="text/html" class="pre">
+				<link rel="stylesheet" href="/adorn/adorn.css" />
+				<script src="/adorn/adorn.js"><\/script>
+			</script>
+
+		<p>This has the benefit of continuity with GitHub Pages. Once you have pushed the adorn files up to gh-pages, your other projects gh-pages are relative, so assets are looking at your adorn gh-page.
+		<p>Also when you fork an exisiting project which references adorn in this way, you wont see an unstyled page youll see your adorn theme.
+
+	</li>
+
+	<li>
+		<h3>Custom classes, Keep it out</h3>
+		<p>Avoid attributing custom classes, id's, javascript, to your HTML files which only exist in your version of adorn, these may not be in someone elses instances of Adorn.
+	</li>
+
+	<li>
+		<h3>Flat DOM</h3>
+		<p>Avoid nesting elements for the sake of style, the document should be linear and all block level elements should really belong to body.
+		<p>If your familiar with MarkDown then you're already initiated into this idea.
+	</li>
+
+</ol>
+
+<h2>Example</h2>
+
+<p>An example of a good theme is this page (Right-Click "View Source")</p>

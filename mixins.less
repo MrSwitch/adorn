@@ -1,0 +1,127 @@
+//////////////////////
+// LESS mixins
+// This is a collection of LESS mixins (functions) used throughout this project
+//////////////////////
+
+// MEDIA QUERIES
+@mobile: ~"all and (max-width: 640px)";
+
+
+// Animations
+.animate(@val){
+    -webkit-animation: @val;
+    -moz-animation: @val;
+    -o-animation: @val;
+    animation: @val;
+}
+
+// Animation Delay
+.animate-delay(@val){
+    -webkit-animation-delay: @val;
+    -moz-animation-delay: @val;
+    -o-animation-delay: @val;
+    animation-delay: @val;
+}
+
+.keyframes(@identifier: slidein, @animation: ~"{0%, 50%, 100% { opacity: 0; } 25%, 75% {opacity: 0 }") {
+  .webkit { content: ~"''; } @-webkit-keyframes @{identifier} @{animation}"}
+     .moz { content: ~"''; }    @-moz-keyframes @{identifier} @{animation}"}
+      .ms { content: ~"''; }     @-ms-keyframes @{identifier} @{animation}"}
+       .o { content: ~"''; }      @-o-keyframes @{identifier} @{animation}"}
+     .key { content: ~"''; }         @keyframes @{identifier} @{animation}"}
+}
+
+// Transform MIXIN
+.transform (@val;@origin:0 0) {
+	-webkit-transform: @val;
+	-webkit-transform-origin: @origin;
+	-moz-transform: @val;
+	-moz-transform-origin: @origin;
+	-ms-transform: @val;
+	-ms-transform-origin: @origin;
+	-o-transform: @val;
+	-o-transform-origin: @origin;
+	transform: @val;
+	transform-origin: @origin;
+}
+
+// Transform MIXIN
+.transition (@val) {
+	-webkit-transition: @val;
+	-moz-transition: @val;
+	-ms-transition: @val;
+	-o-transition: @val;
+	transition: @val;
+}
+// Transform MIXIN
+.transition-duration (@val) {
+	-webkit-transition-duration: @val;
+	-moz-transition-duration: @val;
+	-ms-transition-duration: @val;
+	-o-transition-duration: @val;
+	transition-duration: @val;
+}
+// Transform MIXIN
+.transition-delay (@val) {
+	-webkit-transition-delay: @val;
+	-moz-transition-delay: @val;
+	-ms-transition-delay: @val;
+	-o-transition-delay: @val;
+	transition-delay: @val;
+}
+
+
+// FlexBox Mixin
+.flexBoxPack (){
+
+	// V1 MOZ AND WEBKIT
+	//display: -moz-box;
+	//-moz-box-orient: horizontal;
+	//-moz-box-lines: multiple;
+	// Required by Moz, v1
+
+	//display: -webkit-box;
+	//-webkit-box-orient: horizontal;
+	//-webkit-box-lines: multiple;
+
+	// V2 IE10
+	display: -ms-flexbox;
+	-ms-flex-direction: row;
+	-ms-flex-wrap: wrap;
+
+	display: -moz-flexbox;
+	-moz-flex-direction: row;
+	-moz-flex-wrap: wrap;
+
+	// V3
+	display: -webkit-flex;
+	-webkit-flex-direction: row;
+	-webkit-flex-wrap: wrap;
+
+	display: -moz-flex;
+	-moz-flex-direction: row;
+	-moz-flex-wrap: wrap;
+
+	display: flex; 
+	flex-direction: row;
+	flex-wrap: wrap;
+
+	> *{
+		// V1
+		//-moz-box-flex:1;
+
+		// V2
+		-ms-flex:1.0 0 auto;
+
+		// V3
+		-webkit-flex: 1 1 auto;
+		flex: 1 1 auto;
+	}
+}
+
+// OPACITY
+.opacity(@val){
+	opacity:@val;
+	@cent:@val*100;
+	filter:~"alpha(opacity=@{cent})";
+}
