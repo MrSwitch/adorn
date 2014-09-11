@@ -98,6 +98,8 @@
 		// Add event to twitter button
 		addEvent(document.querySelectorAll('.twitter-share-button'),'click',function(e){
 			
+			var hashtag;
+
 			e.preventDefault();
 
 			var w = 550,
@@ -105,7 +107,11 @@
 				l = (screen.width/2)-(w/2),
 				t = (screen.height/2)-(h/2);
 
-			window.open("http://twitter.com/share?text="+encodeURIComponent(document.title + " by " + this.getAttribute('data-via')), 'twitter', 'width='+w+',height='+h+',left='+l+'px,top='+t+'px');
+			try{
+				hashtag = document.querySelector('meta[name="twitter:hashtag"').content;
+			}catch(_e){}
+
+			window.open("http://twitter.com/share?text="+encodeURIComponent( document.title + (hashtag ? ' #' + hashtag + ' ' : '') + " by " + this.getAttribute('data-via')), 'twitter', 'width='+w+',height='+h+',left='+l+'px,top='+t+'px');
 		});
 
 
