@@ -45,10 +45,12 @@
 		});
 
 		if( repo ){
+			// Get the location of this file in the repo
+			var repo_file = (window.location.pathname||'').replace(/^\/?([^\/]+)/g,'').replace(/\/$/, '/index.html');
 
 			repo_path = "https://github.com/MrSwitch/"+repo;
 			social_btns = [
-				'<a href="'+repo_path+'" target="_blank">Open Source</a>',
+				'<a href="'+repo_path+'/blob/master'+ repo_file +'" target="_blank">Edit this page</a>',
 				'<a href="'+repo_path+'" class="github-star-button" target="_blank" title="Stars"><i class="icon-github"></i><span class="speeach-bubble"></span></a>',
 			];
 		}
