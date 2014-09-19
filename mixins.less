@@ -10,24 +10,17 @@
 // Animations
 .animate(@val){
     -webkit-animation: @val;
-    -moz-animation: @val;
-    -o-animation: @val;
     animation: @val;
 }
 
 // Animation Delay
 .animate-delay(@val){
     -webkit-animation-delay: @val;
-    -moz-animation-delay: @val;
-    -o-animation-delay: @val;
     animation-delay: @val;
 }
 
 .keyframes(@identifier: slidein, @animation: ~"{0%, 50%, 100% { opacity: 0; } 25%, 75% {opacity: 0 }") {
   .webkit { content: ~"''; } @-webkit-keyframes @{identifier} @{animation}"}
-     .moz { content: ~"''; }    @-moz-keyframes @{identifier} @{animation}"}
-      .ms { content: ~"''; }     @-ms-keyframes @{identifier} @{animation}"}
-       .o { content: ~"''; }      @-o-keyframes @{identifier} @{animation}"}
      .key { content: ~"''; }         @keyframes @{identifier} @{animation}"}
 }
 
@@ -35,38 +28,20 @@
 .transform (@val;@origin:0 0) {
 	-webkit-transform: @val;
 	-webkit-transform-origin: @origin;
-	-moz-transform: @val;
-	-moz-transform-origin: @origin;
-	-ms-transform: @val;
-	-ms-transform-origin: @origin;
-	-o-transform: @val;
-	-o-transform-origin: @origin;
 	transform: @val;
 	transform-origin: @origin;
 }
 
 // Transform MIXIN
 .transition (@val) {
-	-webkit-transition: @val;
-	-moz-transition: @val;
-	-ms-transition: @val;
-	-o-transition: @val;
 	transition: @val;
 }
 // Transform MIXIN
 .transition-duration (@val) {
-	-webkit-transition-duration: @val;
-	-moz-transition-duration: @val;
-	-ms-transition-duration: @val;
-	-o-transition-duration: @val;
 	transition-duration: @val;
 }
 // Transform MIXIN
 .transition-delay (@val) {
-	-webkit-transition-delay: @val;
-	-moz-transition-delay: @val;
-	-ms-transition-delay: @val;
-	-o-transition-delay: @val;
 	transition-delay: @val;
 }
 
