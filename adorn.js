@@ -55,7 +55,7 @@
 
 		// Add Twitter
 		// Install the twitter widget
-		social_btns.push('<a href="https://twitter.com/share" class="twitter-share-button" target="_blank" data-via="@setData" title="Tweet"><i class="icon-twitter"></i><span class="speeach-bubble"></span></a>');
+		social_btns.push('<a href="https://twitter.com/share" class="twitter-share-button" target="_blank" data-via="setData" title="Tweet"><i class="icon-twitter"></i><span class="speeach-bubble"></span></a>');
 
 		// Probably could make this a little more ajaxy
 		jsonp('http://urls.api.twitter.com/1/urls/count.json?url='+encodeURIComponent(url),function(r){
@@ -111,7 +111,7 @@
 				hashtag = document.querySelector('meta[name="twitter:hashtag"').content;
 			}catch(_e){}
 
-			window.open("http://twitter.com/share?text="+encodeURIComponent( document.title + (hashtag ? ' #' + hashtag + ' ' : '') + " by " + this.getAttribute('data-via')), 'twitter', 'width='+w+',height='+h+',left='+l+'px,top='+t+'px');
+			window.open("https://twitter.com/intent/tweet?text="+ encodeURIComponent( document.title ) + (hashtag ? '&hashtags=' + hashtag : '') + "&via=" + this.getAttribute('data-via') + "&url="+ encodeURIComponent(window.location.href.replace(/#.*/,'')), 'twitter', 'width='+w+',height='+h+',left='+l+'px,top='+t+'px');
 		});
 
 
