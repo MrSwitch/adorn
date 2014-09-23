@@ -704,11 +704,9 @@ table, .table{
 	.animate( ~"slideInDown 0.3s @{bounce} alternate, fadeIn 0.3s @{bounce}");
 	background-color:black;
 	color:white;
-	display: flex;
-	display: -webkit-flex;
-	-webkit-flex-flow: row;
-	flex-flow: row;
-    justify-content: space-between;
+	.flex-display();
+	.flex-flow(row);
+	.justify-content(space-between);
 	left: 0;
 	margin: 0;
 	padding: 10px;
