@@ -27,7 +27,7 @@
 	var loaded = document.readyState === 'complete';
 
 	// Insert on Document Load
-	addEvent(window, "load", function(){
+	addEvent(document, "DOMContentLoaded", function(){
 
 		var pres, i;
 
@@ -425,6 +425,16 @@
 		if (obj.addEventListener) {
 			obj.addEventListener(eventName, listener, false);
 		} else if(obj.attachEvent){
+			// DOMContentLoaded
+			if( eventName === "DOMContentLoaded" ){
+				eventName = 'readystatechange';
+				_listener = listener;
+				listener = function(){
+					if(obj.readyState === "complete"){
+						_listener();
+					}
+				};
+			}
 			obj.attachEvent("on" + eventName, listener);
 		}
 	}
