@@ -769,8 +769,29 @@ table, .table{
 .breadcrumbs{
 
 	>a{
+
 		&:before{
 			content : '/';
+			vertical-align: middle;
+		}
+
+		&:first-child{
+			&:before{
+				content : none;
+			}
+			> img{
+				margin: -5px 10px -5px 0;
+				background: rgba(255,255,255,0.2);
+				border-radius:50%;
+				height:36px;
+				vertical-align: middle;
+				width:36px;
+				transition: all 0.3s;
+				&:hover{
+					transform: scale(2.5);
+					filter: none;
+				}
+			}
 		}
 
 		.transition(all 0.3s ease-in);

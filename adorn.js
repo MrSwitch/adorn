@@ -37,7 +37,7 @@
 
 		var url = window.location.href,
 			social_btns = [],
-			breadcrumbs = ['<a href="/">Andrew Dodson</a>'];
+			breadcrumbs = ['<a href="/"><img src="/favicon.ico" alt="' + window.location.hostname + '" title="Andrew Dodson"/></a>'];
 
 		each( paths, function(val, index){
 			if(!val) return;
