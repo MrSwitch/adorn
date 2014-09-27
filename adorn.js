@@ -1,9 +1,14 @@
 /**
- * Document.js
+ * adorn.js
  * Adds document navigation to a page.
  */
 
 (function(window, document){
+
+	// JSONP COUNTER
+	var jsonp_counter = 0;
+	window.jsonp = jsonp;
+
 
 	// Touch exists?
 	document.documentElement.className += (' ' + ( "ontouchstart" in window ? '' : 'no-') + 'touch');
@@ -24,13 +29,23 @@
 		content:'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'
 	}), s);
 
-	var loaded = document.readyState === 'complete';
 
-	// Insert on Document Load
-	addEvent(document, "DOMContentLoaded", function(){
+	// ///////////////////////////////////
+	// TOOLBAR
+	// ///////////////////////////////////
 
-		var pres, i;
+	function buildToolbar(){
 
+		if(!document.body){
+			// Just in case...
+			addEvent(document, "DOMContentLoaded", buildToolbar);
+			return;
+		}
+
+
+		//
+		// Build toolbar
+		// 
 		var repo_path,
 			paths = (window.location.pathname||'').replace(/^\/|\/$|\.html?$/g,'').split(/\//),
 			repo = paths[0];
@@ -55,9 +70,17 @@
 			];
 		}
 
+
 		// Add Twitter
 		// Install the twitter widget
 		social_btns.push('<a href="https://twitter.com/share" class="twitter-share-button" target="_blank" data-via="setData" title="Tweet"><i class="icon-twitter"></i><span class="speeach-bubble"></span></a>');
+
+		document.body.insertBefore(create('aside',{
+			'class' : 'toolbar',
+			'html' : '<div class="breadcrumbs pull-left"> '+breadcrumbs.join(' ') +'</div> <div class="pull-right">'+ social_btns.join('<span class="period"></span>') +' <div class="clearfix"></div></div>'
+		}),document.body.firstElementChild||document.body.firstChild);
+
+
 
 		// Probably could make this a little more ajaxy
 		jsonp('http://urls.api.twitter.com/1/urls/count.json?url='+encodeURIComponent(url),function(r){
@@ -68,19 +91,6 @@
 		});
 
 
-
-		document.body.insertBefore(create('aside',{
-				'class' : 'toolbar',
-				'html' : '<div class="breadcrumbs pull-left"> '+breadcrumbs.join(' ') +'</div> <div class="pull-right">'+ social_btns.join('<span class="period"></span>') +' <div class="clearfix"></div></div>'
-			}
-		),document.body.firstElementChild||document.body.firstChild);
-
-
-		// Add Footer link to repo
-		document.body.appendChild(create('footer',{
-				html : 'Authored by <a href="http://adodson.com" rel="author">Andrew Dodson</a>'
-			}
-		));
 
 		// Repo
 		if(repo_path){
@@ -95,6 +105,8 @@
 				});
 			});
 		}
+
+
 
 		//
 		// Add event to twitter button
@@ -116,6 +128,35 @@
 			window.open("https://twitter.com/intent/tweet?text="+ encodeURIComponent( document.title ) + (hashtag ? '&hashtags=' + hashtag : '') + "&via=" + this.getAttribute('data-via') + "&url="+ encodeURIComponent(window.location.href.replace(/#.*/,'')), 'twitter', 'width='+w+',height='+h+',left='+l+'px,top='+t+'px');
 		});
 
+	}
+
+
+	// Set the toolbar, doesn't work if document body is undefined
+	buildToolbar();
+
+
+	// ///////////////////////////////////
+	// FOOTER
+	// ///////////////////////////////////
+
+	ready(function(){
+
+		// Add Footer link to repo
+		document.body.appendChild(create('footer',{
+				html : 'Authored by <a href="http://adodson.com" rel="author">Andrew Dodson</a>'
+			}
+		));
+	});
+
+
+
+	// ///////////////////////////////////
+	// NAVIGATION
+	// ///////////////////////////////////
+
+	ready(function(){
+
+		var pres, i;
 
 		//
 		function tryitButton(pre,func){
@@ -439,6 +480,15 @@
 		}
 	}
 
+	function ready(callback){
+		if( document.readyState !== "loading" ){
+			callback();
+		}
+		else{
+			addEvent(document, 'DOMContentLoaded', callback);
+		}
+	}
+
 	function toggleClass(elm, className){
 		if(elm.className.match(className)){
 			removeClass( elm, className );
@@ -454,9 +504,8 @@
 
 	//
 	// JSONP
-	var jsonp_counter = 0;
 
-	window.jsonp = function(url, callback){
+	function jsonp(url, callback){
 		// JSONP
 		// Make the anonymous function. not anonymous
 		var callback_name = 'jsonp_document_' + jsonp_counter++;
@@ -468,6 +517,7 @@
 		var script = document.createElement('script');
 		// Update the path with the callback name
 		script.src = (url+"&callback="+callback_name);
+		script.async = true;
 		// Append
 		sibling.parentNode.insertBefore(script,sibling);
 	};
