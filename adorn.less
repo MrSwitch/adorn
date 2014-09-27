@@ -197,6 +197,10 @@ body{
 }
 
 code{
+	color:green;
+	font-family:monospace;
+	background-color:#f4f4f4;
+	border:1px solid #e4e4e4;
 	word-break:break-word;
 }
 
@@ -415,11 +419,8 @@ i{
 
 pre,.pre{
 
-	color:green;
+	&:extend(code);
 	display: block;
-	font-family:monospace;
-	background-color:#f4f4f4;
-	border:1px solid #e4e4e4;
 	border-left-width:10px;
 	white-space:pre;
 	padding: 15px;
