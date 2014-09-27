@@ -769,7 +769,7 @@ table, .table{
 .breadcrumbs{
 
 	>a{
-
+		display: inline-block;
 		&:before{
 			content : '/';
 			vertical-align: middle;
@@ -779,18 +779,20 @@ table, .table{
 			&:before{
 				content : none;
 			}
-			> img{
-				margin: -5px 10px -5px 0;
-				background: rgba(255,255,255,0.2);
-				border-radius:50%;
-				height:36px;
-				vertical-align: middle;
-				width:36px;
-				transition: all 0.3s;
-				&:hover{
-					transform: scale(2.5);
-					filter: none;
-				}
+		}
+
+		> img{
+			
+			margin: -5px 10px -5px 0;
+			background: rgba(255,255,255,0.2);
+			border-radius:50%;
+			height:36px;
+			vertical-align: middle;
+			width:36px;
+			.transition(all 0.3s);
+			&:hover{
+				.transform(scale(2.5), 50% 50%);
+				filter: none;
 			}
 		}
 
