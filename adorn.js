@@ -77,7 +77,7 @@
 
 		document.body.insertBefore(create('aside',{
 			'class' : 'toolbar',
-			'html' : '<div class="breadcrumbs pull-left"> '+breadcrumbs.join(' ') +'</div> <div class="pull-right">'+ social_btns.join('<span class="period"></span>') +' <div class="clearfix"></div></div>'
+			'html' : '<div class="breadcrumbs"> '+breadcrumbs.join(' ') +'</div> <div>'+ social_btns.join('<span class="period"></span>') +' <div class="clearfix"></div></div>'
 		}),document.body.firstElementChild||document.body.firstChild);
 
 
