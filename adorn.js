@@ -65,7 +65,7 @@
 
 			repo_path = "https://github.com/MrSwitch/"+repo;
 			social_btns = [
-				'<a href="'+repo_path+'/blob/master'+ repo_file +'" target="_blank">Edit this page</a>',
+				'<a href="'+repo_path+'/blob/master'+ repo_file +'" target="_blank" id="adorn-edit">Edit this page</a>',
 				'<a href="'+repo_path+'" class="github-star-button" target="_blank" title="Stars"><i class="icon-github"></i><span class="speeach-bubble"></span></a>',
 			];
 		}
