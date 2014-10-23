@@ -65,7 +65,7 @@
 
 			repo_path = "https://github.com/MrSwitch/"+repo;
 			social_btns = [
-				'<a href="'+repo_path+'/blob/master'+ repo_file +'" target="_blank">Edit this page</a>',
+				'<a href="'+repo_path+'/blob/master'+ repo_file +'" target="_blank" id="adorn-edit">Edit this page</a>',
 				'<a href="'+repo_path+'" class="github-star-button" target="_blank" title="Stars"><i class="icon-github"></i><span class="speeach-bubble"></span></a>',
 			];
 		}
@@ -77,7 +77,7 @@
 
 		document.body.insertBefore(create('aside',{
 			'class' : 'toolbar',
-			'html' : '<div class="breadcrumbs pull-left"> '+breadcrumbs.join(' ') +'</div> <div class="pull-right">'+ social_btns.join('<span class="period"></span>') +' <div class="clearfix"></div></div>'
+			'html' : '<div class="breadcrumbs"> '+breadcrumbs.join(' ') +'</div> <div>'+ social_btns.join('<span class="period"></span>') +' <div class="clearfix"></div></div>'
 		}),document.body.firstElementChild||document.body.firstChild);
 
 

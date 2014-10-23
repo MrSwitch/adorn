@@ -712,7 +712,7 @@ table, .table{
 	margin: 0;
 	padding: 10px;
 	position: fixed;
-	text-align: left;
+	text-align: right;
 	top: 0;
 	width: 100%;
 	z-index:1;
@@ -726,6 +726,7 @@ table, .table{
 	}
 	// Give the first child a little padding
 	> :first-child{
+		float:left;
 		text-align:left;
 		padding-left:40px;
 	}
@@ -758,7 +759,7 @@ table, .table{
 		// 	.transform(translateY(-100px));
 		// }
 
-		> .pull-right a:first-child{
+		#adorn-edit{
 			display:none;
 			& + *{
 				display:none;
@@ -926,22 +927,20 @@ nav.toc{
 
 	@media @tablet {
 
-		position: fixed;
-		left:0;
-		bottom:auto !important;
-		margin-left: 0 !important;
-		color:inherit;
-		text-align:left;
-		height:auto;
-		overflow:hidden;
-		width:auto;
 		background:none;
-		bottom:auto;
-		padding: 0;
-		top: 0 !important;
-		z-index: 1;
+		bottom:auto !important;
+		color:inherit;
+		height:auto;
+		left:0;
+		margin-left: 0 !important;
 		max-height:100%;
 		overflow: auto;
+		padding: 0;
+		position: fixed;
+		text-align:left;
+		top: 0 !important;
+		width:auto;
+		z-index: 1;
 
 		> ul > li{
 			.animate(none);
