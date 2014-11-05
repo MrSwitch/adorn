@@ -481,7 +481,7 @@
 	}
 
 	function ready(callback){
-		if( document.readyState !== "loading" ){
+		if( document.readyState !== "loading" && document.body ){
 			callback();
 		}
 		else{
