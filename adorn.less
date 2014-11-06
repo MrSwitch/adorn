@@ -36,69 +36,8 @@ html{
 }
 */
 
-/**
- * Mixin Logos
- */
-.twitter-logo(@color){
-	position: relative;
-	display: inline-block;
-	border-bottom-left-radius: 50% 100%;
-	border-bottom-right-radius: 50% 100%;
-	background-color: @color;
-	@width: 1.6em;
-	@height: 0.4em;
-
-	width: @width;
-	height: @height;
-
-	.transform(~'rotate(-25deg) translate(-0.15em,0)', 100% 0);
-
-	// BEAK
-	box-shadow: 0.4em -0.35em 0 -0.17em @color,
-				0.35em -0.45em 0 -0.12em @color;
 
 
-	&:before {
-		position: absolute;
-		content: "";
-		top: -0.9em;
-		left: 0.5em;
-		width: @width / 2;
-		height: @height /1.5;
-
-		border-bottom-left-radius: 50% 100%;
-		border-bottom-right-radius: 50% 100%;
-		background-color: @color;
-
-		.transform(~'rotate(55deg)');
-
-		// TAIL
-		box-shadow: 0.13em 0.3em 0 -0.05em @color, // tail
-					0.4em 0.52em 0 -0.05em @color, // tail
-					0.25em 0.34em 0 -0.05em @color, // tail
-					0.5em 0.4em 0 -0.05em @color, // filler
-					0.1em 0.1em 0 @color, // filler
-					0.05em 0.08em 0 @color; // filler
-	}
-
-	&:after {
-
-		// HEAD
-		position: absolute;
-		content: "";
-		top: -0.55em;
-		left: 1em;
-		@size:0.69em;
-		width: @size;
-		height: @size;
-
-		border-radius: 50%;
-		background-color: @color;
-
-		// BODY FILLER
-		box-shadow: -0.5em 0.2em 0 @color;
-	}
-}
 
 /*
 html,
@@ -1055,7 +994,13 @@ nav.toc{
 }
 
 .icon-twitter{
-	.twitter-logo(white);
+	background: data-uri('./images/twitter.svg') no-repeat center center;
+	background-size: 1em;
+	width:1em;
+	height:1em;
+	font-size:1.5em;
+	vertical-align: middle;
+	display: inline-block;
 }
 
 
