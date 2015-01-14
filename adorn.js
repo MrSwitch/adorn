@@ -82,13 +82,15 @@
 
 
 
-		// Probably could make this a little more ajaxy
-		jsonp('http://urls.api.twitter.com/1/urls/count.json?url='+encodeURIComponent(url),function(r){
-			// Add value to twitter icon
-			each('.twitter-share-button span.speeach-bubble', function(){
-				this.innerHTML = r.count || '';
+		if(window.location.href.indexOf('http://')===0){
+			// Probably could make this a little more ajaxy
+			jsonp('http://urls.api.twitter.com/1/urls/count.json?url='+encodeURIComponent(url),function(r){
+				// Add value to twitter icon
+				each('.twitter-share-button span.speeach-bubble', function(){
+					this.innerHTML = r.count || '';
+				});
 			});
-		});
+		}
 
 
 
