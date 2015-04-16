@@ -135,13 +135,6 @@ body{
 	color:white;*/
 }
 
-code{
-	color:green;
-	font-family:monospace;
-	background-color:#f4f4f4;
-	border:1px solid #e4e4e4;
-	word-break:break-word;
-}
 
 
 blockquote{
@@ -355,10 +348,20 @@ i{
 // Pre
 /////////////////////////////////
 
+pre,.pre, code{
+	color:green;
+	font-family:monospace;
+	background-color:#f4f4f4;
+	border:1px solid #e4e4e4;
+	word-break:break-word;
+
+	// Dont decorate nested code elements the same
+	& > &{
+		border:none;
+	}
+}
 
 pre,.pre{
-
-	&:extend(code);
 	display: block;
 	border-left-width:10px;
 	white-space:pre;
