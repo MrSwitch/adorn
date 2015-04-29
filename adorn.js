@@ -34,14 +34,22 @@
 	// TOOLBAR
 	// ///////////////////////////////////
 
-	function buildToolbar(){
+	function buildToolbar(manifest){
 
 		if(!document.body){
 			// Just in case...
-			addEvent(document, "DOMContentLoaded", buildToolbar);
+			ready(buildToolbar.bind(null, manifest));
 			return;
 		}
 
+		// Set bench
+		manifest = manifest || {};
+
+		// Favicon
+		manifest.favicon = meta("favicon") || manifest.favicon || "/favicon.ico";
+
+		// Author
+		manifest.author = meta("author") || manifest.author;
 
 		//
 		// Build toolbar
@@ -52,54 +60,30 @@
 
 		var url = window.location.href,
 			social_btns = [],
-			breadcrumbs = ['<a href="/"><img src="/favicon.ico" alt="' + window.location.hostname + '" title="Andrew Dodson"/></a>'];
+			breadcrumbs = ['<a href="/"><img src="'+ manifest.favicon +'" alt="' + window.location.hostname + '" title="' + manifest.author + '"/></a>'];
 
 		each( paths, function(val, index){
 			if(!val) return;
 			breadcrumbs.push( '<a href="/'+ paths.slice(0,index+1).join('/') +'/">'+ val +'</a>' );
 		});
 
-		if( repo ){
+
+		// GITHUB
+
+		if( manifest.github && repo ){
 			// Get the location of this file in the repo
 			var repo_file = (window.location.pathname||'').replace(/^\/?([^\/]+)/g,'').replace(/\/$/, '/index.html');
 
-			repo_path = "https://github.com/MrSwitch/"+repo;
+			repo_path = "https://github.com/"+manifest.github+"/"+repo;
 			social_btns = [
 				'<a href="'+repo_path+'/blob/master'+ repo_file +'" target="_blank" id="adorn-edit">Edit this page</a>',
 				'<a href="'+repo_path+'" class="github-star-button" target="_blank" title="Stars"><i class="icon-github"></i><span class="speeach-bubble"></span></a>',
 			];
-		}
 
-
-		// Add Twitter
-		// Install the twitter widget
-		social_btns.push('<a href="https://twitter.com/share" class="twitter-share-button" target="_blank" data-via="setData" title="Tweet"><i class="icon-twitter"></i><span class="speeach-bubble"></span></a>');
-
-		document.body.insertBefore(create('aside',{
-			'class' : 'toolbar',
-			'html' : '<div class="breadcrumbs"> '+breadcrumbs.join(' ') +'</div> <div>'+ social_btns.join('<span class="period"></span>') +' <div class="clearfix"></div></div>'
-		}),document.body.firstElementChild||document.body.firstChild);
-
-
-
-		if(window.location.href.indexOf('http://')===0){
-			// Probably could make this a little more ajaxy
-			jsonp('http://urls.api.twitter.com/1/urls/count.json?url='+encodeURIComponent(url),function(r){
-				// Add value to twitter icon
-				each('.twitter-share-button span.speeach-bubble', function(){
-					this.innerHTML = r.count || '';
-				});
-			});
-		}
-
-
-
-		// Repo
-		if(repo_path){
 
 			// Install the GitHub widget
 			// Probably could make this a little more ajaxy
-			jsonp('https://api.github.com/repos/MrSwitch/'+repo+'?',function(r){
+			jsonp('https://api.github.com/repos/'+ manifest.github +'/'+repo+'?',function(r){
 				// Add value to twitter icon
 				// Add value to twitter icon
 				each('.github-star-button span.speeach-bubble', function(){
@@ -109,10 +93,35 @@
 		}
 
 
+		// TWITTER
+
+		var twitter_creator = manifest['twitter:creator'] || meta("twitter:creator");
+
+		if (twitter_creator) {
+			social_btns.push('<a href="https://twitter.com/share" class="twitter-share-button" target="_blank" data-via="'+ twitter_creator.replace('@','') +'" title="Tweet"><i class="icon-twitter"></i><span class="speeach-bubble"></span></a>');
+
+			if(window.location.href.indexOf('http://')===0){
+				// Probably could make this a little more ajaxy
+				jsonp('http://urls.api.twitter.com/1/urls/count.json?url='+encodeURIComponent(url),function(r){
+					// Add value to twitter icon
+					each('.twitter-share-button span.speeach-bubble', function(){
+						this.innerHTML = r.count || '';
+					});
+				});
+			}
+		}
+
+
+		document.body.insertBefore(create('aside',{
+			'class' : 'toolbar',
+			'html' : '<div class="breadcrumbs"> '+breadcrumbs.join(' ') +'</div> <div>'+ social_btns.join('<span class="period"></span>') +' <div class="clearfix"></div></div>'
+		}),document.body.firstElementChild||document.body.firstChild);
+
+
 
 		//
 		// Add event to twitter button
-		addEvent(document.querySelectorAll('.twitter-share-button'),'click',function(e){
+		addEvent('.twitter-share-button','click',function(e){
 			
 			var hashtag;
 
@@ -123,32 +132,38 @@
 				l = (screen.width/2)-(w/2),
 				t = (screen.height/2)-(h/2);
 
-			try{
-				hashtag = document.querySelector('meta[name="twitter:hashtag"').content;
-			}catch(_e){}
+			var hashtag = meta("twitter:hashtag") || manifest['twitter:hashtag'];
 
 			window.open("https://twitter.com/intent/tweet?text="+ encodeURIComponent( document.title ) + (hashtag ? '&hashtags=' + hashtag : '') + "&via=" + this.getAttribute('data-via') + "&url="+ encodeURIComponent(window.location.href.replace(/#.*/,'')), 'twitter', 'width='+w+',height='+h+',left='+l+'px,top='+t+'px');
 		});
 
+
+		// ///////////////////////////////////
+		// FOOTER
+		// ///////////////////////////////////
+
+		ready(function(){
+
+			var author = manifest.author.split(/\s*,\s*/);
+
+			if ( author ) {
+				// Add Footer link to repo
+				document.body.appendChild(create('footer',{
+						html : 'Authored by ' + ( author[1] ? '<a href="'+author[1]+'" rel="author">'+author[0]+'</a>' : author[0] )
+					}
+				));
+			}
+
+		});
+
 	}
 
+	// Manifest
+	var manifest = meta("manifest") || "/manifest.json";
 
 	// Set the toolbar, doesn't work if document body is undefined
-	buildToolbar();
+	json( manifest, buildToolbar);
 
-
-	// ///////////////////////////////////
-	// FOOTER
-	// ///////////////////////////////////
-
-	ready(function(){
-
-		// Add Footer link to repo
-		document.body.appendChild(create('footer',{
-				html : 'Authored by <a href="http://adodson.com" rel="author">Andrew Dodson</a>'
-			}
-		));
-	});
 
 
 
@@ -183,47 +198,39 @@
 
 
 		// TryIt
-		pres = document.getElementsByTagName('pre');
-		for(i=0;i<pres.length;i++){
-			if(pres[i].className === 'tryit'||pres[i].className === 'tryitoffline'){
+		each('pre', function(pre){
+			if(pre.className === 'tryit'||pre.className === 'tryitoffline'){
 				// Create a button and insert it after the pre tag
-				tryitButton(pres[i]);
+				tryitButton(pre);
 			}
-		}
+		});
 
 		// TryIt, View
-		pres = document.getElementsByTagName('script');
-		for(i=0;i<pres.length;i++){
-			(function(script){
-				var func = script.getAttribute('data-tryit');
+		each('script', function(script){
+			var func = script.getAttribute('data-tryit');
+			if(func){
+				// Create a button and insert it after the pre tag
+				tryitButton(script,window[func]);
+			}
 
-				if(func){
-					// Create a button and insert it after the pre tag
-					tryitButton(script,window[func]);
-				}
+			if(script.getAttribute('src')){
 
-				if(script.getAttribute('src')){
+				// Add click event to open in new window
+				addEvent(script, 'click', function(){
+					window.open(script.getAttribute('src'), '_blank');
+				});
+			}
+		});
 
-					// Add click event to open in new window
-					addEvent(script, 'click', function(){
-						window.open(script.getAttribute('src'), '_blank');
-					});
-				}
-			})(pres[i]);
-		}
+		each('link', function(script){
+			if(script.getAttribute('href')){
 
-		pres = document.getElementsByTagName('link');
-		for(i=0;i<pres.length;i++){
-			(function(script){
-				if(script.getAttribute('href')){
-
-					// Add click event to open in new window
-					addEvent(script, 'click', function(){
-						window.open(script.getAttribute('href'), '_blank');
-					});
-				}
-			})(pres[i]);
-		}
+				// Add click event to open in new window
+				addEvent(script, 'click', function(){
+					window.open(script.getAttribute('href'), '_blank');
+				});
+			}
+		});
 
 
 		if(!document.querySelector){
@@ -237,7 +244,7 @@
 			headings = document.querySelectorAll('h1,h2'),
 			toc = document.querySelector('nav.toc');
 
-		if( !toc ){
+		if( !toc && !(document.documentElement.className||'').match(/adorn-nav-off/) ){
 			var h1 = document.querySelectorAll('header,h1,h2');
 			if( h1 && h1.length>1 && h1[0].parentNode === document.body ){
 				toc = create('nav', {'class':'toc'});
@@ -451,10 +458,10 @@
 	}
 
 	function addEvent(obj, eventName, listener) { //function to add event
-		if(obj instanceof window.NodeList ){
-			for(var i=0;i<obj.length;i++){
-				addEvent( obj[i], eventName, listener );
-			}
+		if(obj instanceof window.NodeList || typeof obj === 'string'){
+			each(obj, function(elm) {
+				addEvent( elm, eventName, listener );
+			});
 			return;
 		}
 		if(eventName===true){
@@ -525,6 +532,20 @@
 	};
 
 
+	// JSON
+
+	function json(url, callback) {
+		var x = new XMLHttpRequest();
+		x.onload = function(){
+			var v;
+			try{v = JSON.parse(x.response);}catch(e){} 
+			callback(v);
+		}
+		x.onerror = callback;
+		x.open("GET", url);
+		x.send();
+	}
+
 
 	function each(matches, callback){
 		if(typeof(matches)==='string'){
@@ -536,6 +557,15 @@
 		}
 	}
 
+	function meta(name){
+		var content;
+		try{
+			content = document.querySelector('meta[name="'+name+'"]').content;
+		}
+		catch(e) {}
+
+		return content;
+	}
 
 })(window, document);
 
