@@ -3,7 +3,7 @@
  * Adds document navigation to a page.
  */
 
-(function(window, document){
+(function(window, document, encodeURIComponent){
 
 	// JSONP COUNTER
 	var jsonp_counter = 0;
@@ -11,23 +11,30 @@
 
 
 	// Touch exists?
-	document.documentElement.className += (' ' + ( "ontouchstart" in window ? '' : 'no-') + 'touch');
+	addClass( document.documentElement, (' ' + ( "ontouchstart" in window ? '' : 'no-') + 'touch') );
 
 
 	// fix HTML5 in IE
-	var a = "header,section,datalist,option,footer,nav,menu,aside,article,style,script".split(",");
-	for( var i=0;i<a.length;i++){
-		document.createElement(a[i]);
-	}
+	each( "header,section,datalist,option,footer,nav,menu,aside,article,style,script".split(","), function(tag){
+		document.createElement(tag);
+	});
 
 	// Add mobile ag to page.
 
 	// Insert Meta Tag
-	var s = document.getElementsByTagName('script')[0];
-	s.parentNode.insertBefore(create('meta',{
+	insertBefore( create('meta', {
 		name:'viewport',
 		content:'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'
-	}), s);
+	}), document.getElementsByTagName('script')[0] );
+
+
+
+	// Manifest
+	var manifest = meta("manifest") || "/manifest.json";
+
+	// Set the toolbar, doesn't work if document body is undefined
+	json(manifest, buildToolbar);
+
 
 
 	// ///////////////////////////////////
@@ -55,16 +62,17 @@
 		// Build toolbar
 		// 
 		var repo_path,
-			paths = (window.location.pathname||'').replace(/^\/|\/$|\.html?$/g,'').split(/\//),
+			paths = (window.location.pathname||'').replace(/^\/|\/$|\?$/g,'').split(/\//),
 			repo = paths[0];
 
 		var url = window.location.href,
 			social_btns = [],
-			breadcrumbs = ['<a href="/"><img src="'+ manifest.favicon +'" alt="' + window.location.hostname + '" title="' + manifest.author + '"/></a>'];
+			breadcrumbs = ['<a href="/"><img src="'+ manifest.favicon +'" alt="' + window.location.hostname + '" title="' + manifest.name + '"/></a>'];
 
 		each( paths, function(val, index){
 			if(!val) return;
-			breadcrumbs.push( '<a href="/'+ paths.slice(0,index+1).join('/') +'/">'+ val +'</a>' );
+			var suffix = ( index < paths.length - 1 ? '/' : '' );
+			breadcrumbs.push( '<a href="/'+ paths.slice(0,index+1).join('/') + suffix + '">'+ val.replace(/\.(html?)$/, '') +'</a>' );
 		});
 
 
@@ -112,7 +120,7 @@
 		}
 
 
-		document.body.insertBefore(create('aside',{
+		insertBefore(create('aside', {
 			'class' : 'toolbar',
 			'html' : '<div class="breadcrumbs"> '+breadcrumbs.join(' ') +'</div> <div>'+ social_btns.join('<span class="period"></span>') +' <div class="clearfix"></div></div>'
 		}),document.body.firstElementChild||document.body.firstChild);
@@ -121,7 +129,7 @@
 
 		//
 		// Add event to twitter button
-		addEvent('.twitter-share-button','click',function(e){
+		addEvent('.twitter-share-button','click',function(e) {
 			
 			var hashtag;
 
@@ -142,38 +150,53 @@
 		// FOOTER
 		// ///////////////////////////////////
 
-		ready(function(){
+		if (manifest.author) {
 
-			var author = manifest.author.split(/\s*,\s*/);
+			ready(function() {
 
-			if ( author ) {
-				// Add Footer link to repo
-				document.body.appendChild(create('footer',{
-						html : 'Authored by ' + ( author[1] ? '<a href="'+author[1]+'" rel="author">'+author[0]+'</a>' : author[0] )
-					}
-				));
+				var author = manifest.author.split(/\s*,\s*/);
+
+				if (author) {
+					// Add Footer link to repo
+					document.body.appendChild(create('footer',{
+							html : 'Authored by ' + ( author[1] ? '<a href="'+author[1]+'" rel="author">'+author[0]+'</a>' : author[0] )
+						}
+					));
+				}
+
+			});
+		}
+
+
+		// ///////////////////////////////////
+		// Analytics
+		// ///////////////////////////////////
+
+		(function() {
+
+			var tracking = manifest['ga:tracking'] || meta("ga:tracking") || 'UA-35317561-1';
+
+			if (tracking) {
+				this._gaq = this._gaq || [];
+				_gaq.push(['_setAccount', tracking]);
+				_gaq.push(['_trackPageview']);
+
+				var ga = document.createElement('script');
+				ga.type = 'text/javascript';
+				ga.async = true;
+				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+				insertBefore(ga, document.getElementsByTagName('script')[0]);
 			}
 
-		});
-
+		})();
 	}
-
-	// Manifest
-	var manifest = meta("manifest") || "/manifest.json";
-
-	// Set the toolbar, doesn't work if document body is undefined
-	json( manifest, buildToolbar);
-
-
 
 
 	// ///////////////////////////////////
 	// NAVIGATION
 	// ///////////////////////////////////
 
-	ready(function(){
-
-		var pres, i;
+	ready(function() {
 
 		//
 		function tryitButton(pre,func){
@@ -241,14 +264,14 @@
 
 		// TOC
 		var last_depth = 0,
-			headings = document.querySelectorAll('h1,h2'),
+			headings = each('h1,h2'),
 			toc = document.querySelector('nav.toc');
 
 		if( !toc && !(document.documentElement.className||'').match(/adorn-nav-off/) ){
-			var h1 = document.querySelectorAll('header,h1,h2');
-			if( h1 && h1.length>1 && h1[0].parentNode === document.body ){
+			var h1 = each('header,h1,h2')[0];
+			if( h1 && h1.parentNode === document.body ){
 				toc = create('nav', {'class':'toc'});
-				document.body.insertBefore( toc, h1[0].nextSibling );
+				insertBefore( toc, h1.nextSibling );
 			}
 		}
 
@@ -266,8 +289,7 @@
 			toc.appendChild(toggle);
 		}
 
-		for(i=0;i<headings.length;i++){
-			var tag = headings[i];
+		each(headings, function(tag) {
 			// Create
 			var depth = parseInt(tag.tagName.match(/[0-9]/)[0], 10),
 				text = (tag.innerText||tag.textContent||tag.innerHTML),
@@ -280,7 +302,7 @@
 			if( ul ){
 				ul.appendChild( create('li', {html: create('a', {href:"#" +ref, text: text, "class": tag.tagName }), id : "toc_"+ref} ));
 			}
-		}
+		});
 
 
 		//
@@ -323,9 +345,8 @@
 			var T = window.scrollY || window.pageYOffset,
 				H = ("screen" in window ? window.screen.availHeight : 500);
 
-			for(var i=0;i<headings.length;i++){
-				var tag = headings[i],
-					text = (tag.innerText||tag.innerHTML),
+			each( headings, function(tag) {
+				var text = (tag.innerText||tag.innerHTML),
 					ref = tag.getElementsByTagName('a')[0];
 
 				if(ref){
@@ -338,7 +359,7 @@
 
 				if( T < t && T+H > t ){
 	
-					if(toc){
+					if (toc) {
 						var _toc = document.getElementById('toc_'+ref);
 
 						if(_toc.className!=='active'){
@@ -347,12 +368,11 @@
 							_toc.className='active';
 
 							// Unmark any list items marked active
-							var a = toc.querySelectorAll('.active');
-							for(var j=0;j<a.length;j++){
-								if(a[j]!==_toc){
-									a[j].className = '';
+							each('.active', function(a) {
+								if(a!==_toc){
+									a.className = '';
 								}
-							}
+							});
 						}
 					}
 
@@ -364,7 +384,7 @@
 					// Stop looping
 					return;
 				}
-			}
+			});
 		});
 
 
@@ -396,6 +416,8 @@
 	});
 
 
+
+
 	// Find position of an element
 	function findPos(obj) {
 		var curleft = 0,
@@ -414,7 +436,9 @@
 	function insertAfter(el,ref){
 		ref.nextSibling?ref.parentNode.insertBefore(el,ref.nextSibling):ref.parentNode.appendChild(el);
 	}
-
+	function insertBefore(el,ref){
+		ref.parentNode.insertBefore(el,ref);
+	}
 	//
 	// Create and Append new Dom elements
 	// @param node string
@@ -529,7 +553,7 @@
 		script.async = true;
 		// Append
 		sibling.parentNode.insertBefore(script,sibling);
-	};
+	}
 
 
 	// JSON
@@ -538,9 +562,9 @@
 		var x = new XMLHttpRequest();
 		x.onload = function(){
 			var v;
-			try{v = JSON.parse(x.response);}catch(e){} 
+			try {v = JSON.parse(x.response);} catch(e) {}
 			callback(v);
-		}
+		};
 		x.onerror = callback;
 		x.open("GET", url);
 		x.send();
@@ -552,9 +576,13 @@
 			matches = document.querySelectorAll(matches);
 		}
 
-		for(var i=0;i<matches.length;i++){
-			callback.call(matches[i], matches[i], i );
+		if(callback) {
+			for(var i=0;i<matches.length;i++){
+				callback.call(matches[i], matches[i], i );
+			}
 		}
+
+		return matches || [];
 	}
 
 	function meta(name){
@@ -567,16 +595,4 @@
 		return content;
 	}
 
-})(window, document);
-
-
-// Google Analytics
-var _gaq = _gaq || [];
-_gaq.push(['_setAccount', 'UA-35317561-1']);
-_gaq.push(['_trackPageview']);
-
-(function() {
-	var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-	ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-})();
+})(window, document, encodeURIComponent);
