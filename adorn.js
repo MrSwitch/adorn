@@ -527,8 +527,12 @@
 			removeClass( elm, className );
 		}
 		else{
-			elm.className += ' '+className;
+			addClass(elm, className);
 		}
+	}
+
+	function addClass(elm, className) {
+		elm.className += ' '+className;
 	}
 
 	function removeClass(elm, className){
