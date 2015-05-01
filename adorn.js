@@ -85,7 +85,7 @@
 			repo_path = "https://github.com/"+manifest.github+"/"+repo;
 			social_btns = [
 				'<a href="'+repo_path+'/blob/master'+ repo_file +'" target="_blank" id="adorn-edit">Edit this page</a>',
-				'<a href="'+repo_path+'" class="github-star-button" target="_blank" title="Stars"><i class="icon-github"></i><span class="speeach-bubble"></span></a>',
+				'<a href="'+repo_path+'" class="adorn-github-button" target="_blank" title="Stars"><i class="adorn-icon-github"></i><span class="adorn-speeach-bubble"></span></a>',
 			];
 
 
@@ -94,7 +94,7 @@
 			jsonp('https://api.github.com/repos/'+ manifest.github +'/'+repo+'?',function(r){
 				// Add value to twitter icon
 				// Add value to twitter icon
-				each('.github-star-button span.speeach-bubble', function(){
+				each('.adorn-github-button span.adorn-speeach-bubble', function(){
 					this.innerHTML = r.data.watchers || '';
 				});
 			});
@@ -106,13 +106,13 @@
 		var twitter_creator = manifest['twitter:creator'] || meta("twitter:creator");
 
 		if (twitter_creator) {
-			social_btns.push('<a href="https://twitter.com/share" class="twitter-share-button" target="_blank" data-via="'+ twitter_creator.replace('@','') +'" title="Tweet"><i class="icon-twitter"></i><span class="speeach-bubble"></span></a>');
+			social_btns.push('<a href="https://twitter.com/share" class="adorn-twitter-button" target="_blank" data-via="'+ twitter_creator.replace('@','') +'" title="Tweet"><i class="adorn-icon-twitter"></i><span class="adorn-speeach-bubble"></span></a>');
 
 			if(window.location.href.indexOf('http://')===0){
 				// Probably could make this a little more ajaxy
 				jsonp('http://urls.api.twitter.com/1/urls/count.json?url='+encodeURIComponent(url),function(r){
 					// Add value to twitter icon
-					each('.twitter-share-button span.speeach-bubble', function(){
+					each('.adorn-twitter-button span.adorn-speeach-bubble', function(){
 						this.innerHTML = r.count || '';
 					});
 				});
@@ -121,15 +121,15 @@
 
 
 		insertBefore(create('aside', {
-			'class' : 'toolbar',
-			'html' : '<div class="breadcrumbs"> '+breadcrumbs.join(' ') +'</div> <div>'+ social_btns.join('<span class="period"></span>') +' <div class="clearfix"></div></div>'
+			'class' : 'adorn-toolbar',
+			'html' : '<div class="adorn-breadcrumbs"> '+breadcrumbs.join(' ') +'</div> <div class="adorn-links">'+ social_btns.join('<span></span>') +' <div class="clearfix"></div></div>'
 		}),document.body.firstElementChild||document.body.firstChild);
 
 
 
 		//
 		// Add event to twitter button
-		addEvent('.twitter-share-button','click',function(e) {
+		addEvent('.adorn-twitter-button','click',function(e) {
 			
 			var hashtag;
 
@@ -265,12 +265,12 @@
 		// TOC
 		var last_depth = 0,
 			headings = each('h1,h2'),
-			toc = document.querySelector('nav.toc');
+			toc = document.querySelector('.adorn-toc');
 
-		if( !toc && !(document.documentElement.className||'').match(/adorn-nav-off/) ){
+		if( !toc && !(document.documentElement.className||'').match(/adorn-(nav|toc)-off/) ){
 			var h1 = each('header,h1,h2')[0];
 			if( h1 && h1.parentNode === document.body ){
-				toc = create('nav', {'class':'toc'});
+				toc = create('nav', {'class':'adorn-toc'});
 				insertBefore( toc, h1.nextSibling );
 			}
 		}
@@ -297,7 +297,7 @@
 
 			// Add anchor
 			tag.id = ref;
-			tag.insertBefore(create('a',{name:ref, href:"#" +ref, "class":"anchor"}),tag.firstChild);
+			tag.insertBefore(create('a',{name:ref, href:"#" +ref, "class":"adorn-anchor"}),tag.firstChild);
 
 			if( ul ){
 				ul.appendChild( create('li', {html: create('a', {href:"#" +ref, text: text, "class": tag.tagName }), id : "toc_"+ref} ));
@@ -313,28 +313,25 @@
 
 			setTimeout(function(){
 				// Lets add a class to the body
-				document.documentElement.className += " toc";
+				addClass(document.documentElement,"adorn-toc-on");
 			});
 		}
 
-		// Listen to scroll direction
+		// // Listen to scroll direction
 
-		var _prevScrollTop = document.body.scrollTop;
+		// var _prevScrollTop = document.body.scrollTop;
 
-		// Listen to scroll direction
-		addEvent(window, 'scroll', function(e){
+		// // Listen to scroll direction
+		// addEvent(window, 'scroll', function(e){
 
-			var scrollTop = Math.max(document.body.scrollTop,0);
-			var scrollingDown = _prevScrollTop < scrollTop;
-			_prevScrollTop = scrollTop;
+		// 	var scrollTop = Math.max(document.body.scrollTop,0);
+		// 	var scrollingDown = _prevScrollTop < scrollTop;
+		// 	_prevScrollTop = scrollTop;
 
-			// Add a class to the documentElement describing the direction of the scroll
-			var clist = document.documentElement.classList;
-			if(clist){
-				clist.add( scrollingDown ? 'scrolledDown' : 'scrolledUp' );
-				clist.remove( !scrollingDown ? 'scrolledDown' : 'scrolledUp' );
-			}
-		});
+		// 	// Add a class to the documentElement describing the direction of the scroll
+		// 	addClass( document.documentElement, "adorn-scroll-" + (scrollingDown ? 'down' : 'up') );
+		// 	removeClass( document.documentElement, "adorn-scroll-" + (!scrollingDown ? 'down' : 'up') );
+		// });
 
 
 		// Listen to scroll navigation position
@@ -362,13 +359,13 @@
 					if (toc) {
 						var _toc = document.getElementById('toc_'+ref);
 
-						if(_toc.className!=='active'){
+						if(_toc.className!=='adorn-active'){
 
 							// Activate this one
-							_toc.className='active';
+							_toc.className='adorn-active';
 
 							// Unmark any list items marked active
-							each('.active', function(a) {
+							each('.adorn-active', function(a) {
 								if(a!==_toc){
 									a.className = '';
 								}
@@ -407,10 +404,10 @@
 		addEvent(window, 'scroll', function(e){
 			var sY = window.scrollY || window.pageYOffset;
 			if( sY > tocY ){
-				clist.add( 'float' );
+				clist.add( 'adorn-float' );
 			}
 			else{
-				clist.remove('float');
+				clist.remove('adorn-float');
 			}
 		});
 	});
@@ -532,11 +529,15 @@
 	}
 
 	function addClass(elm, className) {
-		elm.className += ' '+className;
+		var reg = new RegExp("(^|\\s)"+className+"($|\\s)", 'i');
+		if( !elm.className.match( reg ) ){
+			elm.className += ' '+className;
+		}
 	}
 
 	function removeClass(elm, className){
-		elm.className = elm.className.replace(className, '');
+		var reg = new RegExp("(^|\\s)+"+className+"($|\\s)+", 'i');
+		elm.className = elm.className.replace(reg, ' ');
 	}
 
 	//
