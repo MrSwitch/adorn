@@ -174,7 +174,7 @@
 
 		(function() {
 
-			var tracking = manifest['ga:tracking'] || meta("ga:tracking") || 'UA-35317561-1';
+			var tracking = manifest['ga:tracking'] || meta("ga:tracking");
 
 			if (tracking) {
 				this._gaq = this._gaq || [];
