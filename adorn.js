@@ -62,25 +62,23 @@
 		// Build toolbar
 		// 
 		var repo_path,
-			paths = (window.location.pathname||'').replace(/^\/|\/$|\?$/g,'').split(/\//),
-			repo = paths[0];
+			paths = (window.location.pathname||'').replace(/^\//g,'').split(/([^\/]+\/?)/).filter(function(s){return !!s});
 
 		var url = window.location.href,
 			social_btns = [],
 			breadcrumbs = ['<a href="/"><img src="'+ manifest.favicon +'" alt="' + window.location.hostname + '" title="' + manifest.name + '"/></a>'];
 
 		each( paths, function(val, index){
-			if(!val) return;
-			var suffix = ( index < paths.length - 1 ? '/' : '' );
-			breadcrumbs.push( '<a href="/'+ paths.slice(0,index+1).join('/') + suffix + '">'+ val.replace(/\.(html?)$/, '') +'</a>' );
+			breadcrumbs.push( '<a href="/'+ paths.slice(0,index+1).join('') + '">'+ val.replace(/\.(html?)$/, '') +'</a>' );
 		});
 
 
 		// GITHUB
 
-		if( manifest.github && repo ){
+		if( manifest.github && paths.length ){
 			// Get the location of this file in the repo
 			var repo_file = (window.location.pathname||'').replace(/^\/?([^\/]+)/g,'').replace(/\/$/, '/index.html');
+			var repo = paths[0];
 
 			repo_path = "https://github.com/"+manifest.github+"/"+repo;
 			social_btns = [
