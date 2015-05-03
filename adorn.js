@@ -58,6 +58,9 @@
 		// Author
 		manifest.author = meta("author") || manifest.author;
 
+		// Root domain
+		manifest.root = rURL(manifest.root || '/', base);
+
 		//
 		// Build toolbar
 		// 
@@ -66,7 +69,7 @@
 
 		var url = window.location.href,
 			social_btns = [],
-			breadcrumbs = ['<a href="/"><img src="'+ manifest.favicon +'" alt="' + window.location.hostname + '" title="' + manifest.name + '"/></a>'];
+			breadcrumbs = ['<a href="'+manifest.root+'"><img src="'+ manifest.favicon +'" alt="' + window.location.hostname + '" title="' + manifest.name + '"/></a>'];
 
 		each( paths, function(val, index){
 			breadcrumbs.push( '<a href="/'+ paths.slice(0,index+1).join('') + '">'+ val.replace(/\.(html?)$/, '') +'</a>' );
@@ -605,6 +608,10 @@
 	}
 
 	function rURL(path, relative) {
+		if (!path) {
+			return '';
+		}
+
 		try {
 			// This only works in a few browsers, but what the heck. i'll fix it later
 			return (new URL(path, new URL(relative, window.location))).href
