@@ -263,9 +263,15 @@
 		// TOC
 		var last_depth = 0,
 			headings = each('h1,h2'),
-			toc = document.querySelector('.adorn-toc');
+			toc = document.querySelector('.adorn-toc'),
+			enable_toc = !(document.documentElement.className||'').match(/adorn-(nav|toc)-off/);
 
-		if( !toc && !(document.documentElement.className||'').match(/adorn-(nav|toc)-off/) ){
+		if ( !enable_toc ) {
+			return;
+		}
+
+
+		if( !toc ){
 			var h1 = each('header,h1,h2')[0];
 			if( h1 && h1.parentNode === document.body ){
 				toc = create('nav', {'class':'adorn-toc'});
