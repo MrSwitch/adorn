@@ -30,10 +30,10 @@
 
 
 	// Manifest
-	var manifest = meta("manifest") || "/manifest.json";
+	var manifest_json = meta("manifest") || "/manifest.json";
 
 	// Set the toolbar, doesn't work if document body is undefined
-	json(manifest, buildToolbar);
+	json(manifest_json, buildToolbar.bind(null, manifest_json));
 
 
 
@@ -41,11 +41,11 @@
 	// TOOLBAR
 	// ///////////////////////////////////
 
-	function buildToolbar(manifest){
+	function buildToolbar(base, manifest){
 
 		if(!document.body){
 			// Just in case...
-			ready(buildToolbar.bind(null, manifest));
+			ready(buildToolbar.bind(null, base, manifest));
 			return;
 		}
 
@@ -53,7 +53,7 @@
 		manifest = manifest || {};
 
 		// Favicon
-		manifest.favicon = meta("favicon") || manifest.favicon || "/favicon.ico";
+		manifest.favicon = meta("favicon") || rURL(manifest.favicon, base) || "/favicon.ico";
 
 		// Author
 		manifest.author = meta("author") || manifest.author;
@@ -596,6 +596,16 @@
 		catch(e) {}
 
 		return content;
+	}
+
+	function rURL(path, relative) {
+		try {
+			// This only works in a few browsers, but what the heck. i'll fix it later
+			return (new URL(path, new URL(relative, window.location))).href
+		}
+		catch (e) {
+			return path;
+		}
 	}
 
 })(window, document, encodeURIComponent);
