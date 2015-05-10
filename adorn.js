@@ -349,7 +349,7 @@
 			var T = window.scrollY || window.pageYOffset,
 				H = ("screen" in window ? window.screen.availHeight : 500);
 
-			each( headings, function(tag) {
+			until( headings, function(tag) {
 				var text = (tag.innerText||tag.innerHTML),
 					ref = tag.getElementsByTagName('a')[0];
 
@@ -386,7 +386,7 @@
 					}
 
 					// Stop looping
-					return;
+					return true;
 				}
 			});
 		});
@@ -595,6 +595,16 @@
 		}
 
 		return matches || [];
+	}
+
+	// Iterate on all items until a condition has been met
+	function until(matches, callback) {
+		var b = false;
+		each(matches, function(item){
+			if( b )
+				return;
+			b = callback.apply(item, arguments);
+		});
 	}
 
 	function meta(name){
