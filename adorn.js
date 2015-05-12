@@ -81,7 +81,7 @@
 		if( manifest.github && paths.length ){
 			// Get the location of this file in the repo
 			var repo_file = (window.location.pathname||'').replace(/^\/?([^\/]+)/g,'').replace(/\/$/, '/index.html');
-			var repo = paths[0];
+			var repo = paths[0].replace(/\/$/,'');
 
 			repo_path = "https://github.com/"+manifest.github+"/"+repo;
 			social_btns = [
