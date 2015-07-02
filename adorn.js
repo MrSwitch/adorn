@@ -290,30 +290,21 @@
 
 		// TOC
 		var last_depth = 0,
-			headings = each('h1,h2'),
-			toc = document.querySelector('.adorn-toc');
+			headings = each('h1,h2');
 
-		if( !toc ){
-			var h1 = each('header,h1,h2')[0];
-			if( h1 && h1.parentNode === document.body ){
-				toc = create('nav', {'class':'adorn-toc'});
-				insertBefore( toc, h1.nextSibling );
-			}
-		}
+		if (headings.length<2) {
+			return;
+		} 
 
-		var ul;
-		if(toc){
-			ul = create('ul');
-			var toggle = create('a');
-			addEvent( toc, 'click', function(e){
-				e.stopPropagation();
-				toggleClass(toc, "focus");
-			});
-			addEvent( document, 'click', function(){
-				removeClass(toc, "focus");
-			});
-			toc.appendChild(toggle);
-		}
+		var toc = create('div', {'class':'adorn-toc'});
+		insertAfter( toc, document.querySelector('.adorn-breadcrumbs') );
+
+		var select = create('select');
+		var options = [];
+		addEvent(select, 'change', function() {
+			window.location.hash = select.options[select.selectedIndex].value;
+		});
+		toc.appendChild(select);
 
 		each(headings, function(tag) {
 
@@ -322,23 +313,27 @@
 				text = (tag.innerText||tag.textContent||tag.innerHTML),
 				ref = id(tag);
 
-			if( ul ){
-				ul.appendChild( create('li', {html: create('a', {href:"#" +ref, text: text, "class": tag.tagName }), id : "toc_"+ref} ));
-			}
+			select.appendChild(create('option', {html: text, value: ref}));
+
+			options.push(ref);
+
 		});
 
+		function hashChange() {
+			select.selectedIndex = options.indexOf(window.location.hash.substr(1));
+		}
 
 		//
 		// Is there a TOC
 		if(toc){
-
-			toc.appendChild(ul);
 
 			setTimeout(function(){
 				// Lets add a class to the body
 				addClass(document.documentElement,"adorn-toc-on");
 			});
 		}
+
+		addEvent(window, 'hashchange', hashChange);
 
 		// // Listen to scroll direction
 
@@ -378,34 +373,20 @@
 					h = (tag.outerHeight||tag.innerHeight) + 50;
 
 				if( T < t && T+H > t ){
-	
-					if (toc) {
-						var _toc = document.getElementById('toc_'+ref);
-
-						if(_toc.className!=='adorn-active'){
-
-							// Activate this one
-							_toc.className='adorn-active';
-
-							// Unmark any list items marked active
-							each('.adorn-active', function(a) {
-								if(a!==_toc){
-									a.className = '';
-								}
-							});
-						}
-					}
 
 					// Change the current window hash
 					if( "history" in window && "replaceState" in window.history && window.location.hash !== '#'+ref ){
 						history.replaceState({}, document.title, "#"+ref);
 					}
 
+					hashChange();
+
 					// Stop looping
 					return true;
 				}
 			});
 		});
+
 
 
 		// If toc
