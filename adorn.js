@@ -353,6 +353,7 @@
 
 
 		// Listen to scroll navigation position
+		var toolbar_height = document.querySelector('.adorn-toolbar').offsetHeight || 50;
 		addEvent(window, 'scroll', function(e){
 
 			// from the list of items
@@ -360,31 +361,43 @@
 			var T = window.scrollY || window.pageYOffset,
 				H = ("screen" in window ? window.screen.availHeight : 500);
 
-			until( headings, function(tag) {
+			var tag;
+
+			// Find the current selection
+			until( headings, function(anchor) {
+
+				var t = findPos(anchor)[1] - toolbar_height;
+
+				if (T < t) {
+
+					// Stop looping
+					return true;
+				}
+
+				// set the last active tag
+				tag = anchor;
+			});
+
+
+			// Has a tag been set?
+			if (tag) {
+				// Set as the current selected one
 				var text = (tag.innerText||tag.innerHTML),
-					ref = tag.getElementsByTagName('a')[0];
+				ref = tag.getElementsByTagName('a')[0];
 
 				if(ref){
 					ref = ref.getAttribute('href').replace(/^#/,'');
 				}
 
-
-				var t = findPos(tag)[1] + 100,
-					h = (tag.outerHeight||tag.innerHeight) + 50;
-
-				if( T < t && T+H > t ){
-
-					// Change the current window hash
-					if( "history" in window && "replaceState" in window.history && window.location.hash !== '#'+ref ){
-						history.replaceState({}, document.title, "#"+ref);
-					}
-
-					hashChange();
-
-					// Stop looping
-					return true;
+				// Change the current window hash
+				if( "history" in window && "replaceState" in window.history && window.location.hash !== '#'+ref ){
+					history.replaceState({}, document.title, "#"+ref);
 				}
-			});
+
+				// Update the 
+				hashChange();
+			}
+
 		});
 
 
