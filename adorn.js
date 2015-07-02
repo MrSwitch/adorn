@@ -146,6 +146,12 @@
 			window.open("https://twitter.com/intent/tweet?text="+ encodeURIComponent( document.title ) + (hashtag ? '&hashtags=' + hashtag : '') + "&via=" + this.getAttribute('data-via') + "&url="+ encodeURIComponent(window.location.href.replace(/#.*/,'')), 'twitter', 'width='+w+',height='+h+',left='+l+'px,top='+t+'px');
 		});
 
+		// ///////////////////////////////////
+		// TOC
+		// ///////////////////////////////////
+
+		ready(buildNav);
+
 
 		// ///////////////////////////////////
 		// FOOTER
@@ -194,7 +200,7 @@
 
 
 	// ///////////////////////////////////
-	// NAVIGATION
+	// Markup
 	// ///////////////////////////////////
 
 	ready(function() {
@@ -255,24 +261,37 @@
 				});
 			}
 		});
+	});
+
+	// ///////////////////////////////////
+	// Navigation
+	// ///////////////////////////////////
+	
+	if (!document.querySelector || !!(document.documentElement.className||'').match(/adorn-(nav|toc)-off/)) {
+		// This feature is disabled
+		return;
+	}
+
+	ready(function() {
+
+		each('h1,h2', function(tag) {
+
+			// Get the ID of the tag
+			var ref = id(tag);
+
+			// Create an anchor for this tag
+			tag.insertBefore(create('a', {name: ref, href: "#" +ref, "class": "adorn-anchor"}), tag.firstChild);
+		});
+
+	});
 
 
-		if(!document.querySelector){
-			// degrade gracefully
-			return;
-		}
-
+	function buildNav() {
 
 		// TOC
 		var last_depth = 0,
 			headings = each('h1,h2'),
-			toc = document.querySelector('.adorn-toc'),
-			enable_toc = !(document.documentElement.className||'').match(/adorn-(nav|toc)-off/);
-
-		if ( !enable_toc ) {
-			return;
-		}
-
+			toc = document.querySelector('.adorn-toc');
 
 		if( !toc ){
 			var h1 = each('header,h1,h2')[0];
@@ -297,14 +316,11 @@
 		}
 
 		each(headings, function(tag) {
-			// Create
+
+			// Get ID
 			var depth = parseInt(tag.tagName.match(/[0-9]/)[0], 10),
 				text = (tag.innerText||tag.textContent||tag.innerHTML),
-				ref = text.toLowerCase().replace(/\s/g,'-').replace(/[^a-z0-9\_\-]/g, '');
-
-			// Add anchor
-			tag.id = ref;
-			tag.insertBefore(create('a',{name:ref, href:"#" +ref, "class":"adorn-anchor"}),tag.firstChild);
+				ref = id(tag);
 
 			if( ul ){
 				ul.appendChild( create('li', {html: create('a', {href:"#" +ref, text: text, "class": tag.tagName }), id : "toc_"+ref} ));
@@ -417,10 +433,20 @@
 				clist.remove('adorn-float');
 			}
 		});
-	});
+	}
 
+	// Auto Set/Get the ID of a tag element based
+	function id(tag) {
+		if (tag.id) {
+			return tag.id;
+		}
+		var text = (tag.innerText||tag.textContent||tag.innerHTML),
+			ref = text.toLowerCase().replace(/\s/g,'-').replace(/[^a-z0-9\_\-]/g, '');
 
+		tag.id = ref;
 
+		return ref;
+	}
 
 	// Find position of an element
 	function findPos(obj) {
@@ -435,14 +461,15 @@
 		return [curleft,curtop];
 	}
 
-	//
 	// Insert After
 	function insertAfter(el,ref){
 		ref.nextSibling?ref.parentNode.insertBefore(el,ref.nextSibling):ref.parentNode.appendChild(el);
 	}
+
 	function insertBefore(el,ref){
 		ref.parentNode.insertBefore(el,ref);
 	}
+
 	//
 	// Create and Append new Dom elements
 	// @param node string
