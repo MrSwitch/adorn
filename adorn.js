@@ -306,6 +306,7 @@
 		});
 		toc.appendChild(select);
 
+		var _group = select;
 		each(headings, function(tag) {
 
 			// Get ID
@@ -313,7 +314,11 @@
 				text = (tag.innerText||tag.textContent||tag.innerHTML),
 				ref = id(tag);
 
-			select.appendChild(create('option', {html: text, value: ref}));
+			if (depth===1){
+				_group = create('optgroup', {label: text});
+				select.appendChild(_group);
+			}
+			_group.appendChild(create('option', {html: text, value: ref}));
 
 			options.push(ref);
 
