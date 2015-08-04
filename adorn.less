@@ -712,15 +712,24 @@ table, .table{
 	}
 	display: inline-block;
 	margin-left:5px;
-	select{
+}
+
+@supports (appearance:none) or (-webkit-appearance:none) or (-moz-appearance:none){
+
+	.adorn-toc select{
 		font: inherit;
+		appearance: none;
 		-webkit-appearance: none;
+		-moz-appearance: none;
 		text-decoration: underline;
 
 		&:not(:focus){
 			border-color:transparent;
 			color:inherit;
 			background-color: inherit;
+		}
+		&::-ms-expand{
+		    display: none;
 		}
 	}
 }
