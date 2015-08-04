@@ -297,7 +297,7 @@
 		} 
 
 		var toc = create('div', {'class':'adorn-toc'});
-		insertAfter( toc, document.querySelector('.adorn-breadcrumbs') );
+		document.querySelector('.adorn-breadcrumbs').appendChild(toc);
 
 		var select = create('select');
 		var options = [];

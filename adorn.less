@@ -650,7 +650,7 @@ table, .table{
 
 .adorn-breadcrumbs{
 
-	>a{
+	> *{
 		display: inline-block;
 
 		> img{
@@ -670,7 +670,7 @@ table, .table{
 
 		.transition(all 0.3s ease-in);
 
-		&:hover ~ a{
+		&:hover ~ *{
 			.transition(all 1s ease-in);
 			.transform(translateX(50px));
 			.opacity(0);
@@ -709,6 +709,19 @@ table, .table{
 .adorn-toc{
 	&:before{
 		content:'#';
+	}
+	display: inline-block;
+	margin-left:5px;
+	select{
+		font: inherit;
+		-webkit-appearance: none;
+		text-decoration: underline;
+
+		&:not(:focus){
+			border-color:transparent;
+			color:inherit;
+			background-color: inherit;
+		}
 	}
 }
 
