@@ -1,4 +1,4 @@
-export function rURL(path, relative) {
+export default function rURL(path, relative) {
 	if (!path) {
 		return '';
 	}

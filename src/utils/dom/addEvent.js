@@ -1,6 +1,6 @@
-import {each} from '../each';
+import each from '../each';
 
-export function addEvent(obj, eventName, listener) { //function to add event
+export default function addEvent(obj, eventName, listener) { //function to add event
 	if(obj instanceof window.NodeList || typeof obj === 'string'){
 		each(obj, (elm) => {
 			addEvent( elm, eventName, listener );

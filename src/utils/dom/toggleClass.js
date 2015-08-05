@@ -1,7 +1,7 @@
-import {addClass} from './addClass';
-import {removeClass} from './removeClass';
+import addClass from './addClass';
+import removeClass from './removeClass';
 
-export function toggleClass(elm, className){
+export default function toggleClass(elm, className){
 	if(elm.className.match(className)){
 		removeClass( elm, className );
 	}

@@ -1,5 +1,5 @@
 // JSON
-export function json(url, callback) {
+export default function json(url, callback) {
 	let x = new XMLHttpRequest();
 	x.onload = function(){
 		var v;

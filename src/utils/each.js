@@ -1,4 +1,4 @@
-export function each(matches, callback){
+export default function each(matches, callback){
 	if(typeof(matches)==='string'){
 		matches = document.querySelectorAll(matches);
 	}

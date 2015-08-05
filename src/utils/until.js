@@ -1,8 +1,8 @@
 // Iterate on all items until a condition has been met
 
-import {each} from './each';
+import each from './each';
 
-export function until(matches, callback) {
+export default function until(matches, callback) {
 	var b = false;
 	each(matches, (item) => {
 		if( b )

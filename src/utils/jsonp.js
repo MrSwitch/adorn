@@ -5,7 +5,7 @@
 // JSONP COUNTER
 let counter = 0;
 
-export function jsonp(url, callback){
+export default function jsonp(url, callback){
 	// JSONP
 	// Make the anonymous function. not anonymous
 	let callback_name = `jsonp_document_${counter++}`;

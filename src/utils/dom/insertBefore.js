@@ -1,4 +1,4 @@
 
-export function insertBefore(el,ref){
+export default function insertBefore(el,ref){
 	ref.parentNode.insertBefore(el,ref);
 }

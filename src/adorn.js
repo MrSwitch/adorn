@@ -3,22 +3,21 @@
  * Adds document navigation to a page.
  */
 
-import {each} from './utils/each';
-import {json} from './utils/json';
-import {jsonp} from './utils/jsonp';
-import {rURL} from './utils/rURL';
-import {until} from './utils/until';
-
-import {addClass} from './utils/dom/addClass';
-import {addEvent}  from './utils/dom/addEvent';
-import {create}  from './utils/dom/create';
-import {findPos}  from './utils/dom/findPos';
-import {id}  from './utils/dom/id';
-import {insertBefore} from './utils/dom/insertBefore';
-import {insertAfter} from './utils/dom/insertAfter';
-import {meta}  from './utils/dom/meta';
-import {ready}  from './utils/dom/ready';
-import {removeClass}  from './utils/dom/removeClass';
+import each from './utils/each';
+import json from './utils/json';
+import jsonp from './utils/jsonp';
+import rURL from './utils/rURL';
+import until from './utils/until';
+import addClass from './utils/dom/addClass';
+import addEvent  from './utils/dom/addEvent';
+import create from './utils/dom/create';
+import findPos from './utils/dom/findPos';
+import id from './utils/dom/id';
+import insertBefore from './utils/dom/insertBefore';
+import insertAfter from './utils/dom/insertAfter';
+import meta from './utils/dom/meta';
+import ready from './utils/dom/ready';
+import removeClass from './utils/dom/removeClass';
 
 (function(window, document, encodeURIComponent){
 

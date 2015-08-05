@@ -1,6 +1,6 @@
 
 // Find position of an element
-export function findPos(obj) {
+export default function findPos(obj) {
 	var curleft = 0,
 		curtop = 0;
 	if (obj.offsetParent) {

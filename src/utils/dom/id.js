@@ -1,5 +1,5 @@
 	// Auto Set/Get the ID of a tag element based
-export var id =	function(tag) {
+export default function id(tag) {
 	if (tag.id) {
 		return tag.id;
 	}
