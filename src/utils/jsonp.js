@@ -3,21 +3,21 @@
 //
 
 // JSONP COUNTER
-var jsonp_counter = 0;
+let counter = 0;
 
-export var jsonp = function (url, callback){
+export function jsonp(url, callback){
 	// JSONP
 	// Make the anonymous function. not anonymous
-	var callback_name = 'jsonp_document_' + jsonp_counter++;
+	let callback_name = `jsonp_document_${counter++}`;
 
 	window[callback_name] = callback;
 	// find a place to insert the script tag
-	var sibling = document.getElementsByTagName('script')[0];
+	let sibling = document.getElementsByTagName('script')[0];
 	// Create the script tag
-	var script = document.createElement('script');
+	let script = document.createElement('script');
 	// Update the path with the callback name
-	script.src = (url+"&callback="+callback_name);
+	script.src = `${url}&callback=${callback_name}`;
 	script.async = true;
 	// Append
 	sibling.parentNode.insertBefore(script,sibling);
-}
+};

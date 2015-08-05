@@ -19,7 +19,6 @@ import {insertAfter} from './utils/dom/insertAfter';
 import {meta}  from './utils/dom/meta';
 import {ready}  from './utils/dom/ready';
 import {removeClass}  from './utils/dom/removeClass';
-import {toggleClass}  from './utils/dom/toggleClass';
 
 (function(window, document, encodeURIComponent){
 

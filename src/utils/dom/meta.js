@@ -1,4 +1,4 @@
-export var meta = function (name){
+export function meta(name){
 	var content;
 	try{
 		content = document.querySelector('meta[name="'+name+'"]').content;

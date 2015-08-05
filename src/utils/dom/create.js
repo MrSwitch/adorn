@@ -4,7 +4,7 @@
 // @param attr object literal
 // @param dom/stringx
 //
-export var create = function (node,attr){
+export function create(node,attr) {
 
 	var n = typeof(node)==='string' ? document.createElement(node) : node;
 

@@ -1,4 +1,4 @@
-export var rURL = function (path, relative) {
+export function rURL(path, relative) {
 	if (!path) {
 		return '';
 	}

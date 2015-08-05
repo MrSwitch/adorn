@@ -1,5 +1,5 @@
 
-export var removeClass = function (elm, className){
+export function removeClass(elm, className){
 	var reg = new RegExp("(^|\\s)+"+className+"($|\\s)+", 'i');
 	elm.className = elm.className.replace(reg, ' ');
 };

@@ -2,11 +2,11 @@
 
 import {each} from './each';
 
-export var until = function (matches, callback) {
+export function until(matches, callback) {
 	var b = false;
-	each(matches, function(item){
+	each(matches, (item) => {
 		if( b )
 			return;
-		b = callback.apply(item, arguments);
+		b = callback.call(item, item);
 	});
 };

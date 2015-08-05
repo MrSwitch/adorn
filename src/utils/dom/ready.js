@@ -1,6 +1,6 @@
 import {addEvent} from './addEvent';
 
-export var ready = function (callback){
+export function ready(callback){
 	if( document.readyState !== "loading" && document.body ){
 		callback();
 	}
