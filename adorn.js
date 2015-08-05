@@ -107,17 +107,17 @@
 		var twitter_creator = manifest['twitter:creator'] || meta("twitter:creator");
 
 		if (twitter_creator) {
-			social_btns.push('<a href="https://twitter.com/share" class="adorn-twitter-button" target="_blank" data-via="'+ twitter_creator.replace('@','') +'" title="Tweet"><i class="adorn-icon-twitter"></i><span class="adorn-speeach-bubble"></span></a>');
+			social_btns.push(['<a href="https://twitter.com/share" class="adorn-twitter-button" target="_blank" data-via="'+ twitter_creator.replace('@','') +'" title="Tweet"><i class="adorn-icon-twitter"></i></a>',
+				'<a href="https://twitter.com/search?ref_src=twsrc%5Etfw&q='+encodeURIComponent(url)+'" class="adorn-twitter-count" target="_blank"><span class="adorn-speeach-bubble"></span></a>'].join(''));
 
-			if(window.location.href.indexOf('http://')===0){
-				// Probably could make this a little more ajaxy
-				jsonp('http://urls.api.twitter.com/1/urls/count.json?url='+encodeURIComponent(url),function(r){
-					// Add value to twitter icon
-					each('.adorn-twitter-button span.adorn-speeach-bubble', function(){
-						this.innerHTML = r.count || '';
-					});
+			// Probably could make this a little more ajaxy
+			jsonp('https://cdn.syndication.twitter.com/widgets/tweetbutton/count.json?url='+encodeURIComponent(url),function(r){
+				// Add value to twitter icon
+				each('.adorn-twitter-count span.adorn-speeach-bubble', function(){
+					this.innerHTML = r.count || '';
+					this.title = "This page has been shared "+r.count+" times, view these tweets";
 				});
-			}
+			});
 		}
 
 
