@@ -45,11 +45,9 @@ body{
 		border:none;
 		padding:10px;
 		margin:0 !important;
-		margin-top:@toolbarWidth !important;
 	}
 	@media @mobile {
 		margin:0;
-		margin-top:@toolbarWidth;
 	}
 }
 
@@ -198,9 +196,9 @@ h1{
 		left: 0;
 		right: 0;
 		height: 2em;
-		background: #EEE;
 		z-index: -1;
 		content:'';
+		border-top: 1px solid #bbb;
 	}
 	&:first-of-type{
 		margin-top:0;
@@ -587,8 +585,9 @@ table, .table{
 .adorn-toolbar{
 	.transform(translate3d(0,0,0));
 	.animate( ~"slideInDown 0.3s @{bounce} alternate, fadeIn 0.3s @{bounce}");
-	background-color:black;
-	color:white;
+	background-color:white;
+	border-bottom: 1px solid #bbb;
+	color:black;
 	.flex-display();
 	.flex-flow(row);
 	.justify-content(space-between);
@@ -676,7 +675,7 @@ table, .table{
 		}
 		&:last-child{
 			text-decoration: none;
-			color: #e7e7e7;
+			color: #444;
 		}
 	}
 }
