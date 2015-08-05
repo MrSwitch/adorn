@@ -266,15 +266,20 @@
 	// ///////////////////////////////////
 	// Navigation
 	// ///////////////////////////////////
-	
-	if (!document.querySelector || !!(document.documentElement.className||'').match(/adorn-(nav|toc)-off/)) {
-		// This feature is disabled
-		return;
-	}
 
-	ready(function() {
 
-		each('h1,h2', function(tag) {
+	function buildNav() {
+
+		// TOC
+		var last_depth = 0,
+			headings = each('h1,h2');
+		
+		if (!document.querySelector || !!(document.documentElement.className||'').match(/adorn-(nav|toc)-off/)) {
+			// This feature is disabled
+			return;
+		}
+
+		each(headings, function(tag) {
 
 			// Get the ID of the tag
 			var ref = id(tag);
@@ -283,14 +288,6 @@
 			tag.insertBefore(create('a', {name: ref, href: "#" +ref, "class": "adorn-anchor"}), tag.firstChild);
 		});
 
-	});
-
-
-	function buildNav() {
-
-		// TOC
-		var last_depth = 0,
-			headings = each('h1,h2');
 
 		if (headings.length<2) {
 			return;
