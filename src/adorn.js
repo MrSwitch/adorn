@@ -191,12 +191,12 @@ import {removeClass}  from './utils/dom/removeClass';
 		// Analytics
 		// ///////////////////////////////////
 
-		(function() {
+		{
 
-			var tracking = manifest['ga:tracking'] || meta("ga:tracking");
+			let tracking = meta("ga:tracking") || manifest['ga:tracking'];
 
 			if (tracking) {
-				this._gaq = this._gaq || [];
+				window._gaq = window._gaq || [];
 				_gaq.push(['_setAccount', tracking]);
 				_gaq.push(['_trackPageview']);
 
@@ -207,7 +207,7 @@ import {removeClass}  from './utils/dom/removeClass';
 				insertBefore(ga, document.getElementsByTagName('script')[0]);
 			}
 
-		})();
+		}
 	}
 
 
