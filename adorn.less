@@ -584,9 +584,8 @@ table, .table{
 /* TOC */
 .adorn-toolbar{
 	.transform(translate3d(0,0,0));
-	.animate( ~"slideInDown 0.3s @{bounce} alternate, fadeIn 0.3s @{bounce}");
+	.animate( ~"fadeIn 0.3s ease");
 	background-color:white;
-	border-bottom: 1px solid #bbb;
 	color:black;
 	.flex-display();
 	.flex-flow(row);
@@ -623,12 +622,12 @@ table, .table{
 	&:after{
 		// Alternative to Box-shadow
 		content: "";
-		border-bottom: 2px solid rgba(255,255,255,0.5);
+		border-bottom: 1px solid #bbb;
 		position: absolute;
 		bottom: 0;
 		width: 100%;
 		left: 0;
-		bottom: -2px;
+		.animate( ~"fillWidth 1s linear forwards");
 	}
 
 	// Fix the body padding offset
@@ -702,6 +701,7 @@ table, .table{
 // .keyframes( slideOutRight, "{to {transform: translateX(100px);-webkit-transform: translateX(100px);}");
 .keyframes( fadeIn, "{from {opacity:0;} to {opacity:1;}");
 // .keyframes( fadeOut, "{ to {opacity:0;}");
+.keyframes( fillWidth, "{from {width:0;left:50%;} to {width:100%;left:0;}");
 
 
 /* TOC */
