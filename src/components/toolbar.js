@@ -16,26 +16,26 @@ import ready from '../utils/dom/ready';
 // TOOLBAR
 // ///////////////////////////////////
 
-export default function (manifest){
+export default function (manifest) {
 
 	//
 	// Build toolbar
 	// 
 	var repo_path,
-		paths = (window.location.pathname||'').replace(/^\//g,'').split(/([^\/]+\/?)/).filter(function(s){return !!s});
+		paths = (window.location.pathname||'').replace(/^\//g,'').split(/([^\/]+\/?)/).filter((s) => !!s);
 
 	var url = window.location.href,
 		social_btns = [],
 		breadcrumbs = [`<a href="${manifest.root}"><img src="${manifest.favicon}" alt="${window.location.hostname}" title="${manifest.name}"/></a>`];
 
-	each( paths, function(val, index){
+	each(paths, (val, index) => {
 		breadcrumbs.push( '<a href="/'+ paths.slice(0,index+1).join('') + '">'+ val.replace(/\.(html?)$/, '') +'</a>' );
 	});
 
 
 	// GITHUB
 
-	if( manifest.github && paths.length ){
+	if (manifest.github && paths.length) {
 		// Get the location of this file in the repo
 		var repo_file = (window.location.pathname||'').replace(/^\/?([^\/]+)/g,'').replace(/\/$/, '/index.html');
 		var repo = paths[0].replace(/\/$/,'');
@@ -50,11 +50,10 @@ export default function (manifest){
 		// Install the GitHub widget
 		// Probably could make this a little more ajaxy
 
-		jsonp(`https://api.github.com/repos/${manifest.github}/${repo}?`,function(r){
+		jsonp(`https://api.github.com/repos/${manifest.github}/${repo}?`, (r) => {
 			// Add value to twitter icon
-			// Add value to twitter icon
-			each('.adorn-github-button span.adorn-speeach-bubble', function(){
-				this.innerHTML = r.data.watchers || '';
+			each('.adorn-github-button span.adorn-speeach-bubble', (item) => {
+				item.innerHTML = r.data.watchers || '';
 			});
 		});
 	}
@@ -69,11 +68,11 @@ export default function (manifest){
 			'<a href="https://twitter.com/search?ref_src=twsrc%5Etfw&q='+encodeURIComponent(url)+'" class="adorn-twitter-count" target="_blank"><span class="adorn-speeach-bubble"></span></a>'].join(''));
 
 		// Probably could make this a little more ajaxy
-		jsonp('https://cdn.syndication.twitter.com/widgets/tweetbutton/count.json?url='+encodeURIComponent(url),function(r){
+		jsonp('https://cdn.syndication.twitter.com/widgets/tweetbutton/count.json?url='+encodeURIComponent(url), (r) => {
 			// Add value to twitter icon
-			each('.adorn-twitter-count span.adorn-speeach-bubble', function(){
-				this.innerHTML = r.count || '';
-				this.title = "This page has been shared "+r.count+" times, view these tweets";
+			each('.adorn-twitter-count span.adorn-speeach-bubble', (item) => {
+				item.innerHTML = r.count || '';
+				item.title = "This page has been shared "+r.count+" times, view these tweets";
 			});
 		});
 	}
@@ -88,7 +87,7 @@ export default function (manifest){
 
 	//
 	// Add event to twitter button
-	addEvent('.adorn-twitter-button','click',function(e) {
+	addEvent('.adorn-twitter-button','click', (e) => {
 		
 		var hashtag;
 
@@ -128,7 +127,7 @@ function buildNav() {
 		return;
 	}
 
-	each(headings, function(tag) {
+	each(headings, (tag) => {
 
 		// Get the ID of the tag
 		var ref = id(tag);
@@ -153,7 +152,7 @@ function buildNav() {
 	toc.appendChild(select);
 
 	var _group = select;
-	each(headings, function(tag) {
+	each(headings, (tag) => {
 
 		// Get ID
 		var depth = parseInt(tag.tagName.match(/[0-9]/)[0], 10),
@@ -178,7 +177,7 @@ function buildNav() {
 	// Is there a TOC
 	if(toc){
 
-		setTimeout(function(){
+		setTimeout(() => {
 			// Lets add a class to the body
 			addClass(document.documentElement,"adorn-toc-on");
 		});
@@ -189,7 +188,7 @@ function buildNav() {
 
 	// Listen to scroll navigation position
 	var toolbar_height = document.querySelector('.adorn-toolbar').offsetHeight || 50;
-	addEvent(window, 'scroll', function(e){
+	addEvent(window, 'scroll', (e) => {
 
 		// from the list of items
 		// find the one which is in view on the page
@@ -199,7 +198,7 @@ function buildNav() {
 		var tag;
 
 		// Find the current selection
-		until( headings, function(anchor) {
+		until( headings, (anchor) => {
 
 			var t = findPos(anchor)[1] - toolbar_height;
 
@@ -253,7 +252,7 @@ function buildNav() {
 
 	// Offset Parent
 	
-	addEvent(window, 'scroll', function(e){
+	addEvent(window, 'scroll', (e) => {
 		var sY = window.scrollY || window.pageYOffset;
 		if( sY > tocY ){
 			clist.add( 'adorn-float' );

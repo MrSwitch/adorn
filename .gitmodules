@@ -1,0 +1,6 @@
+[submodule "tricks"]
+	path = tricks
+	url = https://github.com/mrswitch/tricks
+[submodule "src/utils"]
+	path = src/utils
+	url = https://github.com/mrswitch/tricks
