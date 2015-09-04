@@ -3,19 +3,19 @@
  * Adds document navigation to a page.
  */
 
-import json from './utils/json';
-import rURL from './utils/rURL';
+import json from './utils/http/json';
+import rURL from './utils/string/rURL';
 import meta from './utils/dom/meta';
-import ready from './utils/dom/ready';
+import ready from './utils/events/ready';
 
 // Touch exists?
-import './utils/detect/touch';
+import './utils/support/touch';
 
 // fix HTML5 in IE8
-import './utils/polyfill/html5';
+import './utils/support/html5';
 
 // fix viewport in mobile
-import './utils/polyfill/viewport';
+import './utils/support/viewport';
 
 // Analytics
 import analytics from './services/analytics';

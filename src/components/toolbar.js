@@ -1,16 +1,16 @@
 
-import each from '../utils/each';
-import jsonp from '../utils/jsonp';
-import until from '../utils/until';
+import each from '../utils/dom/each';
+import jsonp from '../utils/http/jsonp';
+import until from '../utils/dom/until';
 import addClass from '../utils/dom/addClass';
-import addEvent  from '../utils/dom/addEvent';
+import on  from '../utils/events/on';
 import create from '../utils/dom/create';
 import findPos from '../utils/dom/findPos';
 import id from '../utils/dom/id';
 import insertBefore from '../utils/dom/insertBefore';
 import insertAfter from '../utils/dom/insertAfter';
 import meta from '../utils/dom/meta';
-import ready from '../utils/dom/ready';
+import ready from '../utils/events/ready';
 
 // ///////////////////////////////////
 // TOOLBAR
@@ -20,7 +20,7 @@ export default function (manifest) {
 
 	//
 	// Build toolbar
-	// 
+	//
 	var repo_path,
 		paths = (window.location.pathname||'').replace(/^\//g,'').split(/([^\/]+\/?)/).filter((s) => !!s);
 
@@ -32,9 +32,7 @@ export default function (manifest) {
 		breadcrumbs.push( '<a href="/'+ paths.slice(0,index+1).join('') + '">'+ val.replace(/\.(html?)$/, '') +'</a>' );
 	});
 
-
 	// GITHUB
-
 	if (manifest.github && paths.length) {
 		// Get the location of this file in the repo
 		var repo_file = (window.location.pathname||'').replace(/^\/?([^\/]+)/g,'').replace(/\/$/, '/index.html');
@@ -57,7 +55,6 @@ export default function (manifest) {
 			});
 		});
 	}
-
 
 	// TWITTER
 
@@ -87,9 +84,7 @@ export default function (manifest) {
 
 	//
 	// Add event to twitter button
-	addEvent('.adorn-twitter-button','click', (e) => {
-		
-		var hashtag;
+	on('.adorn-twitter-button', 'click', (e) => {
 
 		e.preventDefault();
 
@@ -100,7 +95,7 @@ export default function (manifest) {
 
 		var hashtag = meta("twitter:hashtag") || manifest['twitter:hashtag'];
 
-		window.open("https://twitter.com/intent/tweet?text="+ encodeURIComponent( document.title ) + (hashtag ? '&hashtags=' + hashtag : '') + "&via=" + this.getAttribute('data-via') + "&url="+ encodeURIComponent(window.location.href.replace(/#.*/,'')), 'twitter', 'width='+w+',height='+h+',left='+l+'px,top='+t+'px');
+		window.open("https://twitter.com/intent/tweet?text="+ encodeURIComponent( document.title ) + (hashtag ? '&hashtags=' + hashtag : '') + "&via=" + twitter_creator.replace('@','') + "&url="+ encodeURIComponent(window.location.href.replace(/#.*/,'')), 'twitter', 'width='+w+',height='+h+',left='+l+'px,top='+t+'px');
 	});
 
 	// ///////////////////////////////////
@@ -108,20 +103,18 @@ export default function (manifest) {
 	// ///////////////////////////////////
 
 	ready(buildNav);
-
 }
 
 // ///////////////////////////////////
 // Navigation
 // ///////////////////////////////////
 
-
 function buildNav() {
 
 	// TOC
 	var last_depth = 0,
 		headings = each('h1,h2');
-	
+
 	if (!document.querySelector || !!(document.documentElement.className||'').match(/adorn-(nav|toc)-off/)) {
 		// This feature is disabled
 		return;
@@ -139,14 +132,14 @@ function buildNav() {
 
 	if (headings.length<2) {
 		return;
-	} 
+	}
 
 	var toc = create('div', {'class':'adorn-toc'});
 	document.querySelector('.adorn-breadcrumbs').appendChild(toc);
 
 	var select = create('select');
 	var options = [];
-	addEvent(select, 'change', function() {
+	on(select, 'change', function() {
 		window.location.hash = select.options[select.selectedIndex].value;
 	});
 	toc.appendChild(select);
@@ -183,12 +176,12 @@ function buildNav() {
 		});
 	}
 
-	addEvent(window, 'hashchange', hashChange);
+	on(window, 'hashchange', hashChange);
 
 
 	// Listen to scroll navigation position
 	var toolbar_height = document.querySelector('.adorn-toolbar').offsetHeight || 50;
-	addEvent(window, 'scroll', (e) => {
+	on(window, 'scroll', (e) => {
 
 		// from the list of items
 		// find the one which is in view on the page
@@ -228,13 +221,11 @@ function buildNav() {
 				history.replaceState({}, document.title, "#"+ref);
 			}
 
-			// Update the 
+			// Update the
 			hashChange();
 		}
 
 	});
-
-
 
 	// If toc
 	if(!toc){
@@ -251,13 +242,13 @@ function buildNav() {
 	var tocY = findPos(toc)[1];
 
 	// Offset Parent
-	
-	addEvent(window, 'scroll', (e) => {
+
+	on(window, 'scroll', (e) => {
 		var sY = window.scrollY || window.pageYOffset;
-		if( sY > tocY ){
+		if (sY > tocY) {
 			clist.add( 'adorn-float' );
 		}
-		else{
+		else {
 			clist.remove('adorn-float');
 		}
 	});

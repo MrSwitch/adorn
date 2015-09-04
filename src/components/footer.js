@@ -1,4 +1,4 @@
-import ready from '../utils/dom/ready';
+import ready from '../utils/events/ready';
 import create from '../utils/dom/create';
 
 export default function (manifest){
@@ -21,5 +21,5 @@ export default function (manifest){
 			}
 
 		});
-	}	
+	}
 };

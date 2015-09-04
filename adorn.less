@@ -80,10 +80,10 @@ body{
 	}
 
 	&.green{
-		background-color: #10A54A;	
+		background-color: #10A54A;
 	}
 	&.blue{
-		background-color: #0F6AB4;		
+		background-color: #0F6AB4;
 	}
 	&.red{
 		background-color: #F00;
@@ -97,14 +97,14 @@ blockquote{
 	background-color: #eee;
 	border: 1px solid #CCC;
 	padding: 15px @padding;
-	margin: 0 -@padding 35px -@padding;	
+	margin: 0 -@padding 35px -@padding;
 	text-align: justify;
 	position: relative;
 
 	body.adorn-fullscreen &{
 		@padding:@body-padding;
 		padding: 15px @padding;
-		margin: 0 -@padding 35px -@padding;	
+		margin: 0 -@padding 35px -@padding;
 	}
 }
 
@@ -183,7 +183,7 @@ h1,h2,h3,h4{
 	font-weight:300;
 }
 
-h1{
+body > h1, header > h1{
 	margin-top:2em;
 	padding: 1em 0;
 	font-size:4em;
@@ -206,7 +206,7 @@ h1{
 }
 
 
-h2{
+body > h2{
 	border-bottom: 1px solid #dcdcdc;
 	margin: 1.5em -50px;
 	padding-left:50px;
@@ -252,7 +252,7 @@ i{
 	h1{
 		font-size: 3em;
 	}
-	h2{
+	body > h2{
 		margin-left: -10px;
 		margin-right: -10px;
 		max-width: none;
@@ -305,7 +305,7 @@ pre,.pre{
 	border-left-width:10px;
 	white-space:pre;
 	padding: 15px;
-	margin: 0 0 35px 0;	
+	margin: 0 0 35px 0;
 	max-width:100%;
 	overflow: auto;
 	word-wrap: normal;
@@ -565,10 +565,10 @@ table, .table{
 			content:"\02716";
 			background-color:red;
 		}
-	
+
 	tbody th{
 		padding-left:10px;
-	} 
+	}
 	thead + tbody tr th, tbody tr:not(:first-child) th{
 		border-bottom-width:1px;
 	}
@@ -651,7 +651,7 @@ table, .table{
 		display: inline-block;
 
 		> img{
-			
+
 			margin: -5px 10px -5px 0;
 			background: rgba(255,255,255,0.2);
 			border-radius:50%;
@@ -735,7 +735,7 @@ table, .table{
 
 
 .clearfix {
-	display: inline-block; 
+	display: inline-block;
 
 	&:after {
 		visibility: hidden;

@@ -1,5 +1,5 @@
-import each from '../utils/each';
-import addEvent  from '../utils/dom/addEvent';
+import each from '../utils/dom/each';
+import on  from '../utils/events/on';
 import create from '../utils/dom/create';
 import insertAfter from '../utils/dom/insertAfter';
 
@@ -24,7 +24,7 @@ export default function () {
 		if(script.getAttribute('src')){
 
 			// Add click event to open in new window
-			addEvent(script, 'click', () => {
+			on(script, 'click', () => {
 				window.open(script.getAttribute('src'), '_blank');
 			});
 		}
@@ -34,7 +34,7 @@ export default function () {
 		if(script.getAttribute('href')){
 
 			// Add click event to open in new window
-			addEvent(script, 'click', () => {
+			on(script, 'click', () => {
 				window.open(script.getAttribute('href'), '_blank');
 			});
 		}
@@ -45,7 +45,7 @@ function tryitButton(pre,func){
 	var btn = create('button',{html:'tryit','class':'tryit'});
 	insertAfter(btn, pre);
 
-	addEvent(btn, 'click', () => {
+	on(btn, 'click', () => {
 		if(func){
 			func();
 		}
