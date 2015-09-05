@@ -18,7 +18,7 @@ import './utils/support/html5';
 import './utils/support/viewport';
 
 // Analytics
-import analytics from './services/analytics';
+import ga from './utils/services/googleanalytics';
 
 // Components
 import helpers from './components/helpers';
@@ -41,7 +41,7 @@ import footer from './components/footer';
 }
 
 // Setup function to be called when the body and the manifest exist.
-function setup(base, manifest = {}){
+function setup(base, manifest = {}) {
 
 	if(!document.body){
 		// Just in case...
@@ -73,7 +73,7 @@ function setup(base, manifest = {}){
 		let tracking = meta("ga:tracking") || manifest['ga:tracking'];
 
 		if (tracking) {
-			analytics(tracking);
+			ga(tracking);
 		}
 
 	}
