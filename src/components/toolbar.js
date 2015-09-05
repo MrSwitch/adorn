@@ -7,10 +7,12 @@ import on  from '../utils/events/on';
 import create from '../utils/dom/create';
 import findPos from '../utils/dom/findPos';
 import id from '../utils/dom/id';
+import querystringify from '../utils/string/querystringify';
 import insertBefore from '../utils/dom/insertBefore';
 import insertAfter from '../utils/dom/insertAfter';
 import meta from '../utils/dom/meta';
 import ready from '../utils/events/ready';
+import popup from '../utils/helper/popup';
 
 // ///////////////////////////////////
 // TOOLBAR
@@ -88,14 +90,23 @@ export default function (manifest) {
 
 		e.preventDefault();
 
-		var w = 550,
-			h = 250,
-			l = (screen.width/2)-(w/2),
-			t = (screen.height/2)-(h/2);
+		let options = {
+			width: 550,
+			height: 250
+		};
+
+		let params = {
+			text: encodeURIComponent(document.title),
+			via: twitter_creator.replace('@',''),
+			url: encodeURIComponent(window.location.href.replace(/#.*/,''))
+		};
 
 		var hashtag = meta("twitter:hashtag") || manifest['twitter:hashtag'];
+		if (hashtag) {
+			params.hashtag = hashtag;
+		}
 
-		window.open("https://twitter.com/intent/tweet?text="+ encodeURIComponent( document.title ) + (hashtag ? '&hashtags=' + hashtag : '') + "&via=" + twitter_creator.replace('@','') + "&url="+ encodeURIComponent(window.location.href.replace(/#.*/,'')), 'twitter', 'width='+w+',height='+h+',left='+l+'px,top='+t+'px');
+		popup("https://twitter.com/intent/tweet?" + querystringify(params), 'twitter', options);
 	});
 
 	// ///////////////////////////////////
