@@ -35,27 +35,35 @@ export default function (manifest) {
 	});
 
 	// GITHUB
-	if (manifest.github && paths.length) {
+	if (manifest.github) {
+
 		// Get the location of this file in the repo
 		var repo_file = (window.location.pathname||'').replace(/^\/?([^\/]+)/g,'').replace(/\/$/, '/index.html');
-		var repo = paths[0].replace(/\/$/,'');
 
-		repo_path = `https://github.com/${manifest.github}/${repo}`;
-		social_btns = [
-			`<a href="${repo_path}/blob/master${repo_file}" target="_blank" id="adorn-edit">Edit this page</a>`,
-			`<a href="${repo_path}" class="adorn-github-button" target="_blank" title="Stars"><i class="adorn-icon-github"></i><span class="adorn-speeach-bubble"></span></a>`,
-		];
+		// Repo
+		var repo = manifest.github;
+		if (!repo.match("/") && paths.length) {
+			repo += "/" + paths[0].replace(/\/$/,'');
+		}
+		if (repo.match("/")) {
+
+			repo_path = `https://github.com/${repo}`;
+			social_btns = [
+				`<a href="${repo_path}/blob/master${repo_file}" target="_blank" id="adorn-edit">Edit this page</a>`,
+				`<a href="${repo_path}" class="adorn-github-button" target="_blank" title="Stars"><i class="adorn-icon-github"></i><span class="adorn-speeach-bubble"></span></a>`,
+			];
 
 
-		// Install the GitHub widget
-		// Probably could make this a little more ajaxy
+			// Install the GitHub widget
+			// Probably could make this a little more ajaxy
 
-		jsonp(`https://api.github.com/repos/${manifest.github}/${repo}?`, (r) => {
-			// Add value to twitter icon
-			each('.adorn-github-button span.adorn-speeach-bubble', (item) => {
-				item.innerHTML = r.data.watchers || '';
+			jsonp(`https://api.github.com/repos/${manifest.github}/${repo}?`, (r) => {
+				// Add value to twitter icon
+				each('.adorn-github-button span.adorn-speeach-bubble', (item) => {
+					item.innerHTML = r.data.watchers || '';
+				});
 			});
-		});
+		}
 	}
 
 	// TWITTER
