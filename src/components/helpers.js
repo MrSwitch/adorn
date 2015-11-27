@@ -1,5 +1,6 @@
+/*global tryit*/
 import each from '../utils/dom/each';
-import on  from '../utils/events/on';
+import on from '../utils/events/on';
 import create from '../utils/dom/create';
 import insertAfter from '../utils/dom/insertAfter';
 
@@ -7,7 +8,7 @@ export default function () {
 
 	// TryIt
 	each('pre', (pre) => {
-		if(pre.className === 'tryit'||pre.className === 'tryitoffline'){
+		if (pre.className === 'tryit' || pre.className === 'tryitoffline') {
 			// Create a button and insert it after the pre tag
 			tryitButton(pre);
 		}
@@ -16,12 +17,12 @@ export default function () {
 	// TryIt, View
 	each('script', (script) => {
 		var func = script.getAttribute('data-tryit');
-		if(func){
+		if (func) {
 			// Create a button and insert it after the pre tag
-			tryitButton(script,window[func]);
+			tryitButton(script, window[func]);
 		}
 
-		if(script.getAttribute('src')){
+		if (script.getAttribute('src')) {
 
 			// Add click event to open in new window
 			on(script, 'click', () => {
@@ -31,7 +32,7 @@ export default function () {
 	});
 
 	each('link', (script) => {
-		if(script.getAttribute('href')){
+		if (script.getAttribute('href')) {
 
 			// Add click event to open in new window
 			on(script, 'click', () => {
@@ -41,22 +42,24 @@ export default function () {
 	});
 }
 
-function tryitButton(pre,func){
-	var btn = create('button',{html:'tryit','class':'tryit'});
+function tryitButton(pre, func) {
+
+	var btn = create('button', {html: 'tryit', 'class': 'tryit'});
+
 	insertAfter(btn, pre);
 
 	on(btn, 'click', () => {
-		if(func){
+		if (func) {
 			func();
 		}
-		else if(typeof(tryit) === 'function' && !tryit(pre.innerText)) {
+		else if (typeof(tryit) === 'function' && !tryit(pre.innerText)) {
 			return;
-		}else{
+		} else {
 			setTimeout(() => eval(pre.innerText), 100);
 		}
 	});
 
-	if(!func){
+	if (!func) {
 		pre.setAttribute('contenteditable', true);
 	}
 }

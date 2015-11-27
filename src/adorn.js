@@ -34,7 +34,7 @@ import footer from './components/footer';
 // Get the manifest
 {
 	// Manifest
-	let manifest_json = meta("manifest") || "/manifest.json";
+	let manifest_json = meta('manifest') || '/manifest.json';
 
 	// Set the toolbar, doesn't work if document body is undefined
 	json(manifest_json, setup.bind(null, manifest_json));
@@ -43,17 +43,17 @@ import footer from './components/footer';
 // Setup function to be called when the body and the manifest exist.
 function setup(base, manifest = {}) {
 
-	if(!document.body){
+	if (!document.body) {
 		// Just in case...
 		ready(setup.bind(null, base, manifest));
 		return;
 	}
 
 	// Favicon
-	manifest.favicon = meta("favicon") || rURL(manifest.favicon, base) || "/favicon.ico";
+	manifest.favicon = meta('favicon') || rURL(manifest.favicon, base) || '/favicon.ico';
 
 	// Author
-	manifest.author = meta("author") || manifest.author;
+	manifest.author = meta('author') || manifest.author;
 
 	// Root domain
 	manifest.root = rURL(manifest.root || '/', base);
@@ -70,7 +70,7 @@ function setup(base, manifest = {}) {
 	// Analytics
 	{
 
-		let tracking = meta("ga:tracking") || manifest['ga:tracking'];
+		let tracking = meta('ga:tracking') || manifest['ga:tracking'];
 
 		if (tracking) {
 			ga(tracking);
