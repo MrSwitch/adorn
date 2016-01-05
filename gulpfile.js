@@ -8,6 +8,8 @@ var uglify = require('gulp-uglify');
 var sourcemaps = require('gulp-sourcemaps');
 var args   = require('yargs').argv;
 var gulpif = require('gulp-if');
+var less = require('gulp-less');
+var minifyCSS = require('gulp-minify-css');
 
 gulp.task('build', function() {
 	browserify('./src/adorn.js', { debug: true })
@@ -27,4 +29,12 @@ gulp.task('default', ['build']);
 
 gulp.task('watch', function () {
    gulp.watch('src/**/*.js', ['build']);
+   gulp.watch('src/**/*.less', ['less']);
+});
+
+gulp.task('less', function () {
+  return gulp.src('./src/adorn.less')
+    .pipe(less())
+	.pipe(minifyCSS())
+    .pipe(gulp.dest('./'));
 });
