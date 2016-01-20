@@ -17,6 +17,9 @@ import './utils/support/html5';
 // fix viewport in mobile
 import './utils/support/viewport';
 
+// Phonegap Shim
+import cordovaLinks from './utils/helper/cordovaExternalLinks';
+
 // Analytics
 import ga from './utils/services/googleanalytics';
 
@@ -39,6 +42,11 @@ import footer from './components/footer';
 	// Set the toolbar, doesn't work if document body is undefined
 	json(manifest_json, setup.bind(null, manifest_json));
 }
+
+// Is this a phonegap application?
+// Shim up the external Links issue
+cordovaLinks();
+
 
 // Setup function to be called when the body and the manifest exist.
 function setup(base, manifest = {}) {
