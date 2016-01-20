@@ -7,10 +7,12 @@ import create from '../utils/dom/create';
 import findPos from '../utils/dom/findPos';
 import id from '../utils/dom/id';
 import querystringify from '../utils/string/querystringify';
+import URL from '../utils/window/url';
+import ltrim from '../utils/string/ltrim';
 import insertBefore from '../utils/dom/insertBefore';
 import meta from '../utils/dom/meta';
 import ready from '../utils/events/ready';
-import popup from '../utils/helper/popup';
+import popup from '../utils/window/popup';
 
 // ///////////////////////////////////
 // TOOLBAR
@@ -21,15 +23,25 @@ export default function (manifest) {
 	//
 	// Build toolbar
 	//
-	var repo_path,
-		paths = (window.location.pathname || '').replace(/^\//g, '').split(/([^\/]+\/?)/).filter((s) => !!s);
+
+	// Tidy the path
+	let path = (window.location.pathname || '');
+	let root_path = URL(manifest.root).pathname;
+
+	// Remove the root path from the path
+	path = ltrim(path, root_path);
+
+	// Trim the path
+	path = path.replace(/^\//g, '')
+
+	var paths = path.split(/([^\/]+\/?)/).filter((s) => !!s);
 
 	var url = window.location.href,
 		social_btns = [],
 		breadcrumbs = [`<a href="${manifest.root}"><img src="${manifest.favicon}" alt="${window.location.hostname}" title="${manifest.name}"/></a>`];
 
 	each(paths, (val, index) => {
-		breadcrumbs.push('<a href="/' + paths.slice(0, index + 1).join('') + '">' + val.replace(/\.(html?)$/, '') + '</a>');
+		breadcrumbs.push(`<a href="${manifest.root}` + paths.slice(0, index + 1).join('') + '">' + val.replace(/\.(html?)$/, '') + '</a>');
 	});
 
 	// GITHUB
@@ -45,7 +57,7 @@ export default function (manifest) {
 		}
 		if (repo.match('/')) {
 
-			repo_path = `https://github.com/${repo}`;
+			let repo_path = `https://github.com/${repo}`;
 			social_btns = [
 				`<a href="${repo_path}/blob/master${repo_file}" target="_blank" id="adorn-edit">Edit this page</a>`,
 				`<a href="${repo_path}" class="adorn-github-button" target="_blank" title="Stars"><i class="adorn-icon-github"></i><span class="adorn-speeach-bubble"></span></a>`
@@ -54,7 +66,7 @@ export default function (manifest) {
 			// Install the GitHub widget
 			// Probably could make this a little more ajaxy
 
-			jsonp(`https://api.github.com/repos/${manifest.github}/${repo}?`, (r) => {
+			jsonp(`https://api.github.com/repos/${repo}?callback=?`, (r) => {
 				// Add value to twitter icon
 				each('.adorn-github-button span.adorn-speeach-bubble', (item) => {
 					item.innerHTML = r.data.watchers || '';

@@ -4,7 +4,7 @@
  */
 
 import json from './utils/http/json';
-import rURL from './utils/string/rURL';
+import fullpath from './utils/string/fullpath';
 import meta from './utils/dom/meta';
 import ready from './utils/events/ready';
 
@@ -50,13 +50,13 @@ function setup(base, manifest = {}) {
 	}
 
 	// Favicon
-	manifest.favicon = meta('favicon') || rURL(manifest.favicon, base) || '/favicon.ico';
+	manifest.favicon = meta('favicon') || fullpath(manifest.favicon, base) || '/favicon.ico';
 
 	// Author
 	manifest.author = meta('author') || manifest.author;
 
 	// Root domain
-	manifest.root = rURL(manifest.root || '/', base);
+	manifest.root = meta('root') || fullpath(manifest.root || '/', base);
 
 	// Markup
 	{
