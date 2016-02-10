@@ -164,6 +164,14 @@ function buildNav() {
 		return;
 	}
 
+	{
+		// If the location.hash is defined, lets navigate to the item
+		let selected = document.querySelector(window.location.hash);
+		if (selected) {
+			selected.scrollIntoView();
+		}
+	}
+
 	var toc = create('div', {'class': 'adorn-toc'});
 	document.querySelector('.adorn-breadcrumbs').appendChild(toc);
 
