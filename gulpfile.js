@@ -1,17 +1,19 @@
-var gulp = require('gulp');
-var browserify = require('browserify');
-var babelify= require('babelify');
-var util = require('gulp-util');
-var buffer = require('vinyl-buffer');
-var source = require('vinyl-source-stream');
-var uglify = require('gulp-uglify');
-var sourcemaps = require('gulp-sourcemaps');
-var args   = require('yargs').argv;
-var gulpif = require('gulp-if');
-var less = require('gulp-less');
-var minifyCSS = require('gulp-minify-css');
+'use strict';
 
-gulp.task('build', function() {
+let gulp = require('gulp');
+let browserify = require('browserify');
+let babelify= require('babelify');
+let util = require('gulp-util');
+let buffer = require('vinyl-buffer');
+let source = require('vinyl-source-stream');
+let uglify = require('gulp-uglify');
+let sourcemaps = require('gulp-sourcemaps');
+let args   = require('yargs').argv;
+let gulpif = require('gulp-if');
+let less = require('gulp-less');
+let minifyCSS = require('gulp-minify-css');
+
+gulp.task('build', () => {
 	browserify('./src/adorn.js', { debug: true })
 	.transform(babelify)
 	.bundle()
@@ -27,12 +29,12 @@ gulp.task('build', function() {
 
 gulp.task('default', ['build']);
 
-gulp.task('watch', function () {
+gulp.task('watch', () => {
    gulp.watch('src/**/*.js', ['build']);
    gulp.watch('src/**/*.less', ['less']);
 });
 
-gulp.task('less', function () {
+gulp.task('less', () => {
   return gulp.src('./src/adorn.less')
     .pipe(less())
 	.pipe(minifyCSS())

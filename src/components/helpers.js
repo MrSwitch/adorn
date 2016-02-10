@@ -4,10 +4,10 @@ import on from '../utils/events/on';
 import create from '../utils/dom/create';
 import insertAfter from '../utils/dom/insertAfter';
 
-export default function () {
+export default () => {
 
 	// TryIt
-	each('pre', (pre) => {
+	each('pre', pre => {
 		if (pre.className === 'tryit' || pre.className === 'tryitoffline') {
 			// Create a button and insert it after the pre tag
 			tryitButton(pre);
@@ -15,7 +15,7 @@ export default function () {
 	});
 
 	// TryIt, View
-	each('script', (script) => {
+	each('script', script => {
 		var func = script.getAttribute('data-tryit');
 		if (func) {
 			// Create a button and insert it after the pre tag
@@ -31,7 +31,7 @@ export default function () {
 		}
 	});
 
-	each('link', (script) => {
+	each('link', script => {
 		if (script.getAttribute('href')) {
 
 			// Add click event to open in new window

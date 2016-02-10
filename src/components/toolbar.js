@@ -18,7 +18,7 @@ import popup from '../utils/window/popup';
 // TOOLBAR
 // ///////////////////////////////////
 
-export default function (manifest) {
+export default manifest => {
 
 	//
 	// Build toolbar
@@ -66,9 +66,9 @@ export default function (manifest) {
 			// Install the GitHub widget
 			// Probably could make this a little more ajaxy
 
-			jsonp(`https://api.github.com/repos/${repo}?callback=?`, (r) => {
+			jsonp(`https://api.github.com/repos/${repo}?callback=?`, r => {
 				// Add value to twitter icon
-				each('.adorn-github-button span.adorn-speeach-bubble', (item) => {
+				each('.adorn-github-button span.adorn-speeach-bubble', item => {
 					item.innerHTML = r.data.watchers || '';
 				});
 			});
@@ -84,9 +84,12 @@ export default function (manifest) {
 			'<a href="https://twitter.com/search?ref_src=twsrc%5Etfw&q=' + encodeURIComponent(url) + '" class="adorn-twitter-count" target="_blank"><span class="adorn-speeach-bubble"></span></a>'].join(''));
 
 		// Probably could make this a little more ajaxy
-		jsonp('https://cdn.syndication.twitter.com/widgets/tweetbutton/count.json?url=' + encodeURIComponent(url), (r) => {
+		jsonp('https://cdn.syndication.twitter.com/widgets/tweetbutton/count.json?url=' + encodeURIComponent(url), r => {
 			// Add value to twitter icon
-			each('.adorn-twitter-count span.adorn-speeach-bubble', (item) => {
+			if (!r) {
+				return;
+			}
+			each('.adorn-twitter-count span.adorn-speeach-bubble', item => {
 				item.innerHTML = r.count || '';
 				item.title = 'This page has been shared ' + r.count + ' times, view these tweets';
 			});
@@ -103,7 +106,7 @@ export default function (manifest) {
 
 	//
 	// Add event to twitter button
-	on('.adorn-twitter-button', 'click', (e) => {
+	on('.adorn-twitter-button', 'click', e => {
 
 		e.preventDefault();
 
@@ -147,7 +150,7 @@ function buildNav() {
 		return;
 	}
 
-	each(headings, (tag) => {
+	each(headings, tag => {
 
 		// Get the ID of the tag
 		var ref = id(tag);
@@ -172,7 +175,7 @@ function buildNav() {
 	toc.appendChild(select);
 
 	var _group = select;
-	each(headings, (tag) => {
+	each(headings, tag => {
 
 		// Get ID
 		var depth = parseInt(tag.tagName.match(/[0-9]/)[0], 10),
@@ -210,6 +213,12 @@ function buildNav() {
 	var toolbar_height = document.querySelector('.adorn-toolbar').offsetHeight || 50;
 	on(window, 'scroll', () => {
 
+		// Are properties which affect the position of elements on the page are still loading...
+		if (document.readyState !== 'complete') {
+			// Ok, then we shouldn't try to determine if the user has changed position in the document.
+			return;
+		}
+
 		// from the list of items
 		// find the one which is in view on the page
 		var T = window.scrollY || window.pageYOffset;
@@ -217,7 +226,7 @@ function buildNav() {
 		var tag;
 
 		// Find the current selection
-		until(headings, (anchor) => {
+		until(headings, anchor => {
 
 			var t = findPos(anchor)[1] - toolbar_height;
 

@@ -1,14 +1,14 @@
 import ready from '../utils/events/ready';
 import create from '../utils/dom/create';
 
-export default function (manifest) {
+export default manifest => {
 	// ///////////////////////////////////
 	// FOOTER
 	// ///////////////////////////////////
 
 	if (manifest.author) {
 
-		ready(function() {
+		ready(() => {
 
 			var author = manifest.author.split(/\s*, \s*/);
 
