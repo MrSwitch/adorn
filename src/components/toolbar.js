@@ -165,10 +165,15 @@ function buildNav() {
 	}
 
 	{
-		// If the location.hash is defined, lets navigate to the item
-		let selected = document.querySelector(window.location.hash);
-		if (selected) {
-			selected.scrollIntoView();
+		let hash = window.location.hash;
+
+		if (hash && hash.length > 2) {
+
+			// If the location.hash is defined, lets navigate to the item
+			let selected = document.querySelector(window.location.hash);
+			if (selected) {
+				selected.scrollIntoView();
+			}
 		}
 	}
 
