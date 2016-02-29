@@ -4,7 +4,9 @@
   "description": "Markup beautifier drop in script",
   "main": "adorn.js",
   "scripts": {
-    "test": "gulp"
+    "build": "gulp",
+    "lint": "eslint ./",
+    "test": "npm run lint && npm run build"
   },
   "repository": {
     "type": "git",
