@@ -1,7 +1,5 @@
-/**
- * adorn.js
- * Adds document navigation to a page.
- */
+/*!*/
+/*! Adorn by Andrew Dodson, https://adodson.com/adorn/LICENSE (MIT) */
 
 import json from './utils/http/json';
 import fullpath from './utils/string/fullpath';

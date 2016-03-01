@@ -22,7 +22,7 @@ gulp.task('build', () => {
 	.pipe(source('./adorn.js'))
 	.pipe(buffer())
 	.pipe(sourcemaps.init({loadMaps: true}))
-	.pipe(gulpif(!args.debug, uglify({mangle: false})))
+	.pipe(gulpif(!args.debug, uglify({mangle: false, preserveComments: 'license'})))
 	.pipe(sourcemaps.write('./'))
 	.pipe(gulp.dest('./'))
 	.on('end', console.log.bind(console, 'BUILT'));
