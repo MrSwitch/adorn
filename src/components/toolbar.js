@@ -3,7 +3,7 @@ import URL from '../utils/window/url';
 import ltrim from '../utils/string/ltrim';
 import insertBefore from '../utils/dom/insertBefore';
 import ready from '../utils/events/ready';
-import sidebar from './sidebar';
+import contentSelect from './contentSelect';
 import {twitter_btn, github_btn} from './social';
 
 // ///////////////////////////////////
@@ -29,35 +29,41 @@ export default manifest => {
 	var paths = path.split(/([^\/]+\/?)/).filter((s) => !!s);
 	manifest.paths = paths;
 
-	let breadcrumbs = create('div', {
-		class: 'adorn-breadcrumbs'
-	});
-	breadcrumbs.appendChild(create('a', {
-		href: manifest.root,
-		html: `<img src="${manifest.favicon}" alt="${window.location.hostname}" title="${manifest.name}"/>`
-	}));
+	let crumbs = [
+		create('a', {href: manifest.root},
+			[
+				create('img', {src: manifest.favicon, alt: window.location.hostname, title: manifest.name})
+			])
+	];
 
 	paths.forEach((val, index) => {
-		breadcrumbs.appendChild(document.createTextNode(' '));
-		breadcrumbs.appendChild(create('a', {
-			href: manifest.root + paths.slice(0, index + 1).join(''),
-			html: val.replace(/\.(html?)$/, '')
-		}));
+
+		let href = manifest.root + paths.slice(0, index + 1).join('');
+		let text = val.replace(/\.(html?)$/, '');
+
+		crumbs.push(
+			' ',
+			create('a', {href}, [text])
+		);
 	});
 
+	// Create Breadcrumbs
+	let breadcrumbs = create('div', {'class': 'adorn-breadcrumbs'}, crumbs);
 
 	// Get Social Buttons
-	let social_btns = create('div', {class: 'adorn-links'});
-	social_btns.appendChild(github_btn(manifest));
-	social_btns.appendChild(create('span'));
-	social_btns.appendChild(twitter_btn(manifest));
-
-	// Create Breadcrumbs
+	let social_btns = create('div', {class: 'adorn-links'},
+		[
+			github_btn(manifest),
+			create('span'),
+			twitter_btn(manifest)
+		]);
 
 	// Append
-	let aside = create('aside', {'class': 'adorn-toolbar'});
-	aside.appendChild(breadcrumbs);
-	aside.appendChild(social_btns);
+	let aside = create('aside', {'class': 'adorn-toolbar'},
+		[
+			breadcrumbs,
+			social_btns
+		]);
 
 	insertBefore(aside, document.body.firstElementChild || document.body.firstChild);
 
@@ -65,5 +71,5 @@ export default manifest => {
 	// TOC
 	// ///////////////////////////////////
 
-	ready(sidebar);
+	contentSelect(breadcrumbs);
 }

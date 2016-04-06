@@ -37,9 +37,24 @@ body{
 
 	&.adorn-fullscreen{
 		max-width:none;
+
+		@media @desktop{
+			// Make room for the sidebar
+			margin-left: 220px;
+
+			.adorn-sidebar-off &{
+				margin-left: auto;
+			}
+		}
 	}
 
 	@media @laptop{
+		// Make room for the sidebar
+		margin-left: 220px;
+
+		.adorn-sidebar-off &{
+			margin-left: auto;
+		}
 	}
 	@media @tablet {
 		border:none;
@@ -705,6 +720,53 @@ table, .table{
 	display: inline-block;
 	margin-left:5px;
 }
+
+/* Sidebar */
+
+.adorn-sidebar{
+    background: #4E5260;
+    color: white;
+    height: 100%;
+    left: 0;
+    overflow: auto;
+    padding: 10px;
+    padding-top: 100px;	
+    position: fixed;
+    top: 0;
+    width: 200px;
+
+	@media @tablet {
+		display: none;
+	}
+
+    a {
+    	text-decoration:none;
+    }
+
+    ul, li{
+    	margin: 0;
+    	padding: 0;
+    }
+
+    > ul {
+    	margin:0 -10px;
+    }
+
+    li{
+    	list-style:none;
+    	padding:0 10px;
+
+    	&.selected{
+    		background: rgba(0,0,0,0.5);
+    	}
+
+    	li {
+		    font-size: 0.9em;
+		}
+    }
+}
+
+
 
 @supports (appearance:none) or (-webkit-appearance:none) or (-moz-appearance:none){
 

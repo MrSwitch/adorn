@@ -44,7 +44,7 @@ export default () => {
 
 function tryitButton(pre, func) {
 
-	var btn = create('button', {html: 'tryit', 'class': 'tryit'});
+	var btn = create('button', {'class': 'tryit'}, ['tryit']);
 
 	insertAfter(btn, pre);
 

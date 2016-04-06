@@ -28,8 +28,9 @@ import helpers from './components/helpers';
 ready(helpers);
 
 // Widget components
-import toolbar from './components/toolbar';
 import footer from './components/footer';
+import sidebar from './components/sidebar';
+import toolbar from './components/toolbar';
 
 
 // Get the manifest
@@ -68,6 +69,9 @@ function setup(base, manifest = {}) {
 	{
 		// Toolbar
 		toolbar(manifest);
+
+		// Toolbar
+		sidebar(manifest);
 
 		// Footer
 		footer(manifest);

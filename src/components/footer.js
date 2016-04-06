@@ -13,11 +13,25 @@ export default manifest => {
 			var author = manifest.author.split(/\s*, \s*/);
 
 			if (author) {
-				// Add Footer link to repo
-				document.body.appendChild(create('footer', {
-						html: 'Authored by ' + (author[1] ? '<a href="' + author[1] + '" rel="author">' + author[0] + '</a>' : author[0])
-					}
-				));
+
+				var children = ['Authored by '];
+
+				if (author[1]) {
+					children.push(
+						create('a', {
+							href: author[1],
+							rel: 'author'
+						}, [
+							author[0]
+						])
+					);
+				}
+				else {
+					children.push(author[0]);
+				}
+
+				// Add Footer link to the body
+				create('footer', {}, children, document.body);
 			}
 
 		});

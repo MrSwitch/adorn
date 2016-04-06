@@ -3,6 +3,7 @@ import each from '../utils/dom/each';
 import jsonp from '../utils/http/jsonp';
 import on from '../utils/events/on';
 import create from '../utils/dom/create';
+import fragment from '../utils/dom/fragment';
 import querystringify from '../utils/string/querystringify';
 import meta from '../utils/dom/meta';
 import popup from '../utils/window/popup';
@@ -11,7 +12,7 @@ let url = window.location.href;
 
 export function github_btn(manifest) {
 
-	let content = document.createDocumentFragment();
+	let content = [];
 	let paths = manifest.paths;
 
 	// GITHUB
@@ -30,22 +31,25 @@ export function github_btn(manifest) {
 
 			let repo_path = `https://github.com/${repo}`;
 
-			content.appendChild(create('a', {
-				href: `${repo_path}/blob/master${repo_file}`,
-				target: '_blank',
-				id: 'adorn-edit',
-				html: 'Edit this page'
-			}));
-
-			content.appendChild(create('span'));
-
-			content.appendChild(create('a', {
-				href: `${repo_path}`,
-				target: '_blank',
-				title: 'Stars',
-				id: 'adorn-github-button',
-				html: '<i class="adorn-icon-github"></i><span class="adorn-speeach-bubble"></span>'
-			}));
+			content.push(
+				create('a', {
+					href: `${repo_path}/blob/master${repo_file}`,
+					target: '_blank',
+					id: 'adorn-edit'
+				}, [
+					'Edit this page'
+				]),
+				create('span'),
+				create('a', {
+					href: `${repo_path}`,
+					target: '_blank',
+					title: 'Stars',
+					id: 'adorn-github-button'
+				}, [
+					create('i', {'class': "adorn-icon-github"}),
+					create('span', {'class': "adorn-speeach-bubble"})
+				])
+			);
 
 			// Install the GitHub widget
 			// Probably could make this a little more ajaxy
@@ -64,20 +68,20 @@ export function github_btn(manifest) {
 		}
 	}
 
-	return content;
+	return fragment(...content);
 }
 
 export function twitter_btn (manifest) {
 
 	// Content
-	let content = document.createDocumentFragment();
+	let content = [];
 
 	// TWITTER
 	var twitter_creator = manifest['twitter:creator'] || meta('twitter:creator');
 
 	// If we dont have a creator, do nothing
 	if (!twitter_creator) {
-		return content;
+		return;
 	}
 
 
@@ -87,17 +91,21 @@ export function twitter_btn (manifest) {
 		'class': 'adorn-twitter-button',
 		target: '_blank',
 		'data-via': twitter_creator.replace('@', ''),
-		title: 'Tweet',
-		html: '<i class="adorn-icon-twitter"></i>'
-	});
+		title: 'Tweet'
+	}, [
+		create('i', {'class': "adorn-icon-twitter"})
+	]);
 
-	content.appendChild(btn);
-	content.appendChild(create('a', {
-		href: 'https://twitter.com/search?ref_src=twsrc%5Etfw&q=' + encodeURIComponent(url),
-		'class': 'adorn-twitter-count',
-		target: '_blank',
-		html: '<span class="adorn-speeach-bubble"></span>'
-	}));
+	content.push(
+		btn,
+		create('a', {
+			href: 'https://twitter.com/search?ref_src=twsrc%5Etfw&q=' + encodeURIComponent(url),
+			'class': 'adorn-twitter-count',
+			target: '_blank'
+		}, [
+			create('i', {'class': "adorn-speeach-bubble"})
+		])
+	);
 
 
 	// Probably could make this a little more ajaxy
@@ -137,5 +145,5 @@ export function twitter_btn (manifest) {
 		popup('https://twitter.com/intent/tweet?' + querystringify(params), 'twitter', options);
 	});
 
-	return content;
+	return fragment(...content);
 }
