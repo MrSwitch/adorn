@@ -1,14 +1,14 @@
-import each from '../utils/dom/each';
-import until from '../utils/dom/until';
-import addClass from '../utils/dom/addClass';
-import on from '../utils/events/on';
-import create from '../utils/dom/create';
-import prepend from '../utils/dom/prepend';
-import parent from '../utils/dom/parent';
-import removeClass from '../utils/dom/removeClass';
-import onhashchange from '../utils/window/onhashchange';
+import each from 'tricks/dom/each';
+import until from 'tricks/dom/until';
+import addClass from 'tricks/dom/addClass';
+import on from 'tricks/events/on';
+import create from 'tricks/dom/create';
+import prepend from 'tricks/dom/prepend';
+import parent from 'tricks/dom/parent';
+import removeClass from 'tricks/dom/removeClass';
+import onhashchange from 'tricks/window/onhashchange';
 import getContent from './content';
-import id from '../utils/dom/id';
+import id from 'tricks/dom/id';
 
 
 // ///////////////////////////////////

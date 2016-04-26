@@ -1,10 +1,10 @@
-import each from '../utils/dom/each';
-import until from '../utils/dom/until';
-import addClass from '../utils/dom/addClass';
-import on from '../utils/events/on';
-import create from '../utils/dom/create';
-import id from '../utils/dom/id';
-import onhashchange from '../utils/window/onhashchange';
+import each from 'tricks/dom/each';
+import until from 'tricks/dom/until';
+import addClass from 'tricks/dom/addClass';
+import on from 'tricks/events/on';
+import create from 'tricks/dom/create';
+import id from 'tricks/dom/id';
+import onhashchange from 'tricks/window/onhashchange';
 import getContent from './content';
 
 // ///////////////////////////////////

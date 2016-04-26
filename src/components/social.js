@@ -1,12 +1,12 @@
 // Social controls
-import each from '../utils/dom/each';
-import jsonp from '../utils/http/jsonp';
-import on from '../utils/events/on';
-import create from '../utils/dom/create';
-import fragment from '../utils/dom/fragment';
-import querystringify from '../utils/string/querystringify';
-import meta from '../utils/dom/meta';
-import popup from '../utils/window/popup';
+import each from 'tricks/dom/each';
+import jsonp from 'tricks/http/jsonp';
+import on from 'tricks/events/on';
+import create from 'tricks/dom/create';
+import fragment from 'tricks/dom/fragment';
+import querystringify from 'tricks/string/querystringify';
+import meta from 'tricks/dom/meta';
+import popup from 'tricks/window/popup';
 
 let url = window.location.href;
 

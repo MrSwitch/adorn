@@ -1,25 +1,25 @@
 /*!*/
 /*! Adorn by Andrew Dodson, https://adodson.com/adorn/LICENSE (MIT) */
 
-import json from './utils/http/json';
-import fullpath from './utils/string/fullpath';
-import meta from './utils/dom/meta';
-import ready from './utils/events/ready';
+import json from 'tricks/http/json';
+import fullpath from 'tricks/string/fullpath';
+import meta from 'tricks/dom/meta';
+import ready from 'tricks/events/ready';
 
 // Touch exists?
-import './utils/support/touch';
+import 'tricks/support/touch';
 
 // fix HTML5 in IE8
-import './utils/support/html5';
+import 'tricks/support/html5';
 
 // fix viewport in mobile
-import './utils/support/viewport';
+import 'tricks/support/viewport';
 
 // Phonegap Shim
-import cordovaLinks from './utils/helper/cordovaExternalLinks';
+import cordovaLinks from 'tricks/helper/cordovaExternalLinks';
 
 // Analytics
-import ga from './utils/services/googleanalytics';
+import ga from 'tricks/services/googleanalytics';
 
 // Components
 import helpers from './components/helpers';

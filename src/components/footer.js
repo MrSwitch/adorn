@@ -1,5 +1,5 @@
-import ready from '../utils/events/ready';
-import create from '../utils/dom/create';
+import ready from 'tricks/events/ready';
+import create from 'tricks/dom/create';
 
 export default manifest => {
 	// ///////////////////////////////////

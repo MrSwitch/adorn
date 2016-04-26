@@ -1,8 +1,8 @@
 /*global tryit*/
-import each from '../utils/dom/each';
-import on from '../utils/events/on';
-import create from '../utils/dom/create';
-import insertAfter from '../utils/dom/insertAfter';
+import each from 'tricks/dom/each';
+import on from 'tricks/events/on';
+import create from 'tricks/dom/create';
+import insertAfter from 'tricks/dom/insertAfter';
 
 export default () => {
 

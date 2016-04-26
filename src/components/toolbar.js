@@ -1,8 +1,8 @@
-import create from '../utils/dom/create';
-import URL from '../utils/window/url';
-import ltrim from '../utils/string/ltrim';
-import insertBefore from '../utils/dom/insertBefore';
-import ready from '../utils/events/ready';
+import create from 'tricks/dom/create';
+import URL from 'tricks/window/url';
+import ltrim from 'tricks/string/ltrim';
+import insertBefore from 'tricks/dom/insertBefore';
+import ready from 'tricks/events/ready';
 import contentSelect from './contentSelect';
 import {twitter_btn, github_btn} from './social';
 
