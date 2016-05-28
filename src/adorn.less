@@ -13,6 +13,7 @@
 @toolbarWidth: 60px;
 @bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
 @bodyWidth: 1024px;
+@sidebarWidth: 200px;
 
 * {
 	box-sizing:border-box;
@@ -219,8 +220,6 @@ h2{
 	padding: 0.5em;
 	padding-left:50px;
 	padding-right:50px;
-	background: rgb(82, 176, 250);
-	color: rgb(255, 255, 255);
 
 	h1 + &{
 		margin-top:0;
@@ -598,7 +597,8 @@ table, .table{
 	.flex-display();
 	.flex-flow(row);
 	.justify-content(space-between);
-	left: 0;
+	left: @sidebarWidth;
+	right: 0;
 	margin: 0;
 	padding: 5px 10px;
 	position: fixed;
@@ -606,8 +606,6 @@ table, .table{
 	width: 100%;
 	z-index:1;
 	white-space: nowrap;
-	overflow:hidden;
-	overflow-x: auto;
 
 	> :last-child{
 		text-align:right;
@@ -626,6 +624,9 @@ table, .table{
 //		.animate(~"slideInUp 1s ease-out, fadeIn 1s ease-out");
 	}
 
+	@media @tablet {
+		left: 0;
+	}
 
 	&:after{
 		// Alternative to Box-shadow
@@ -635,6 +636,7 @@ table, .table{
 		bottom: 0;
 		width: 100%;
 		left: 0;
+		z-index: -1;
 		.animate( ~"fillWidth 1s linear forwards");
 	}
 
@@ -730,10 +732,10 @@ table, .table{
     left: 0;
     overflow: auto;
     padding: 10px;
-    padding-top: 100px;	
+    padding-top: @toolbarWidth;	
     position: fixed;
     top: 0;
-    width: 200px;
+    width: @sidebarWidth;
 
 	@media @tablet {
 		display: none;
