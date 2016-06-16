@@ -6,7 +6,16 @@ import create from 'tricks/dom/create';
 import fragment from 'tricks/dom/fragment';
 import querystringify from 'tricks/string/querystringify';
 import meta from 'tricks/dom/meta';
+import query from 'tricks/dom/query';
 import popup from 'tricks/window/popup';
+import fullpath from 'tricks/string/fullpath';
+
+let link = (str) => {
+	let a = query('link[rel=source]');
+	if (a) {
+		return a.getAttribute('href');
+	}
+};
 
 let url = window.location.href;
 
@@ -18,9 +27,6 @@ export function github_btn(manifest) {
 	// GITHUB
 	if (manifest.github) {
 
-		// Get the location of this file in the repo
-		var repo_file = (window.location.pathname || '').replace(/^\/?([^\/]+)/g, '').replace(/\/$/, '/index.html');
-
 		// Repo
 		var repo = manifest.github;
 		if (!repo.match('/') && paths.length) {
@@ -31,9 +37,12 @@ export function github_btn(manifest) {
 
 			let repo_path = `https://github.com/${repo}`;
 
+			// Get the location of this file in the repo
+			let repo_file = link('source') || (window.location.pathname || '').replace(/^\/?([^\/]+)/g, '').replace(/\/$/, 'index.html').replace(/^\//, '');
+
 			content.push(
 				create('a', {
-					href: `${repo_path}/blob/master${repo_file}`,
+					href: fullpath(repo_file, `${repo_path}/blob/master/`),
 					target: '_blank',
 					id: 'adorn-edit'
 				}, [
