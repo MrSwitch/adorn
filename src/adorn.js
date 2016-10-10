@@ -87,4 +87,18 @@ function setup(base, manifest = {}) {
 		}
 
 	}
+
+	// Service Workers
+	if ('serviceWorker' in navigator) {
+
+		let sw = meta('sw') || meta('serviceworker') || manifest['sw'] || manifest['serviceworker'];
+
+		navigator.serviceWorker.register(sw).then(reg => {
+			// Registration was successful
+			console.log('Adorn: ServiceWorker registration successful with scope: ', reg.scope);
+		}).catch(err => {
+			// registration failed :(
+			console.log('Adorn: ServiceWorker registration failed: ', err);
+		});
+	}
 }
