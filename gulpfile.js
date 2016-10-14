@@ -30,7 +30,7 @@ gulp.task('build', () => {
 
 gulp.task('default', ['build']);
 
-gulp.task('watch', () => {
+gulp.task('watch', ['build', 'less'], () => {
    gulp.watch('src/**/*.js', ['build']);
    gulp.watch('src/**/*.less', ['less']);
 });

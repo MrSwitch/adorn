@@ -16,6 +16,8 @@
 @bodyWidth: 1024px;
 @sidebarWidth: 200px;
 
+@linkColor:#039be5;
+
 * {
 	box-sizing:border-box;
 	-moz-box-sizing:border-box;
@@ -165,7 +167,7 @@ footer{
 
 a{
 	cursor:pointer;
-	color:inherit;
+	color:@linkColor;
 
 	&.adorn-anchor{
 		position: relative;
@@ -598,7 +600,7 @@ table, .table{
 	.flex-display();
 	.flex-flow(row);
 	.justify-content(space-between);
-	left: @sidebarWidth;
+	left: 0;
 	right: 0;
 	margin: 0;
 	padding: 5px 10px;
@@ -622,14 +624,6 @@ table, .table{
 		white-space: normal;
 		display: inline-block;
 //		.animate(~"slideInUp 1s ease-out, fadeIn 1s ease-out");
-	}
-
-	@media @tablet {
-		left: 0;
-	}
-
-	.adorn-sidebar-off & {
-		left: 0;
 	}
 
 	&:after{
@@ -730,15 +724,14 @@ table, .table{
 /* Sidebar */
 
 .adorn-sidebar{
-    background: #4E5260;
-    color: white;
-    height: 100%;
-    left: 0;
+	@padding: 10px;
+    background: #eee;
+    max-height: calc(100% - @toolbarWidth);
+    left: @padding;
     overflow: auto;
-    padding: 10px;
-    padding-top: @toolbarWidth;	
+    padding: @padding;
     position: fixed;
-    top: 0;
+    top: @toolbarWidth;	
     width: @sidebarWidth;
 
 	.animate( ~"fadeIn 1s ease");
@@ -749,6 +742,11 @@ table, .table{
 
     a {
     	text-decoration:none;
+	    color: inherit;
+
+	    &:hover {
+			color: @linkColor;
+    	}
     }
 
     ul, li{
@@ -760,12 +758,12 @@ table, .table{
     	margin:0 -10px;
     }
 
-    li{
+    li {
     	list-style:none;
     	padding:0 10px;
 
-    	&.selected{
-    		background: rgba(0,0,0,0.5);
+    	&.selected > a{
+			color: @linkColor;
     	}
 
     	li {
