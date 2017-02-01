@@ -89,9 +89,20 @@ function setup(base, manifest = {}) {
 	}
 
 	// Service Workers
-	if ('serviceWorker' in navigator) {
+	let sw = meta('sw') || meta('serviceworker');
 
-		let sw = meta('sw') || meta('serviceworker') || manifest['sw'] || manifest['serviceworker'];
+	if (sw) {
+		sw = fullpath(sw);
+	}
+	else {
+		sw = manifest['sw'] || manifest['serviceworker'];
+
+		if (sw) {
+			sw = fullpath(sw, base);
+		}
+	}
+
+	if (sw && 'serviceWorker' in navigator) {
 
 		navigator.serviceWorker.register(sw).then(reg => {
 			// Registration was successful
@@ -100,5 +111,19 @@ function setup(base, manifest = {}) {
 			// registration failed :(
 			console.log('Adorn: ServiceWorker registration failed: ', err);
 		});
+
+		// Pass any offline fetch handling too
+		const fallover = manifest['fallover'];
+		if (fallover) {
+			// Loop through all the data
+			fallover.forEach(item => {
+				const type = 'fallover';
+				let {fallover, mode} = item;
+				fallover = fullpath(fallover, base);
+
+				// Post to the service workers
+				navigator.serviceWorker.controller.postMessage({type, fallover, mode});
+			});
+		}		
 	}
 }
