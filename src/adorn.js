@@ -89,50 +89,53 @@ function setup(base, manifest = {}) {
 	}
 
 	// Service Workers
-	let sw = meta('sw') || meta('serviceworker');
+	{
 
-	if (sw) {
-		sw = fullpath(sw);
-	}
-	else {
-		sw = manifest['sw'] || manifest['serviceworker'];
+		let sw = meta('sw') || meta('serviceworker');
 
 		if (sw) {
-			sw = fullpath(sw, base);
+			sw = fullpath(sw);
 		}
-	}
+		else {
+			sw = manifest['sw'] || manifest['serviceworker'];
 
-	if (sw && 'serviceWorker' in navigator) {
+			if (sw) {
+				sw = fullpath(sw, base);
+			}
+		}
 
 		const serviceWorker = navigator.serviceWorker;
 
-		serviceWorker.ready.then(() => {
+		if (sw && serviceWorker) {
 
-			// Pass any offline fetch handling too
-			const fallover = manifest['fallover'];
-			if (fallover) {
+			serviceWorker.ready.then(() => {
 
-				console.log('Adorn: ServiceWorker ready: Posting fallover');
-	
-				// Loop through all the data
-				fallover.forEach(item => {
-					const type = 'fallover';
-					let {fallover, mode} = item;
-					fallover = fullpath(fallover, base);
+				// Pass any offline fetch handling too
+				const fallover = manifest['fallover'];
+				if (fallover) {
 
-					// Post to the service workers
-					serviceWorker.controller.postMessage({type, fallover, mode});
-				});
-			}
-		});
+					console.log('Adorn: SW ready: Posting fallover');
 
-		serviceWorker.register(sw).then(reg => {
-			// Registration was successful
-			console.log('Adorn: ServiceWorker registration successful with scope: ', reg.scope);
-		}).catch(err => {
-			// registration failed :(
-			console.log('Adorn: ServiceWorker registration failed: ', err);
-		});
-	
+					// Loop through the fallover list...
+					fallover.forEach(item => {
+						const type = 'fallover';
+						let {fallover, mode} = item;
+						fallover = fullpath(fallover, base);
+
+						// Post to the service workers
+						serviceWorker.controller.postMessage({type, fallover, mode});
+					});
+				}
+			});
+
+			serviceWorker.register(sw).then(reg => {
+				// Registration was successful
+				console.log('Adorn: SW registration successful with scope: ', reg.scope);
+			}).catch(err => {
+				// registration failed :(
+				console.log('Adorn: SW registration failed: ', err);
+			});
+
+		}
 	}
 }
