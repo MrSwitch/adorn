@@ -1,3 +1,0 @@
-[submodule "src/utils"]
-	path = src/node_modules/tricks
-	url = https://github.com/MrSwitch/tricks.git

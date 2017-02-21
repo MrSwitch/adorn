@@ -48,13 +48,15 @@ cordovaLinks();
 
 
 // Setup function to be called when the body and the manifest exist.
-function setup(base, manifest = {}) {
+function setup(base, manifest) {
 
 	if (!document.body) {
 		// Just in case...
 		ready(setup.bind(null, base, manifest));
 		return;
 	}
+
+	manifest = manifest || {};
 
 	// Favicon
 	manifest.favicon = meta('favicon') || fullpath(manifest.favicon, base) || '/favicon.ico';

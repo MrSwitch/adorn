@@ -16,7 +16,14 @@ let minifyCSS = require('gulp-minify-css');
 
 gulp.task('build', () => {
 	browserify('./src/adorn.js', {debug: true})
-	.transform(babelify)
+	.transform(babelify, {
+		presets: ['es2015',
+			['env', {
+				include: ['es6.object.assign', 'es6.promise']
+			}]
+		],
+		plugins: ['transform-object-assign'] //add-module-exports allows mixing of commonJs and ES6 exports
+	})
 	.bundle()
 	.on('error', util.log.bind(util, 'Browserify Error'))
 	.pipe(source('./adorn.js'))
