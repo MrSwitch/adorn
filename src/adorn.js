@@ -4,6 +4,8 @@
 import json from 'tricks/http/json';
 import fullpath from 'tricks/string/fullpath';
 import meta from 'tricks/dom/meta';
+import hasClass from 'tricks/dom/hasClass';
+import documentElement from 'tricks/dom/documentElement';
 import ready from 'tricks/events/ready';
 
 // Touch exists?
@@ -68,7 +70,7 @@ function setup(base, manifest) {
 	manifest.root = meta('root') || fullpath(manifest.root || '/', base);
 
 	// Markup
-	{
+	if (!hasClass(documentElement, 'no-adorn')) {
 		// Toolbar
 		toolbar(manifest);
 
