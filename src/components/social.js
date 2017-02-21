@@ -10,35 +10,35 @@ import query from 'tricks/dom/query';
 import popup from 'tricks/window/popup';
 import fullpath from 'tricks/string/fullpath';
 
-let link = (str) => {
-	let a = query('link[rel=source]');
+const link = () => {
+	const a = query('link[rel=source]');
 	if (a) {
 		return a.getAttribute('href');
 	}
 };
 
-let url = window.location.href;
+const url = window.location.href;
 
 export function github_btn(manifest) {
 
-	let content = [];
-	let paths = manifest.paths;
+	const content = [];
+	const paths = manifest.paths;
 
 	// GITHUB
 	if (manifest.github) {
 
 		// Repo
-		var repo = manifest.github;
+		let repo = manifest.github;
 		if (!repo.match('/') && paths.length) {
-			repo += '/' + paths[0].replace(/\/$/, '');
+			repo += `/${ paths[0].replace(/\/$/, '')}`;
 		}
 
 		if (repo.match('/')) {
 
-			let repo_path = `https://github.com/${repo}`;
+			const repo_path = `https://github.com/${repo}`;
 
 			// Get the location of this file in the repo
-			let repo_file = link('source') || (window.location.pathname || '').replace(/^\/?([^\/]+)/g, '').replace(/\/$/, 'index.html').replace(/^\//, '');
+			const repo_file = link('source') || (window.location.pathname || '').replace(/^\/?([^\/]+)/g, '').replace(/\/$/, 'index.html').replace(/^\//, '');
 
 			content.push(
 				create('a', {
@@ -55,8 +55,8 @@ export function github_btn(manifest) {
 					title: 'Stars',
 					id: 'adorn-github-button'
 				}, [
-					create('i', {'class': "adorn-icon-github"}),
-					create('span', {'class': "adorn-speeach-bubble"})
+					create('i', {class: 'adorn-icon-github'}),
+					create('span', {class: 'adorn-speeach-bubble'})
 				])
 			);
 
@@ -83,10 +83,10 @@ export function github_btn(manifest) {
 export function twitter_btn (manifest) {
 
 	// Content
-	let content = [];
+	const content = [];
 
 	// TWITTER
-	var twitter_creator = manifest['twitter:creator'] || meta('twitter:creator');
+	const twitter_creator = manifest['twitter:creator'] || meta('twitter:creator');
 
 	// If we dont have a creator, do nothing
 	if (!twitter_creator) {
@@ -95,37 +95,37 @@ export function twitter_btn (manifest) {
 
 
 	// Create components
-	let btn = create('a', {
+	const btn = create('a', {
 		href: 'https://twitter.com/share',
-		'class': 'adorn-twitter-button',
+		class: 'adorn-twitter-button',
 		target: '_blank',
 		'data-via': twitter_creator.replace('@', ''),
 		title: 'Tweet'
 	}, [
-		create('i', {'class': "adorn-icon-twitter"})
+		create('i', {class: 'adorn-icon-twitter'})
 	]);
 
 	content.push(
 		btn,
 		create('a', {
-			href: 'https://twitter.com/search?ref_src=twsrc%5Etfw&q=' + encodeURIComponent(url),
-			'class': 'adorn-twitter-count',
+			href: `https://twitter.com/search?ref_src=twsrc%5Etfw&q=${ encodeURIComponent(url)}`,
+			class: 'adorn-twitter-count',
 			target: '_blank'
 		}, [
-			create('i', {'class': "adorn-speeach-bubble"})
+			create('i', {class: 'adorn-speeach-bubble'})
 		])
 	);
 
 
 	// Probably could make this a little more ajaxy
-	jsonp('https://cdn.syndication.twitter.com/widgets/tweetbutton/count.json?url=' + encodeURIComponent(url), r => {
+	jsonp(`https://cdn.syndication.twitter.com/widgets/tweetbutton/count.json?url=${ encodeURIComponent(url)}`, r => {
 		// Add value to twitter icon
 		if (!r) {
 			return;
 		}
 		each('.adorn-twitter-count span.adorn-speeach-bubble', item => {
 			item.innerHTML = r.count || '';
-			item.title = 'This page has been shared ' + r.count + ' times, view these tweets';
+			item.title = `This page has been shared ${ r.count } times, view these tweets`;
 		});
 	});
 
@@ -135,23 +135,23 @@ export function twitter_btn (manifest) {
 
 		e.preventDefault();
 
-		let options = {
+		const options = {
 			width: 550,
 			height: 250
 		};
 
-		let params = {
+		const params = {
 			text: document.title,
 			via: twitter_creator.replace('@', ''),
 			url: window.location.href.replace(/#.*/, '')
 		};
 
-		var hashtag = meta('twitter:hashtag') || manifest['twitter:hashtag'];
+		const hashtag = meta('twitter:hashtag') || manifest['twitter:hashtag'];
 		if (hashtag) {
 			params.hashtag = hashtag;
 		}
 
-		popup('https://twitter.com/intent/tweet?' + querystringify(params), 'twitter', options);
+		popup(`https://twitter.com/intent/tweet?${ querystringify(params)}`, 'twitter', options);
 	});
 
 	return fragment(...content);

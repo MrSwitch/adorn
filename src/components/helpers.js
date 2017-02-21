@@ -16,7 +16,7 @@ export default () => {
 
 	// TryIt, View
 	each('script', script => {
-		var func = script.getAttribute('data-tryit');
+		const func = script.getAttribute('data-tryit');
 		if (func) {
 			// Create a button and insert it after the pre tag
 			tryitButton(script, window[func]);
@@ -40,11 +40,11 @@ export default () => {
 			});
 		}
 	});
-}
+};
 
 function tryitButton(pre, func) {
 
-	var btn = create('button', {'class': 'tryit'}, ['tryit']);
+	const btn = create('button', {class: 'tryit'}, ['tryit']);
 
 	insertAfter(btn, pre);
 
@@ -54,7 +54,8 @@ function tryitButton(pre, func) {
 		}
 		else if (typeof(tryit) === 'function' && !tryit(pre.innerText)) {
 			return;
-		} else {
+		}
+		else {
 			setTimeout(() => eval(pre.innerText), 100);
 		}
 	});

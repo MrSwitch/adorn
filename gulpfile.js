@@ -1,27 +1,23 @@
 /*eslint no-console:0*/
 'use strict';
 
-let gulp = require('gulp');
-let browserify = require('browserify');
-let babelify = require('babelify');
-let util = require('gulp-util');
-let buffer = require('vinyl-buffer');
-let source = require('vinyl-source-stream');
-let uglify = require('gulp-uglify');
-let sourcemaps = require('gulp-sourcemaps');
-let args = require('yargs').argv;
-let gulpif = require('gulp-if');
-let less = require('gulp-less');
-let minifyCSS = require('gulp-minify-css');
+const gulp = require('gulp');
+const browserify = require('browserify');
+const babelify = require('babelify');
+const util = require('gulp-util');
+const buffer = require('vinyl-buffer');
+const source = require('vinyl-source-stream');
+const uglify = require('gulp-uglify');
+const sourcemaps = require('gulp-sourcemaps');
+const args = require('yargs').argv;
+const gulpif = require('gulp-if');
+const less = require('gulp-less');
+const minifyCSS = require('gulp-minify-css');
 
 gulp.task('build', () => {
 	browserify('./src/adorn.js', {debug: true})
 	.transform(babelify, {
-		presets: ['es2015',
-			['env', {
-				include: ['es6.object.assign', 'es6.promise']
-			}]
-		],
+		presets: ['es2015'],
 		plugins: ['transform-object-assign'] //add-module-exports allows mixing of commonJs and ES6 exports
 	})
 	.bundle()
@@ -38,13 +34,11 @@ gulp.task('build', () => {
 gulp.task('default', ['build']);
 
 gulp.task('watch', ['build', 'less'], () => {
-   gulp.watch('src/**/*.js', ['build']);
-   gulp.watch('src/**/*.less', ['less']);
+	gulp.watch('src/**/*.js', ['build']);
+	gulp.watch('src/**/*.less', ['less']);
 });
 
-gulp.task('less', () => {
-  return gulp.src('./src/adorn.less')
+gulp.task('less', () => gulp.src('./src/adorn.less')
     .pipe(less())
 	.pipe(minifyCSS())
-    .pipe(gulp.dest('./'));
-});
+    .pipe(gulp.dest('./')));

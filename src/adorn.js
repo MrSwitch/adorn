@@ -108,7 +108,7 @@ function setup(base, manifest) {
 
 		const serviceWorker = navigator.serviceWorker;
 
-		if (sw && serviceWorker) {
+		if(sw && serviceWorker) {
 
 			serviceWorker.ready.then(() => {
 

@@ -10,11 +10,11 @@ export default manifest => {
 
 		ready(() => {
 
-			var author = manifest.author.split(/\s*, \s*/);
+			const author = manifest.author.split(/\s*, \s*/);
 
 			if (author) {
 
-				var children = ['Authored by '];
+				const children = ['Authored by '];
 
 				if (author[1]) {
 					children.push(
@@ -36,4 +36,4 @@ export default manifest => {
 
 		});
 	}
-}
+};

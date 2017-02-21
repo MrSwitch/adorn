@@ -11,13 +11,13 @@ import Defer from 'tricks/object/Defer';
 import sleep from 'tricks/time/sleep';
 
 // Pending
-var defer = new Defer();
+const defer = new Defer();
 
 // Once the DOM has loaded we can get all the h1,h2 elements in the page
 ready(() => {
 
 	// TOC
-	var headings = each('h1,h2');
+	const headings = each('h1,h2');
 
 	if (!document.querySelector || !!(document.documentElement.className || '').match(/adorn-(nav|toc)-off/)) {
 		// This feature is disabled
@@ -28,20 +28,20 @@ ready(() => {
 	each(headings, tag => {
 
 		// Get the ID of the tag
-		var ref = id(tag);
+		const ref = id(tag);
 
 		// Create an anchor for this tag
-		tag.insertBefore(create('a', {name: ref, href: '#' + ref, 'class': 'adorn-anchor'}), tag.firstChild);
+		tag.insertBefore(create('a', {name: ref, href: `#${ ref}`, class: 'adorn-anchor'}), tag.firstChild);
 	});
 
 
 	{
-		let hash = window.location.hash;
+		const hash = window.location.hash;
 
 		if (hash && hash.length > 2) {
 
 			// If the location.hash is defined, lets navigate to the item
-			let selected = document.querySelector(window.location.hash);
+			const selected = document.querySelector(window.location.hash);
 			if (selected) {
 				selected.scrollIntoView();
 			}
@@ -60,7 +60,7 @@ ready(() => {
 	defer.resolve(headings);
 
 	// Get a sleepid
-	let sleepId = sleep();
+	const sleepId = sleep();
 
 	// Listen to scroll navigation position
 	on(window, 'scroll', () => {
@@ -75,7 +75,7 @@ ready(() => {
 // Navigation
 // ///////////////////////////////////
 
-export default (callback) => {
+export default callback => {
 
 	defer.push(callback);
 
@@ -92,23 +92,23 @@ function updateHashLocation (headings) {
 
 	// from the list of items
 	// find the one which is in view on the page
-	var T = window.scrollY || window.pageYOffset;
-	var H = window.innerHeight;
+	const T = window.scrollY || window.pageYOffset;
+	const H = window.innerHeight;
 
-	var toolbar = document.querySelector('.adorn-toolbar');
+	const toolbar = document.querySelector('.adorn-toolbar');
 
-	var tag;
+	let tag;
 
-	var toolbar_height = (toolbar && toolbar.offsetHeight) || 50;
+	const toolbar_height = (toolbar && toolbar.offsetHeight) || 50;
 
 	// Is the current hash in the viewport
-	let hash = window.location.hash;
+	const hash = window.location.hash;
 
 	if (hash) {
-		let anchor = document.querySelector(hash);
+		const anchor = document.querySelector(hash);
 
 		if (anchor) {
-			let t = findPos(anchor)[1];
+			const t = findPos(anchor)[1];
 			if (t > T && t < T + H) {
 				// This is fine
 				return;
@@ -120,7 +120,7 @@ function updateHashLocation (headings) {
 	// Find the current selection
 	until(headings, anchor => {
 
-		var t = findPos(anchor)[1] + toolbar_height;
+		const t = findPos(anchor)[1] + toolbar_height;
 
 		if (T < t) {
 
@@ -136,15 +136,15 @@ function updateHashLocation (headings) {
 	// Has a tag been set?
 	if (tag) {
 		// Set as the current selected one
-		var ref = tag.getElementsByTagName('a')[0];
+		let ref = tag.getElementsByTagName('a')[0];
 
 		if (ref) {
 			ref = ref.getAttribute('href').replace(/^#/, '');
 		}
 
 		// Change the current window hash
-		if ('history' in window && 'replaceState' in window.history && window.location.hash !== '#' + ref) {
-			history.replaceState({}, document.title, '#' + ref);
+		if ('history' in window && 'replaceState' in window.history && window.location.hash !== `#${ ref}`) {
+			history.replaceState({}, document.title, `#${ ref}`);
 		}
 
 		// Trigger onhashchange

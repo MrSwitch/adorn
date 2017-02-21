@@ -1,7 +1,5 @@
 import each from 'tricks/dom/each';
-import until from 'tricks/dom/until';
 import addClass from 'tricks/dom/addClass';
-import on from 'tricks/events/on';
 import create from 'tricks/dom/create';
 import prepend from 'tricks/dom/prepend';
 import parent from 'tricks/dom/parent';
@@ -25,30 +23,30 @@ export default () => {
 		}
 
 		// Create a sidebar navigation on the body
-		let aside = prepend('aside', {'class':'adorn-sidebar'});
+		const aside = prepend('aside', {class: 'adorn-sidebar'});
 
 		// Create elements
 		let i = 0;
 		let prev = aside;
-		let items = {};
+		const items = {};
 
 		each(content, item => {
 
 			// New depth
-			let j = +item.tagName.match(/[0-9]/)[0];
+			const j = +item.tagName.match(/[0-9]/)[0];
 
 			// Get parent UL
-			let ul = getParentUL(prev, i, j);
+			const ul = getParentUL(prev, i, j);
 
 			// Update depth
 			i = j;
 
 			// Build list item
-			let text = (item.innerText || item.textContent || item.innerHTML);
-			let ref = id(item);
+			const text = (item.innerText || item.textContent || item.innerHTML);
+			const ref = id(item);
 
 			items[ref] = prev = create('li', {}, [
-				create('a', {href: '#' + ref}, [text])
+				create('a', {href: `#${ ref}`}, [text])
 			], ul);
 
 		});
@@ -57,7 +55,7 @@ export default () => {
 		onhashchange(hash => {
 
 			// Add Class
-			let item = items[hash];
+			const item = items[hash];
 			if (item) {
 
 				// Remove class
@@ -70,14 +68,14 @@ export default () => {
 
 	});
 
-}
+};
 
 function getParentUL(ul, i, j) {
 	if (i < j) {
 		return create('ul', {}, [], ul);
 	}
 	else {
-		do{
+		do {
 			ul = parent(ul, 'ul') || ul;
 		}
 		while (ul && i-- > j);
