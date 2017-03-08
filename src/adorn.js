@@ -3,6 +3,7 @@
 
 import json from 'tricks/http/json';
 import fullpath from 'tricks/string/fullpath';
+import attr from 'tricks/dom/attr';
 import meta from 'tricks/dom/meta';
 import link from 'tricks/dom/link';
 import create from 'tricks/dom/create';
@@ -79,6 +80,13 @@ function setup(base, manifest) {
 
 	// Root domain
 	manifest.root = meta('root') || fullpath(manifest.root || '/', base);
+
+	// Fix Up
+	{
+		// Update any anchors which use target=_blank without rel=noopener
+		attr('a[target=_blank]:not([rel=noopener])', {rel: 'noopener'});
+	}
+
 
 	// Markup
 	if (!hasClass(documentElement, 'no-adorn')) {
