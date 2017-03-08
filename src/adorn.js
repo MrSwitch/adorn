@@ -4,6 +4,8 @@
 import json from 'tricks/http/json';
 import fullpath from 'tricks/string/fullpath';
 import meta from 'tricks/dom/meta';
+import link from 'tricks/dom/link';
+import create from 'tricks/dom/create';
 import hasClass from 'tricks/dom/hasClass';
 import documentElement from 'tricks/dom/documentElement';
 import ready from 'tricks/events/ready';
@@ -38,10 +40,10 @@ import toolbar from './components/toolbar';
 // Get the manifest
 {
 	// Manifest
-	let manifest_json = meta('manifest') || '/manifest.json';
+	let manifest_path = meta('manifest') || link('manifest') || '/manifest.json';
 
 	// Set the toolbar, doesn't work if document body is undefined
-	json(manifest_json, setup.bind(null, manifest_json));
+	json(manifest_path, setup.bind(null, manifest_path));
 }
 
 // Is this a phonegap application?
@@ -51,6 +53,11 @@ cordovaLinks();
 
 // Setup function to be called when the body and the manifest exist.
 function setup(base, manifest) {
+
+	// Is the manifest link missing?
+	if (manifest && !(meta('manifest') || link('manifest'))) {
+		create('link', {rel: 'manifest', href: base}, [], document.head);
+	}
 
 	if (!document.body) {
 		// Just in case...

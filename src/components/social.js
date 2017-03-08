@@ -44,6 +44,7 @@ export function github_btn(manifest) {
 				create('a', {
 					href: fullpath(repo_file, `${repo_path}/blob/master/`),
 					target: '_blank',
+					rel: 'noopener',
 					id: 'adorn-edit'
 				}, [
 					'Edit this page'
@@ -52,6 +53,7 @@ export function github_btn(manifest) {
 				create('a', {
 					href: `${repo_path}`,
 					target: '_blank',
+					rel: 'noopener',
 					title: 'Stars',
 					id: 'adorn-github-button'
 				}, [
@@ -99,6 +101,7 @@ export function twitter_btn (manifest) {
 		href: 'https://twitter.com/share',
 		class: 'adorn-twitter-button',
 		target: '_blank',
+		rel: 'noopener',
 		'data-via': twitter_creator.replace('@', ''),
 		title: 'Tweet'
 	}, [
@@ -110,6 +113,7 @@ export function twitter_btn (manifest) {
 		create('a', {
 			href: `https://twitter.com/search?ref_src=twsrc%5Etfw&q=${ encodeURIComponent(url)}`,
 			class: 'adorn-twitter-count',
+			rel: 'noopener',
 			target: '_blank'
 		}, [
 			create('i', {class: 'adorn-speeach-bubble'})

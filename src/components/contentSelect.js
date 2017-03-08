@@ -27,7 +27,7 @@ export default parent => {
 function createContentSelect(headings) {
 	const toc = create('div', {class: 'adorn-toc'});
 
-	const select = create('select', {}, [], toc);
+	const select = create('select', {'aria-label': 'menu'}, [], toc);
 	const options = [];
 	on(select, 'change', () => {
 		window.location.hash = select.options[select.selectedIndex].value;
