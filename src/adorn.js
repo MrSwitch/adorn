@@ -58,6 +58,10 @@ function setup(base, manifest) {
 	if (manifest && !(meta('manifest') || link('manifest'))) {
 		create('link', {rel: 'manifest', href: base}, [], document.head);
 	}
+	// Is the theme_color missing
+	if (manifest && manifest.theme_color && !meta('theme-color')) {
+		create('meta', {name: 'theme-color', content: manifest.theme_color}, [], document.head);
+	}
 
 	if (!document.body) {
 		// Just in case...
