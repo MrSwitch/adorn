@@ -1,6 +1,6 @@
 {
   "name": "adorn",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Markup beautifier drop in script",
   "main": "adorn.js",
   "scripts": {
