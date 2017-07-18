@@ -38,7 +38,7 @@ export function github_btn(manifest) {
 			const repo_path = `https://github.com/${repo}`;
 
 			// Get the location of this file in the repo
-			const repo_file = link('source') || (window.location.pathname || '').replace(/^\/?([^\/]+)/g, '').replace(/\/$/, 'index.html').replace(/^\//, '');
+			const repo_file = link('source') || (window.location.pathname || '').replace(/^\/?([^/]+)/g, '').replace(/\/$/, 'index.html').replace(/^\//, '');
 
 			content.push(
 				create('a', {

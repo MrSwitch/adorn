@@ -25,7 +25,7 @@ export default manifest => {
 	// Trim the path
 	path = path.replace(/^\//g, '');
 
-	const paths = path.split(/([^\/]+\/?)/).filter(s => !!s);
+	const paths = path.split(/([^/]+\/?)/).filter(s => !!s);
 	manifest.paths = paths;
 
 	const crumbs = [

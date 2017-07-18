@@ -1,8 +1,15 @@
 {
-	"parser": "babel-eslint",
 	"extends": "eslint:recommended",
+	"parserOptions": {
+		"sourceType": "module"
+	},
+	"env": {
+		"es6": true,
+		"node": true,
+		"browser": true
+	},
 	"rules": {
-		"arrow-spacing": [2, { "before": true, "after": true }],
+		"arrow-spacing": [2, {"before": true, "after": true}],
 		"arrow-body-style": [2, "as-needed"],
 		"arrow-parens": [2, "as-needed"],
 		"array-bracket-spacing": [2, "never"],
@@ -10,13 +17,13 @@
 		"brace-style": [2, "stroustrup"],
 		"camelcase": 0,
 		"comma-dangle": 0,
-		"comma-spacing": [2, { "before": false, "after": true }],
+		"comma-spacing": [2, {"before": false, "after": true}],
 		"curly": 0,
 		"dot-notation": 2,
 		"eqeqeq": 2,
 		"func-call-spacing": 2,
 		"indent": [2, "tab", {"SwitchCase": 1}],
-		"key-spacing": [2, { "beforeColon": false }],
+		"key-spacing": [2, {"beforeColon": false}],
 		"keyword-spacing": [2, { "before": true }],
 		"linebreak-style": [2, "unix"],
 		"no-cond-assign": 2,
@@ -60,11 +67,5 @@
 		"space-infix-ops": [2, {"int32Hint": false}],
 		"space-in-parens": [2, "never"],
 		"valid-typeof": 2
-
-	},
-	"env": {
-		"es6": true,
-		"node": true,
-		"browser": true
 	}
 }
