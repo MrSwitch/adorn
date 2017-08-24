@@ -114,6 +114,7 @@ export function twitter_btn (manifest) {
 			href: `https://twitter.com/search?ref_src=twsrc%5Etfw&q=${ encodeURIComponent(url)}`,
 			class: 'adorn-twitter-count',
 			rel: 'noopener',
+			'aria-label': 'Twitter comments',
 			target: '_blank'
 		}, [
 			create('i', {class: 'adorn-speeach-bubble'})

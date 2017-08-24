@@ -46,7 +46,7 @@ export default () => {
 			const ref = id(item);
 
 			items[ref] = prev = create('li', {}, [
-				create('a', {href: `#${ ref}`}, [text])
+				create('a', {href: `#${ref}`}, [text])
 			], ul);
 
 		});

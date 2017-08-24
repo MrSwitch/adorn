@@ -31,7 +31,7 @@ ready(() => {
 		const ref = id(tag);
 
 		// Create an anchor for this tag
-		tag.insertBefore(create('a', {name: ref, href: `#${ ref}`, class: 'adorn-anchor'}), tag.firstChild);
+		tag.insertBefore(create('a', {name: ref, href: `#${ref}`, 'aria-label': `Jump to ${tag.innerText}`, class: 'adorn-anchor'}), tag.firstChild);
 	});
 
 

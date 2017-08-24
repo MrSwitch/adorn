@@ -3,7 +3,6 @@
 
 import json from 'tricks/http/json';
 import fullpath from 'tricks/string/fullpath';
-import attr from 'tricks/dom/attr';
 import meta from 'tricks/dom/meta';
 import link from 'tricks/dom/link';
 import create from 'tricks/dom/create';
@@ -18,13 +17,16 @@ import 'tricks/support/touch';
 import 'tricks/support/html5';
 
 // fix viewport in mobile
-import 'tricks/support/viewport';
+import './components/viewport';
 
 // Phonegap Shim
 import cordovaLinks from 'tricks/helper/cordovaExternalLinks';
 
 // Analytics
 import ga from 'tricks/services/googleanalytics';
+
+// Components
+import './components/security';
 
 // Components
 import helpers from './components/helpers';
@@ -80,13 +82,6 @@ function setup(base, manifest) {
 
 	// Root domain
 	manifest.root = meta('root') || fullpath(manifest.root || '/', base);
-
-	// Fix Up
-	{
-		// Update any anchors which use target=_blank without rel=noopener
-		attr('a[target=_blank]:not([rel=noopener])', {rel: 'noopener'});
-	}
-
 
 	// Markup
 	if (!hasClass(documentElement, 'no-adorn')) {
