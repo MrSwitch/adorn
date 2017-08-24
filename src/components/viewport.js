@@ -2,7 +2,7 @@ import insertBefore from 'tricks/dom/insertBefore';
 import create from 'tricks/dom/create';
 import find from 'tricks/dom/find';
 
-if (!find('meta')) {
+if (!find('meta[name=viewport]')) {
 
 	// Insert Meta Tag
 	insertBefore(create('meta', {
