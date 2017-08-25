@@ -95,6 +95,13 @@ function setup(base, manifest) {
 		footer(manifest);
 	}
 
+	// Set Lang
+	if (!documentElement.getAttribute('lang')) {
+
+		// Choose the manifest data or english
+		documentElement.setAttribute('lang', manifest.lang || 'en');
+	}
+
 	// Analytics
 	{
 
