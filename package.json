@@ -38,6 +38,6 @@
     "yargs": "^8.0.2"
   },
   "dependencies": {
-    "tricks": "^1.7.2"
+    "tricks": "^1.7.3"
   }
 }
