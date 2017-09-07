@@ -3,7 +3,7 @@ import URL from 'tricks/window/url';
 import ltrim from 'tricks/string/ltrim';
 import insertBefore from 'tricks/dom/insertBefore';
 import contentSelect from './contentSelect';
-import {twitter_btn, github_btn} from './social';
+import {twitter_btn, github_btn, share_btn} from './social';
 
 // ///////////////////////////////////
 // TOOLBAR
@@ -56,7 +56,7 @@ export default manifest => {
 			create('span'),
 			twitter_btn(manifest),
 			create('span'),
-			share(manifest)
+			share_btn(manifest)
 		]);
 
 	// Append

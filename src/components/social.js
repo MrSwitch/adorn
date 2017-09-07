@@ -163,10 +163,10 @@ export function twitter_btn (manifest) {
 }
 
 
-export function share (manifest) {
+export function share_btn () {
 
 	// Does this browser support the native Share API
-	if (!("share" in navigator)) {
+	if (!('share' in navigator)) {
 		return;
 	}
 
@@ -181,14 +181,18 @@ export function share (manifest) {
 		title: 'Share'
 	});
 
-	on(btn, 'click', e => {
+	on(btn, 'click', () => {
 		navigator.share({
-		  title: document.title,
-		  text: document.title,
-		  url: location.href
+			title: document.title,
+			text: document.title,
+			url: location.href
 		})
-		.then(() => console.log('Successful share'))
-		.catch((error) => console.log('Error sharing', error));
+			.then(() => {
+				btn.style.color = 'green';
+			})
+			.catch(() => {
+				btn.style.color = 'red';
+			});
 	});
 
 	return fragment(...content);

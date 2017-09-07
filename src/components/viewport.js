@@ -8,5 +8,5 @@ if (!query('meta[name=viewport]')) {
 	insertBefore(create('meta', {
 		name: 'viewport',
 		content: 'width=device-width, initial-scale=1.0'
-	}), document.getElementsByTagName('script')[0]);	
+	}), document.getElementsByTagName('script')[0]);
 }
