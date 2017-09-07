@@ -181,6 +181,8 @@ export function share_btn () {
 		title: 'Share'
 	});
 
+	content.push(btn);
+
 	on(btn, 'click', () => {
 		navigator.share({
 			title: document.title,
