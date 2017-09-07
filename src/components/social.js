@@ -156,7 +156,39 @@ export function twitter_btn (manifest) {
 			params.hashtag = hashtag;
 		}
 
-		popup(`https://twitter.com/intent/tweet?${ querystringify(params)}`, 'twitter', options);
+		popup(`https://twitter.com/intent/tweet?${querystringify(params)}`, 'twitter', options);
+	});
+
+	return fragment(...content);
+}
+
+
+export function share (manifest) {
+
+	// Does this browser support the native Share API
+	if (!("share" in navigator)) {
+		return;
+	}
+
+	// Content
+	const content = [];
+
+	// Create components
+	const btn = create('button', {
+		class: 'adorn-icon-share',
+		target: '_blank',
+		rel: 'noopener',
+		title: 'Share'
+	});
+
+	on(btn, 'click', e => {
+		navigator.share({
+		  title: document.title,
+		  text: document.title,
+		  url: location.href
+		})
+		.then(() => console.log('Successful share'))
+		.catch((error) => console.log('Error sharing', error));
 	});
 
 	return fragment(...content);

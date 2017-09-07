@@ -54,7 +54,9 @@ export default manifest => {
 		[
 			github_btn(manifest),
 			create('span'),
-			twitter_btn(manifest)
+			twitter_btn(manifest),
+			create('span'),
+			share(manifest)
 		]);
 
 	// Append
