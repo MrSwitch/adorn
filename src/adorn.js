@@ -5,6 +5,7 @@ import json from 'tricks/http/json';
 import fullpath from 'tricks/string/fullpath';
 import meta from 'tricks/dom/meta';
 import link from 'tricks/dom/link';
+import query from 'tricks/dom/query';
 import create from 'tricks/dom/create';
 import hasClass from 'tricks/dom/hasClass';
 import documentElement from 'tricks/dom/documentElement';
@@ -43,7 +44,7 @@ import toolbar from './components/toolbar';
 // Get the manifest
 {
 	// Manifest
-	let manifest_path = meta('manifest') || link('manifest') || '/manifest.json';
+	const manifest_path = meta('manifest') || link('manifest') || '/manifest.json';
 
 	// Set the toolbar, doesn't work if document body is undefined
 	json(manifest_path, setup.bind(null, manifest_path));
@@ -111,7 +112,7 @@ function setup(base, manifest) {
 	// Analytics
 	{
 
-		let tracking = meta('ga:tracking') || manifest['ga:tracking'];
+		const tracking = meta('ga:tracking') || manifest['ga:tracking'];
 
 		if (tracking) {
 			ga(tracking);
@@ -128,7 +129,7 @@ function setup(base, manifest) {
 			sw = fullpath(sw);
 		}
 		else {
-			sw = manifest['sw'] || manifest['serviceworker'];
+			sw = manifest.sw || manifest.serviceworker;
 
 			if (sw) {
 				sw = fullpath(sw, base);
@@ -137,20 +138,18 @@ function setup(base, manifest) {
 
 		const serviceWorker = navigator.serviceWorker;
 
-		if(sw && serviceWorker) {
+		if (sw && serviceWorker) {
 
 			serviceWorker.ready.then(() => {
 
 				// Pass any offline fetch handling too
-				const fallover = manifest['fallover'];
+				const fallover = manifest.fallover;
 				if (fallover) {
-
-					console.log('Adorn: SW ready: Posting fallover');
-
 					// Loop through the fallover list...
 					fallover.forEach(item => {
 						const type = 'fallover';
-						let {fallover, mode} = item;
+						const {mode} = item;
+						let {fallover} = item;
 						fallover = fullpath(fallover, base);
 
 						// Post to the service workers
@@ -159,12 +158,9 @@ function setup(base, manifest) {
 				}
 			});
 
-			serviceWorker.register(sw).then(reg => {
-				// Registration was successful
-				console.log('Adorn: SW registration successful with scope: ', reg.scope);
-			}).catch(err => {
+			serviceWorker.register(sw).catch(err => {
 				// registration failed :(
-				console.log('Adorn: SW registration failed: ', err);
+				console.error('Adorn: SW registration failed: ', err); // eslint-disable-line
 			});
 
 		}
