@@ -102,6 +102,12 @@ function setup(base, manifest) {
 		documentElement.setAttribute('lang', manifest.lang || 'en');
 	}
 
+	// Fill missing <Title>
+	if (!document.title) {
+		// Get it from the first H1 Element
+		document.title = query('h1,h2').textContent || '';
+	}
+
 	// Analytics
 	{
 
