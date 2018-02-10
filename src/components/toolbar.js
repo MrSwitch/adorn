@@ -59,6 +59,12 @@ export default manifest => {
 			share_btn(manifest)
 		]);
 
+	// If Navbar Shoutout
+	if (manifest.shoutout) {
+		social_btns.appendChild(create('span'));
+		social_btns.insertAdjacentHTML('beforeend', manifest.shoutout);
+	}
+
 	// Append
 	const aside = create('aside', {class: 'adorn-toolbar'},
 		[
