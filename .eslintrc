@@ -1,13 +1,20 @@
 {
 	"extends": "eslint:recommended",
 	"parserOptions": {
-		"sourceType": "module"
+		"ecmaVersion": 8,
+		"sourceType": "module",
+		"ecmaFeatures": {
+			"experimentalObjectRestSpread": true
+		}
 	},
 	"env": {
 		"es6": true,
 		"node": true,
 		"browser": true
 	},
+	"plugins": [
+		"promise"
+	],
 	"rules": {
 		"arrow-spacing": [2, {"before": true, "after": true}],
 		"arrow-body-style": [2, "as-needed"],
@@ -57,8 +64,10 @@
 		"prefer-arrow-callback": 2,
 		"prefer-rest-params": 2,
 		"prefer-const": 2,
+		"prefer-promise-reject-errors": 2,
 		"prefer-spread": 2,
 		"prefer-template": 2,
+		"promise/prefer-await-to-then": 2,
 		"quote-props": [2, "as-needed"],
 		"quotes": [2, "single"],
 		"semi": [2, "always"],

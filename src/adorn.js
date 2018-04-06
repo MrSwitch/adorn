@@ -1,6 +1,8 @@
 /*!*/
 /*! Adorn by Andrew Dodson, https://adodson.com/adorn/LICENSE (MIT) */
 
+import './adorn.less';
+
 import json from 'tricks/http/json';
 import fullpath from 'tricks/string/fullpath';
 import meta from 'tricks/dom/meta';
@@ -56,7 +58,7 @@ cordovaLinks();
 
 
 // Setup function to be called when the body and the manifest exist.
-function setup(base, manifest) {
+async function setup(base, manifest) {
 
 	// Is the manifest link missing?
 	if (manifest && !(meta('manifest') || link('manifest'))) {
@@ -140,23 +142,23 @@ function setup(base, manifest) {
 
 		if (sw && serviceWorker) {
 
-			serviceWorker.ready.then(() => {
+			// Await for ready...
+			await serviceWorker.ready;
 
-				// Pass any offline fetch handling too
-				const fallover = manifest.fallover;
-				if (fallover) {
-					// Loop through the fallover list...
-					fallover.forEach(item => {
-						const type = 'fallover';
-						const {mode} = item;
-						let {fallover} = item;
-						fallover = fullpath(fallover, base);
+			// Pass any offline fetch handling too
+			const fallover = manifest.fallover;
+			if (fallover) {
+				// Loop through the fallover list...
+				fallover.forEach(item => {
+					const type = 'fallover';
+					const {mode} = item;
+					let {fallover} = item;
+					fallover = fullpath(fallover, base);
 
-						// Post to the service workers
-						serviceWorker.controller.postMessage({type, fallover, mode});
-					});
-				}
-			});
+					// Post to the service workers
+					serviceWorker.controller.postMessage({type, fallover, mode});
+				});
+			}
 
 			serviceWorker.register(sw).catch(err => {
 				// registration failed :(
