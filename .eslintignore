@@ -1,3 +1,4 @@
-/node_modules/
-/adorn.js
-/src/utils/
+node_modules/
+adorn.js
+src/utils/
+_site/

@@ -26,25 +26,26 @@
   "homepage": "https://github.com/MrSwitch/adorn",
   "devDependencies": {
     "babel-plugin-transform-object-assign": "^6.22.0",
-    "babel-preset-env": "^1.6.0",
+    "babel-preset-env": "^1.6.1",
     "babel-preset-es2015": "^6.24.1",
     "babelify": "^7.3.0",
-    "browserify": "^14.4.0",
-    "bundle-collapser": "^1.2.1",
-    "eslint": "^4.2.0",
+    "browserify": "^14.5.0",
+    "bundle-collapser": "^1.3.0",
+    "eslint": "^4.19.1",
     "gulp": "^3.9.1",
     "gulp-if": "^2.0.2",
-    "gulp-less": "^3.3.2",
+    "gulp-less": "^3.5.0",
     "gulp-minify-css": "^1.2.4",
-    "gulp-sourcemaps": "^2.6.0",
+    "gulp-sourcemaps": "^2.6.4",
     "gulp-uglify": "^3.0.0",
     "gulp-util": "^3.0.8",
     "pre-commit": "^1.2.2",
-    "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.1.0",
+    "vinyl-buffer": "^1.0.1",
+    "vinyl-source-stream": "^1.1.2",
     "yargs": "^8.0.2"
   },
   "dependencies": {
+    "eslint-plugin-promise": "^3.7.0",
     "tricks": "^1.7.3"
   }
 }
