@@ -67,7 +67,7 @@
 		"prefer-promise-reject-errors": 2,
 		"prefer-spread": 2,
 		"prefer-template": 2,
-		"promise/prefer-await-to-then": 2,
+		"promise/prefer-await-to-then": 0,
 		"quote-props": [2, "as-needed"],
 		"quotes": [2, "single"],
 		"semi": [2, "always"],

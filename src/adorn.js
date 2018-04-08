@@ -58,7 +58,7 @@ cordovaLinks();
 
 
 // Setup function to be called when the body and the manifest exist.
-async function setup(base, manifest) {
+function setup(base, manifest) {
 
 	// Is the manifest link missing?
 	if (manifest && !(meta('manifest') || link('manifest'))) {
@@ -143,22 +143,23 @@ async function setup(base, manifest) {
 		if (sw && serviceWorker) {
 
 			// Await for ready...
-			await serviceWorker.ready;
+			serviceWorker.ready.then(() => {
 
-			// Pass any offline fetch handling too
-			const fallover = manifest.fallover;
-			if (fallover) {
-				// Loop through the fallover list...
-				fallover.forEach(item => {
-					const type = 'fallover';
-					const {mode} = item;
-					let {fallover} = item;
-					fallover = fullpath(fallover, base);
+				// Pass any offline fetch handling too
+				const fallover = manifest.fallover;
+				if (fallover) {
+					// Loop through the fallover list...
+					fallover.forEach(item => {
+						const type = 'fallover';
+						const {mode} = item;
+						let {fallover} = item;
+						fallover = fullpath(fallover, base);
 
-					// Post to the service workers
-					serviceWorker.controller.postMessage({type, fallover, mode});
-				});
-			}
+						// Post to the service workers
+						serviceWorker.controller.postMessage({type, fallover, mode});
+					});
+				}
+			});
 
 			serviceWorker.register(sw).catch(err => {
 				// registration failed :(
