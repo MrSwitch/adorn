@@ -183,15 +183,15 @@ export function share_btn () {
 
 	content.push(btn);
 
-	on(btn, 'click', async () => {
+	on(btn, 'click', () => {
 		try {
-			await navigator.share({
+			navigator.share({
 				title: document.title,
 				text: document.title,
 				url: location.href
+			}).then(() => {
+				btn.style.color = 'green';
 			});
-
-			btn.style.color = 'green';
 		}
 		catch (e) {
 			btn.style.color = 'red';
