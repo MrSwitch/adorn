@@ -7,7 +7,7 @@ const {
 	WATCH
 } = process.env;
 
-const config = {
+const configJS = {
 	watch: !!WATCH, //eslint-disable-line
 	mode: !WATCH ? 'production' : 'development',
 	entry: {
@@ -29,6 +29,49 @@ const config = {
 			},
 			{
 				test: /\.less$/i,
+				use: [
+					{
+						loader: 'style-loader' // creates style nodes from JS strings
+					},
+					{
+						loader: 'css-loader',
+						options: {
+							minimize: true
+						}
+					},
+					'less-loader'
+				]
+			}
+		]
+	},
+	resolve: {
+		// directories where to look for modules
+		modules: [
+			'node_modules',
+		],
+
+		// extensions that are used
+		extensions: ['.js'],
+	},
+	plugins: []
+};
+
+
+const configCSS = {
+	watch: !!WATCH, //eslint-disable-line
+	mode: !WATCH ? 'production' : 'development',
+	entry: {
+		adorn: './src/adorn.less'
+	},
+	output: {
+		path: __dirname,
+		filename: '[name].css',
+	},
+	devtool: 'source-map',
+	module: {
+		rules: [
+			{
+				test: /\.less$/i,
 				use: ExtractTextPlugin.extract({
 					use: [
 						{
@@ -42,15 +85,6 @@ const config = {
 				})
 			}
 		]
-	},
-	resolve: {
-		// directories where to look for modules
-		modules: [
-			'node_modules',
-		],
-
-		// extensions that are used
-		extensions: ['.js'],
 	},
 
 	// Plugins
@@ -91,7 +125,7 @@ if (!WATCH) {
 		'process.env.NODE_ENV': JSON.stringify('production')
 	});
 
-	config.plugins.push(uglifyPlugin, prodModePlugin);
+	configJS.plugins.push(uglifyPlugin, prodModePlugin);
 }
 
-module.exports = config;
+module.exports = [configJS, configCSS];
