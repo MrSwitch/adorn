@@ -1,8 +1,8 @@
 # Adorn
 
-> More of a concept than a repo.
+Adorn is a theme for *plain* markup. It aims to make unstyled HTML much more user friendly with minimal fuss. Simply include a style and a script into the document.
 
-Adorn is a theme for plain markup. And the emphasis is on __plain__. It's about making unstyled HTML look great again and adding useful little navigational aids to pages. All with minimal effort. Take a look at the simple source of this page.
+Take a look at the simple source of this page.
 
 
 ## Rules

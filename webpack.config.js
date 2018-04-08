@@ -86,15 +86,6 @@ const configCSS = {
 			}
 		]
 	},
-	resolve: {
-		// directories where to look for modules
-		modules: [
-			'node_modules',
-		],
-
-		// extensions that are used
-		extensions: ['.js'],
-	},
 
 	// Plugins
 	plugins: [
