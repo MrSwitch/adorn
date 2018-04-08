@@ -73,7 +73,6 @@ const configCSS = {
 			{
 				test: /\.less$/i,
 				use: ExtractTextPlugin.extract({
-					fallback: 'style-loader',
 					use: [
 						{
 							loader: 'css-loader',
@@ -86,6 +85,15 @@ const configCSS = {
 				})
 			}
 		]
+	},
+	resolve: {
+		// directories where to look for modules
+		modules: [
+			'node_modules',
+		],
+
+		// extensions that are used
+		extensions: ['.js'],
 	},
 
 	// Plugins

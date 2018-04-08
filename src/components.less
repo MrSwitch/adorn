@@ -1,8 +1,40 @@
 @import "mixins";
-@import "highlight";
 @import "variables";
 
+
+h1,h2,h3,h4{
+	&:target{
+		.animate( ~"slideInDown 0.3s @{bounce} alternate, fadeIn 0.3s @{bounce}");
+	}
+}
+
 /* TOC */
+
+a.adorn-anchor{
+	position: relative;
+	text-indent: 0;
+	text-decoration: none;
+	outline:none;
+	opacity:0;
+	.transition(opacity 0.3s);
+	:hover > &{
+		opacity:0.5;
+	}
+	&:hover{
+		opacity:1;
+	}
+	&:before{
+		content: "#";
+		position: absolute;
+		left: -1em;
+		color: inherit;
+		vertical-align: middle;
+	}
+	&:hover:before{
+		.transform(scale(1.1), 50% 50%);
+	}
+}
+
 .adorn-toolbar{
 	.transform(translate3d(0,0,0));
 	.animate(~"fadeIn 0.3s ease");
