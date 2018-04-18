@@ -25,59 +25,61 @@ export function github_btn(manifest) {
 	const paths = manifest.paths;
 
 	// GITHUB
-	if (manifest.github) {
+	if (!manifest.github) {
+		return;
+	}
 
-		// Repo
-		let repo = manifest.github;
-		if (!repo.match('/') && paths.length) {
-			repo += `/${ paths[0].replace(/\/$/, '')}`;
-		}
+	// Repo
+	let repo = manifest.github;
+	if (!repo.match('/') && paths.length) {
+		repo += `/${ paths[0].replace(/\/$/, '')}`;
+	}
 
-		if (repo.match('/')) {
+	if (!repo.match('/')) {
+		return;
+	}
 
-			const repo_path = `https://github.com/${repo}`;
+	const repo_path = `https://github.com/${repo}`;
 
-			// Get the location of this file in the repo
-			const repo_file = link('source') || (window.location.pathname || '').replace(/^\/?([^/]+)/g, '').replace(/\/$/, 'index.html').replace(/^\//, '');
+	// Get the location of this file in the repo
+	const repo_file = link('source') || (window.location.pathname || '').replace(/^\/?([^/]+)/g, '').replace(/\/$/, 'index.html').replace(/^\//, '');
 
-			content.push(
-				create('a', {
-					href: fullpath(repo_file, `${repo_path}/blob/master/`),
-					target: '_blank',
-					rel: 'noopener',
-					id: 'adorn-edit'
-				}, [
-					'Edit this page'
-				]),
-				create('span'),
-				create('a', {
-					href: `${repo_path}`,
-					target: '_blank',
-					rel: 'noopener',
-					title: 'Stars',
-					id: 'adorn-github-button'
-				}, [
-					create('i', {class: 'adorn-icon-github'}),
-					create('span', {class: 'adorn-speeach-bubble'})
-				])
-			);
+	content.push(
+		create('a', {
+			href: fullpath(repo_file, `${repo_path}/blob/master/`),
+			target: '_blank',
+			rel: 'noopener',
+			id: 'adorn-edit'
+		}, [
+			'Edit this page'
+		]),
+		create('span'),
+		create('a', {
+			href: `${repo_path}`,
+			target: '_blank',
+			rel: 'noopener',
+			title: 'Stars',
+			id: 'adorn-github-button'
+		}, [
+			create('i', {class: 'adorn-icon-github'}),
+			create('span', {class: 'adorn-speeach-bubble'})
+		])
+	);
 
-			// Install the GitHub widget
-			// Probably could make this a little more ajaxy
+	// Install the GitHub widget
+	// Probably could make this a little more ajaxy
 
-			jsonp(`https://api.github.com/repos/${repo}?callback=?`, r => {
+	jsonp(`https://api.github.com/repos/${repo}?callback=?`, r => {
 
-				if (r && r.data && r.data.watchers) {
+		if (r && r.data && r.data.watchers) {
 
-					// Add value to twitter icon
-					each('.adorn-github-button span.adorn-speeach-bubble', item => {
-						item.innerHTML = r.data.watchers || '';
-					});
-				}
-
+			// Add value to twitter icon
+			each('.adorn-github-button span.adorn-speeach-bubble', item => {
+				item.innerHTML = r.data.watchers || '';
 			});
 		}
-	}
+
+	});
 
 	return fragment(...content);
 }

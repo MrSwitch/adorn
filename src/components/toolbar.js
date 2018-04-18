@@ -49,15 +49,24 @@ export default manifest => {
 	// Create Breadcrumbs
 	const breadcrumbs = create('div', {class: 'adorn-breadcrumbs'}, crumbs);
 
+	const links = [
+		github_btn(manifest),
+		twitter_btn(manifest),
+		share_btn(manifest)
+	].reduce((a, btn) => {
+		// Intersperse span elements
+		if (!btn) {
+			return a;
+		}
+		if (a.length) {
+			a.push(create('span'));
+		}
+		a.push(btn);
+		return a;
+	}, []);
+
 	// Get Social Buttons
-	const social_btns = create('div', {class: 'adorn-links'},
-		[
-			github_btn(manifest),
-			create('span'),
-			twitter_btn(manifest),
-			create('span'),
-			share_btn(manifest)
-		]);
+	const social_btns = create('div', {class: 'adorn-links'}, links);
 
 	// If Navbar Shoutout
 	if (manifest.shoutout) {

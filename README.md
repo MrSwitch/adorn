@@ -2,7 +2,12 @@
 
 Adorn is a theme for *plain* markup. It aims to make unstyled HTML much more user friendly with minimal fuss. Simply include a style and a script into the document.
 
-Take a look at the simple source of this page.
+Take a look at the simple source of this page [right click view source]
+
+It comprises of two external files:
+
+- `/adorn/adorn.css` Basic style for plain markup
+- `/adorn/adorn.js` Navigtational UI Components, etc...
 
 
 ## Rules
