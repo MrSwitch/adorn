@@ -7,6 +7,16 @@ const {
 	WATCH
 } = process.env;
 
+const resolve = {
+	// directories where to look for modules
+	modules: [
+		'node_modules',
+	],
+
+	// extensions that are used
+	extensions: ['.js'],
+};
+
 const configJS = {
 	watch: !!WATCH, //eslint-disable-line
 	mode: !WATCH ? 'production' : 'development',
@@ -44,15 +54,23 @@ const configJS = {
 			}
 		]
 	},
-	resolve: {
-		// directories where to look for modules
-		modules: [
-			'node_modules',
-		],
+	resolve,
+	plugins: []
+};
 
-		// extensions that are used
-		extensions: ['.js'],
+
+const SWJS = {
+	watch: !!WATCH, //eslint-disable-line
+	mode: !WATCH ? 'production' : 'development',
+	entry: {
+		adorn_sw: './src/adorn_sw.js'
 	},
+	output: {
+		path: __dirname,
+		filename: '[name].js',
+	},
+	devtool: 'source-map',
+	resolve,
 	plugins: []
 };
 
@@ -126,6 +144,7 @@ if (!WATCH) {
 	});
 
 	configJS.plugins.push(uglifyPlugin, prodModePlugin);
+	SWJS.plugins.push(uglifyPlugin, prodModePlugin);
 }
 
-module.exports = [configJS, configCSS];
+module.exports = [configJS, SWJS, configCSS];

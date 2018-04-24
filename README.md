@@ -2,12 +2,58 @@
 
 Adorn is a theme for *plain* markup. It aims to make unstyled HTML much more user friendly with minimal fuss. Simply include a style and a script into the document.
 
-Take a look at the simple source of this page [right click view source]
-
 It comprises of two external files:
 
 - `/adorn/adorn.css` Basic style for plain markup
 - `/adorn/adorn.js` Navigtational UI Components, etc...
+
+Take a look at the simple source of this page [right click view source]
+
+
+## Options
+
+Adorn will derive options from a few places
+
+- A [Web App Manifest](https://developer.mozilla.org/en-US/docs/Web/Manifest)
+	If a Link tag such as `<link rel=manifest href=/app/manifest.json />` can be found it will load the address defined there or take a bet on it being in the root at `/manifest.json`, but if neither exists it'll carry on regardless.
+
+- Document overides come from `<meta>` tags with a matching `name` property.
+
+
+
+Default site Favicon to be put into page
+
+	"favicon" : "/favicon.ico",
+
+Github name or name/repo for linking through, edit options
+
+	"github" : "MrSwitch",
+
+Twitter sharing link
+
+	"twitter:creator" : "@setData",
+
+Shoutout message appears in top right of navbar
+
+	"shoutout": "Adorn: <i>make more beautiful or attractive.</i>",
+
+Footer Author link
+
+	"author" : "Andrew Dodson, https://adodson.com",
+
+Serviceworker URL to register.
+
+	"serviceworker": "./adorn_sw.js",
+
+Fallover, page to show when offline
+
+	"fallover" : [{
+		"mode": "navigate",
+		"fallover": "/offline.html"
+	}],
+
+
+
 
 
 ## Rules
