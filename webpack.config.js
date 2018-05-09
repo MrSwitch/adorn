@@ -127,7 +127,7 @@ if (!WATCH) {
 			mangle: true,
 			compress: {
 				passes: 2,
-				drop_console: true,
+				drop_console: false,
 				drop_debugger: true,
 				ecma: 5,
 			},

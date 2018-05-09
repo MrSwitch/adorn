@@ -92,6 +92,8 @@ function cacheUpdate(request, response) {
 	const responseToCache = response.clone();
 
 	caches.open(CACHE_NAME).then(cache => {
+
+		// Replace Cache file
 		cache.put(request, responseToCache);
 	});
 
