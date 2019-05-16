@@ -23,6 +23,15 @@ self.addEventListener('install', event => {
 });
 
 self.addEventListener('fetch', event => {
+
+	{
+		const target = new URL(event.request.url);
+		// Only handle requests which belong to the current host.
+		if (self.location.host !== target.host) {
+			return false;
+		}
+	}
+
 	const request = event.request;
 	let status;
 	event.respondWith((async () => {
