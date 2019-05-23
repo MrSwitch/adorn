@@ -53,7 +53,7 @@ function tryitButton(pre, func) {
 			func();
 		}
 		else if (typeof(tryit) === 'function' && !tryit(pre.innerText)) {
-			return;
+			// Continue
 		}
 		else {
 			setTimeout(() => eval(pre.innerText), 100);

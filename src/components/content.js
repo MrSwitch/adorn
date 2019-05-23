@@ -82,7 +82,7 @@ export default callback => {
 };
 
 
-function updateHashLocation (headings) {
+function updateHashLocation(headings) {
 
 	// Are properties which affect the position of elements on the page are still loading...
 	if (document.readyState !== 'complete') {

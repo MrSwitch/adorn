@@ -84,7 +84,7 @@ export function github_btn(manifest) {
 	return fragment(...content);
 }
 
-export function twitter_btn (manifest) {
+export function twitter_btn(manifest) {
 
 	// Content
 	const content = [];
@@ -165,7 +165,7 @@ export function twitter_btn (manifest) {
 }
 
 
-export function share_btn () {
+export function share_btn() {
 
 	// Does this browser support the native Share API
 	if (!('share' in navigator)) {

@@ -5,7 +5,7 @@
 // The Cache name is optional, it will allow us to group various datasets (the default is __tricks__)
 
 class DB {
-	constructor (name, version, schema) {
+	constructor(name, version, schema) {
 
 		// Define the schema to use in the connection
 		this.db_name = name || '__adorn__';
@@ -23,7 +23,7 @@ class DB {
 		return Object.assign(this.scope.bind(this), this);
 	}
 
-	scope (name) {
+	scope(name) {
 		// Create a new store instance
 		const inst = Object.create(this);
 		inst.table_name = name;
@@ -58,7 +58,7 @@ class DB {
 			});
 	}
 
-	get (key) {
+	get(key) {
 
 		// We've got all the information to make a request to IndexDB
 		return new Promise((accept, reject) => {
@@ -75,7 +75,7 @@ class DB {
 		});
 	}
 
-	all () {
+	all() {
 
 		// We've got all the information to make a request to IndexDB
 		return new Promise((accept, reject) => {
@@ -101,7 +101,7 @@ class DB {
 		});
 	}
 
-	put (key, data) {
+	put(key, data) {
 
 		return new Promise((accept, reject) => {
 

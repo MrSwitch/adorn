@@ -86,7 +86,7 @@ function promiseAny(promises) {
 
 function emptyHandler(r) {
 	if (!r) {
-		throw 'not found';
+		throw new Error('not found');
 	}
 	return r;
 }
@@ -122,7 +122,7 @@ async function offlineFallback(request) {
 		return caches.match(new Request(match.fallover));
 	}
 
-	return;
+
 }
 
 
