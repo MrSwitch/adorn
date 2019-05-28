@@ -1,9 +1,9 @@
 {
 	presets: [
-		'es2015'
+		'@babel/env'
 	],
 	plugins: [
-		'transform-object-rest-spread',
-		'add-module-exports'
+		'@babel/proposal-object-rest-spread',
+		'@babel/plugin-transform-modules-commonjs'
 	]
 }
