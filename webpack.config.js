@@ -1,7 +1,7 @@
 'use strict';
 
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const {
 	WATCH
@@ -45,9 +45,6 @@ const configJS = {
 					},
 					{
 						loader: 'css-loader',
-						options: {
-							minimize: true
-						}
 					},
 					'less-loader'
 				]
@@ -90,24 +87,19 @@ const configCSS = {
 		rules: [
 			{
 				test: /\.less$/i,
-				use: ExtractTextPlugin.extract({
-					use: [
-						{
-							loader: 'css-loader',
-							options: {
-								minimize: true
-							}
-						},
-						'less-loader'
-					]
-				})
+				use: [
+					{
+						loader: 'css-loader',
+					},
+					'less-loader'
+				]
 			}
 		]
 	},
 
 	// Plugins
 	plugins: [
-		new ExtractTextPlugin({
+		new MiniCssExtractPlugin({
 			filename: 'adorn.css'
 		})
 	]
