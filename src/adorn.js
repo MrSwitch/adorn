@@ -143,23 +143,31 @@ function setup(base, manifest) {
 		if (sw && serviceWorker) {
 
 			// Await for ready...
-			serviceWorker.ready.then(() => {
-
-				// Pass any offline fetch handling too
-				const fallover = manifest.fallover;
-				if (fallover) {
-					// Loop through the fallover list...
-					fallover.forEach(item => {
-						const type = 'fallover';
-						const {mode} = item;
-						let {fallover} = item;
-						fallover = fullpath(fallover, base);
-
-						// Post to the service workers
-						serviceWorker.controller.postMessage({type, fallover, mode});
+			serviceWorker.ready
+				.then(() => {
+				// From https://github.com/w3c/ServiceWorker/issues/799#issuecomment-165499718
+					return new Promise(r => {
+						if (serviceWorker.controller) return r();
+						serviceWorker.addEventListener('controllerchange', () => r());
 					});
-				}
-			});
+				})
+				.then(() => {
+
+					// Pass any offline fetch handling too
+					const fallover = manifest.fallover;
+					if (fallover) {
+					// Loop through the fallover list...
+						fallover.forEach(item => {
+							const type = 'fallover';
+							const {mode} = item;
+							let {fallover} = item;
+							fallover = fullpath(fallover, base);
+
+							// Post to the service workers
+							serviceWorker.controller.postMessage({type, fallover, mode});
+						});
+					}
+				});
 
 			serviceWorker.register(sw).catch(err => {
 				// registration failed :(
