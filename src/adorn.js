@@ -143,31 +143,23 @@ function setup(base, manifest) {
 		if (sw && serviceWorker) {
 
 			// Await for ready...
-			serviceWorker.ready
-				.then(() => {
-				// From https://github.com/w3c/ServiceWorker/issues/799#issuecomment-165499718
-					return new Promise(r => {
-						if (serviceWorker.controller) return r();
-						serviceWorker.addEventListener('controllerchange', () => r());
-					});
-				})
-				.then(() => {
+			serviceWorkerReady().then(() => {
+				// Pass any offline fetch handling too
+				const fallover = manifest.fallover;
 
-					// Pass any offline fetch handling too
-					const fallover = manifest.fallover;
-					if (fallover) {
+				if (fallover) {
 					// Loop through the fallover list...
-						fallover.forEach(item => {
-							const type = 'fallover';
-							const {mode} = item;
-							let {fallover} = item;
-							fallover = fullpath(fallover, base);
+					fallover.forEach(item => {
+						const type = 'fallover';
+						const {mode} = item;
+						let {fallover} = item;
+						fallover = fullpath(fallover, base);
 
-							// Post to the service workers
-							serviceWorker.controller.postMessage({type, fallover, mode});
-						});
-					}
-				});
+						// Post to the service workers
+						serviceWorker.controller.postMessage({type, fallover, mode});
+					});
+				}
+			});
 
 			serviceWorker.register(sw).catch(err => {
 				// registration failed :(
@@ -176,4 +168,23 @@ function setup(base, manifest) {
 
 		}
 	}
+}
+
+/**
+ * Resolves when the service worker is ready
+ * @returns {Promise} - service worker is available for communication
+ */
+async function serviceWorkerReady() {
+
+	const serviceWorker = navigator.serviceWorker;
+
+	// This is the default
+	await serviceWorker.ready;
+
+	// But is it really ready?
+	// From https://github.com/w3c/ServiceWorker/issues/799#issuecomment-165499718
+	return new Promise(r => {
+		if (serviceWorker.controller) return r();
+		serviceWorker.addEventListener('controllerchange', () => r());
+	});
 }
