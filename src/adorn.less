@@ -6,11 +6,24 @@
 	-moz-box-sizing:border-box;
 }
 
+
 html{
 	font-size:16px;
 	font-weight:300;
 	background-attachment: fixed;
-	background-color: white;
+
+	--light-background: 100%;
+	--darker-background: 93%;
+	--background-color: hsl(0, 0%, var(--light-background));
+	
+	background-color: var(--background-color);
+	color: #4E5260;
+
+	@media (prefers-color-scheme: dark) {
+		--light-background: 20%;
+		--darker-background: 10%;
+		color: #fff;
+	}
 }
 
 
@@ -19,7 +32,6 @@ body{
 	margin: 0 auto 75px auto;
 	padding: 35px @body-padding 15px @body-padding;
 	max-width: @bodyWidth;
-	color: #4E5260;
 	line-height: 2;
 
 	&.adorn-fullscreen{
@@ -254,7 +266,7 @@ i{
 pre,.pre, code{
 	color:green;
 	font-family:monospace;
-	background-color:#f4f4f4;
+    background-color: hsl(0, 0%, var(--darker-background));
 	border:1px solid #e4e4e4;
 	word-break:break-word;
 

@@ -38,7 +38,7 @@ a.adorn-anchor{
 .adorn-toolbar{
 	.transform(translate3d(0,0,0));
 	.animate(~"fadeIn 0.3s ease");
-	background-color: white;
+	background-color: var(--background-color);
 	height: @toolbarWidth;
 	color:black;
 	.flex-display();
@@ -169,7 +169,7 @@ a.adorn-anchor{
 
 .adorn-sidebar{
 	@padding: 10px;
-    background: #eee;
+    background-color: hsl(0, 0%, var(--darker-background));
     border-right: @border;
     height: ~"calc(100% - @{toolbarWidth})";
     left: 0;
