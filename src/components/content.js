@@ -1,14 +1,14 @@
-import each from 'tricks/dom/each';
-import until from 'tricks/dom/until';
-import addClass from 'tricks/dom/addClass';
-import on from 'tricks/events/on';
-import create from 'tricks/dom/create';
-import findPos from 'tricks/dom/findPos';
-import id from 'tricks/dom/id';
-import ready from 'tricks/events/ready';
-import onhashchange from 'tricks/window/onhashchange';
-import Defer from 'tricks/object/Defer';
-import sleep from 'tricks/time/sleep';
+import each from 'tricks/dom/each.js';
+import until from 'tricks/dom/until.js';
+import addClass from 'tricks/dom/addClass.js';
+import on from 'tricks/events/on.js';
+import create from 'tricks/dom/create.js';
+import findPos from 'tricks/dom/findPos.js';
+import id from 'tricks/dom/id.js';
+import ready from 'tricks/events/ready.js';
+import onhashchange from 'tricks/window/onhashchange.js';
+import Defer from 'tricks/object/Defer.js';
+import sleep from 'tricks/time/sleep.js';
 
 // Pending
 const defer = new Defer();

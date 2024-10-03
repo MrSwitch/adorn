@@ -19,11 +19,6 @@
     animation-delay: @val;
 }
 
-.keyframes(@identifier: slidein, @animation: ~"{0%, 50%, 100% { opacity: 0; } 25%, 75% {opacity: 0 }") {
-  .webkit { content: ~"''; } @-webkit-keyframes @{identifier} @{animation}"}
-     .key { content: ~"''; }         @keyframes @{identifier} @{animation}"}
-}
-
 // Transform MIXIN
 .transform (@val;@origin:0 0) {
 	-webkit-transform: @val;

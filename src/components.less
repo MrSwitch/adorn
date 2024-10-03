@@ -1,5 +1,5 @@
-@import "mixins";
-@import "variables";
+@import "less:./mixins.less";
+@import "less:./variables.less";
 
 
 h1,h2,h3,h4{
@@ -146,14 +146,24 @@ a.adorn-anchor{
 }
 
 
-.keyframes( slideInDown, "{from {transform:translateY(-100px);-webkit-transform: translateY(-100px);}");
+@keyframes slideInDown {
+	from {transform:translateY(-100px);}
+}
+
 // .keyframes( slideInUp, "{from {transform:translateY(100px);-webkit-transform: translateY(100px);}");
 @offset:200px;
 // .keyframes( slideInRight, "{from {transform: translateX(-@{offset});-webkit-transform: translateX(-@{offset});} 50% {transform: translateX(-@{offset});-webkit-transform: translateX(-@{offset});}");
 // .keyframes( slideOutRight, "{to {transform: translateX(100px);-webkit-transform: translateX(100px);}");
-.keyframes( fadeIn, "{from {opacity:0;} to {opacity:1;}");
+@keyframes fadeIn {
+	from {opacity:0;}
+	to {opacity:1;}
+}
+
 // .keyframes( fadeOut, "{ to {opacity:0;}");
-.keyframes( fillWidth, "{from {width:0;left:50%;} to {width:100%;left:0;}");
+@keyframes fillWidth {
+	from {width:0;left:50%;}
+	to {width:100%;left:0;}
+}
 
 
 /* TOC */

@@ -4,11 +4,7 @@
 		"node": true,
 		"browser": true
 	},
-	"plugins": [
-		"promise"
-	],
 	"rules": {
-		"promise/prefer-await-to-then": 0,
 		"no-eval": 0
 	}
 }

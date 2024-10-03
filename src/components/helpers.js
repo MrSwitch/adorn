@@ -1,10 +1,10 @@
 /*global tryit*/
-import each from 'tricks/dom/each';
-import on from 'tricks/events/on';
-import create from 'tricks/dom/create';
-import insertAfter from 'tricks/dom/insertAfter';
+import each from 'tricks/dom/each.js';
+import on from 'tricks/events/on.js';
+import create from 'tricks/dom/create.js';
+import insertAfter from 'tricks/dom/insertAfter.js';
 
-export default () => {
+export default function helpers() {
 
 	// TryIt
 	each('pre', pre => {
@@ -56,11 +56,15 @@ function tryitButton(pre, func) {
 			// Continue
 		}
 		else {
-			setTimeout(() => eval(pre.innerText), 100);
+			setTimeout(() => (0, eval)(pre.innerText), 100);
 		}
 	});
 
 	if (!func) {
 		pre.setAttribute('contenteditable', true);
 	}
+}
+
+function nonDirectVal(val) {
+	return val.replace(/[\n\t]/g, '');
 }

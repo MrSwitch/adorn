@@ -1,14 +1,14 @@
 // Social controls
-import each from 'tricks/dom/each';
-import jsonp from 'tricks/http/jsonp';
-import on from 'tricks/events/on';
-import create from 'tricks/dom/create';
-import fragment from 'tricks/dom/fragment';
-import querystringify from 'tricks/string/querystringify';
-import meta from 'tricks/dom/meta';
-import query from 'tricks/dom/query';
-import popup from 'tricks/window/popup';
-import fullpath from 'tricks/string/fullpath';
+import each from 'tricks/dom/each.js';
+import jsonp from 'tricks/http/jsonp.js';
+import on from 'tricks/events/on.js';
+import create from 'tricks/dom/create.js';
+import fragment from 'tricks/dom/fragment.js';
+import querystringify from 'tricks/string/querystringify.js';
+import meta from 'tricks/dom/meta.js';
+import query from 'tricks/dom/query.js';
+import popup from 'tricks/window/popup.js';
+import fullpath from 'tricks/string/fullpath.js';
 
 const link = () => {
 	const a = query('link[rel=source]');

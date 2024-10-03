@@ -1,7 +1,7 @@
 /*!*/
 /*! Adorn by Andrew Dodson, https://adodson.com/adorn/LICENSE (MIT) */
 
-import './components.less';
+import 'less:./components.less';
 
 import json from 'tricks/http/json';
 import fullpath from 'tricks/string/fullpath';

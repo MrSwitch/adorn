@@ -1,7 +1,7 @@
-import ready from 'tricks/events/ready';
-import create from 'tricks/dom/create';
+import ready from 'tricks/events/ready.js';
+import create from 'tricks/dom/create.js';
 
-export default manifest => {
+export default function footer(manifest) {
 	// ///////////////////////////////////
 	// FOOTER
 	// ///////////////////////////////////
