@@ -5,6 +5,7 @@
   "main": "adorn.js",
   "scripts": {
     "build": "webpack",
+    "server": "bundle exec jekyll serve",
     "lint": "eslint ./",
     "lint-fix": "eslint --fix ./",
     "test": "npm run lint && npm run build",
