@@ -1,5 +1,5 @@
 ---
-title: Adorn UI
+title: Adorn Document UI wrapper
 layout: default
 ---
 
