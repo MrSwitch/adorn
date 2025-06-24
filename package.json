@@ -4,6 +4,7 @@
   "description": "Markup beautifier drop in script",
   "type": "module",
   "main": "adorn.js",
+  "private": true,
   "scripts": {
     "build": "node ./build.js",
     "watch": "node --watch-path ./src ./build.js",
