@@ -1,5 +1,5 @@
-@import "mixins";
-@import "variables";
+@import "./mixins.less";
+@import "./variables.less";
 
 
 h1,h2,h3,h4{
@@ -146,14 +146,24 @@ a.adorn-anchor{
 }
 
 
-.keyframes( slideInDown, "{from {transform:translateY(-100px);-webkit-transform: translateY(-100px);}");
+@keyframes slideInDown {
+	from {transform:translateY(-100px);}
+}
+
 // .keyframes( slideInUp, "{from {transform:translateY(100px);-webkit-transform: translateY(100px);}");
 @offset:200px;
 // .keyframes( slideInRight, "{from {transform: translateX(-@{offset});-webkit-transform: translateX(-@{offset});} 50% {transform: translateX(-@{offset});-webkit-transform: translateX(-@{offset});}");
 // .keyframes( slideOutRight, "{to {transform: translateX(100px);-webkit-transform: translateX(100px);}");
-.keyframes( fadeIn, "{from {opacity:0;} to {opacity:1;}");
+@keyframes fadeIn {
+	from {opacity:0;}
+	to {opacity:1;}
+}
+
 // .keyframes( fadeOut, "{ to {opacity:0;}");
-.keyframes( fillWidth, "{from {width:0;left:50%;} to {width:100%;left:0;}");
+@keyframes fillWidth {
+	from {width:0;left:50%;}
+	to {width:100%;left:0;}
+}
 
 
 /* TOC */
@@ -275,7 +285,7 @@ a.adorn-anchor{
 }
 
 .adorn-icon-twitter{
-	background: data-uri('./images/twitter.svg') no-repeat center center;
+	background: data-uri('./images/twitter-x.svg') no-repeat center center;
 	background-size: 1em;
 	width:1em;
 	height:1em;
@@ -294,7 +304,7 @@ a.adorn-anchor{
 	display: inline-block;
 }
 
-.adorn-speeach-bubble{
+.adorn-speech-bubble{
 	@border-color:#444;
 	@background-color:white;
 	@color:#444;
@@ -308,7 +318,6 @@ a.adorn-anchor{
 	display: inline-block;
 	background-color:@background-color;
 	border:1px solid @border-color;
-	color:black;
 	border-radius:15%;
 	padding:5px;
 

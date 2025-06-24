@@ -1,14 +1,15 @@
 {
-	"extends": "mr",
+	"extends": "eslint:recommended",
 	"env": {
 		"node": true,
-		"browser": true
+		"browser": true,
+		"es2024": true
 	},
-	"plugins": [
-		"promise"
-	],
+	"parserOptions": {
+		"ecmaVersion": 2024,
+		"sourceType": "module"
+	},
 	"rules": {
-		"promise/prefer-await-to-then": 0,
 		"no-eval": 0
 	}
 }

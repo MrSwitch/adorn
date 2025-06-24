@@ -4,7 +4,7 @@
 // Create an instance of the db
 // The Cache name is optional, it will allow us to group various datasets (the default is __tricks__)
 
-class DB {
+export class DB {
 	constructor(name, version, schema) {
 
 		// Define the schema to use in the connection
@@ -128,5 +128,3 @@ class DB {
 		});
 	}
 }
-
-module.exports = DB;

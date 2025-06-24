@@ -31,7 +31,7 @@ Github name or name/repo for linking through, edit options
 
 Twitter sharing link
 
-	"twitter:creator" : "@setData",
+	"twitter-x:creator" : "@setData",
 
 Shoutout message appears in top right of navbar
 

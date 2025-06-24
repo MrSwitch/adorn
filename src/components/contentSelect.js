@@ -1,15 +1,15 @@
-import each from 'tricks/dom/each';
-import on from 'tricks/events/on';
-import create from 'tricks/dom/create';
-import id from 'tricks/dom/id';
-import onhashchange from 'tricks/window/onhashchange';
-import getContent from './content';
+import each from 'tricks/dom/each.js';
+import on from 'tricks/events/on.js';
+import create from 'tricks/dom/create.js';
+import id from 'tricks/dom/id.js';
+import onhashchange from 'tricks/window/onhashchange.js';
+import getContent from './content.js';
 
 // ///////////////////////////////////
 // Navigation
 // ///////////////////////////////////
 
-export default parent => {
+export default function contentSelect(parent) {
 
 	getContent(content => {
 
@@ -21,7 +21,7 @@ export default parent => {
 		const toc = createContentSelect(content, parent);
 		parent.appendChild(toc);
 	});
-};
+}
 
 
 function createContentSelect(headings) {

@@ -1,19 +1,19 @@
-import each from 'tricks/dom/each';
-import addClass from 'tricks/dom/addClass';
-import create from 'tricks/dom/create';
-import prepend from 'tricks/dom/prepend';
-import parent from 'tricks/dom/parent';
-import removeClass from 'tricks/dom/removeClass';
-import onhashchange from 'tricks/window/onhashchange';
-import getContent from './content';
-import id from 'tricks/dom/id';
+import each from 'tricks/dom/each.js';
+import addClass from 'tricks/dom/addClass.js';
+import create from 'tricks/dom/create.js';
+import prepend from 'tricks/dom/prepend.js';
+import parent from 'tricks/dom/parent.js';
+import removeClass from 'tricks/dom/removeClass.js';
+import onhashchange from 'tricks/window/onhashchange.js';
+import getContent from './content.js';
+import id from 'tricks/dom/id.js';
 
 
 // ///////////////////////////////////
 // Navigation
 // ///////////////////////////////////
 
-export default () => {
+export default function sidebar() {
 
 	getContent(content => {
 
@@ -68,7 +68,7 @@ export default () => {
 
 	});
 
-};
+}
 
 function getParentUL(ul, i, j) {
 	if (i < j) {
