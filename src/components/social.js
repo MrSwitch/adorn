@@ -1,5 +1,4 @@
 // Social controls
-import each from 'tricks/dom/each.js';
 import jsonp from 'tricks/http/jsonp.js';
 import on from 'tricks/events/on.js';
 import create from 'tricks/dom/create.js';
@@ -10,14 +9,21 @@ import query from 'tricks/dom/query.js';
 import popup from 'tricks/window/popup.js';
 import fullpath from 'tricks/string/fullpath.js';
 
-const link = () => {
+function link() {
 	const a = query('link[rel=source]');
 	if (a) {
 		return a.getAttribute('href');
 	}
-};
+}
 
-const url = window.location.href;
+function numberFormat(num) {
+	try {
+		return new Intl.NumberFormat().format(num);
+	}
+	catch (e) {
+		return num;
+	}
+}
 
 export function github_btn(manifest) {
 
@@ -31,55 +37,59 @@ export function github_btn(manifest) {
 
 	// Repo
 	let repo = manifest.github;
+
 	if (!repo.match('/') && paths.length) {
 		repo += `/${ paths[0].replace(/\/$/, '')}`;
 	}
 
-	if (!repo.match('/')) {
-		return;
-	}
-
-	const repo_path = `https://github.com/${repo}`;
-
+	let speechBubble;
 	// Get the location of this file in the repo
+	const repo_path = `https://github.com/${repo}`;
 	const repo_file = link('source') || (window.location.pathname || '').replace(/^\/?([^/]+)/g, '').replace(/\/$/, 'index.html').replace(/^\//, '');
 
+	if (repo.match('/')) {
+		content.push(
+			create('a', {
+				href: fullpath(repo_file, `${repo_path}/blob/master/`),
+				target: '_blank',
+				rel: 'noopener',
+				id: 'adorn-edit'
+			}, [
+				'Suggest an edit'
+			]),
+			create('span')
+		);
+
+		speechBubble = create('span', {class: 'adorn-speech-bubble'});
+
+		// Grab Github Data
+		jsonp(`https://api.github.com/repos/${repo}?callback=?`, r => {
+
+			const stars = r?.data?.stargazers_count;
+
+			if (stars) {
+				// Add value to bubble icon
+				speechBubble.innerHTML = `${numberFormat(stars)}⭐️`;
+				speechBubble.title = `${numberFormat(stars)} Github ⭐️gazers`;
+			}
+
+		});
+	}
+
+
 	content.push(
-		create('a', {
-			href: fullpath(repo_file, `${repo_path}/blob/master/`),
-			target: '_blank',
-			rel: 'noopener',
-			id: 'adorn-edit'
-		}, [
-			'Edit this page'
-		]),
-		create('span'),
 		create('a', {
 			href: `${repo_path}`,
 			target: '_blank',
 			rel: 'noopener',
-			title: 'Stars',
+			title: 'Github',
 			id: 'adorn-github-button'
 		}, [
 			create('i', {class: 'adorn-icon-github'}),
-			create('span', {class: 'adorn-speeach-bubble'})
+			speechBubble
 		])
 	);
 
-	// Install the GitHub widget
-	// Probably could make this a little more ajaxy
-
-	jsonp(`https://api.github.com/repos/${repo}?callback=?`, r => {
-
-		if (r && r.data && r.data.watchers) {
-
-			// Add value to twitter icon
-			each('.adorn-github-button span.adorn-speeach-bubble', item => {
-				item.innerHTML = r.data.watchers || '';
-			});
-		}
-
-	});
 
 	return fragment(...content);
 }
@@ -97,10 +107,9 @@ export function twitter_btn(manifest) {
 		return;
 	}
 
-
 	// Create components
 	const btn = create('a', {
-		href: 'https://twitter.com/share',
+		href: 'https://x.com/intent/post',
 		class: 'adorn-twitter-button',
 		target: '_blank',
 		rel: 'noopener',
@@ -112,29 +121,7 @@ export function twitter_btn(manifest) {
 
 	content.push(
 		btn,
-		create('a', {
-			href: `https://twitter.com/search?ref_src=twsrc%5Etfw&q=${ encodeURIComponent(url)}`,
-			class: 'adorn-twitter-count',
-			rel: 'noopener',
-			'aria-label': 'Twitter comments',
-			target: '_blank'
-		}, [
-			create('i', {class: 'adorn-speeach-bubble'})
-		])
 	);
-
-
-	// Probably could make this a little more ajaxy
-	jsonp(`https://cdn.syndication.twitter.com/widgets/tweetbutton/count.json?url=${ encodeURIComponent(url)}`, r => {
-		// Add value to twitter icon
-		if (!r) {
-			return;
-		}
-		each('.adorn-twitter-count span.adorn-speeach-bubble', item => {
-			item.innerHTML = r.count || '';
-			item.title = `This page has been shared ${ r.count } times, view these tweets`;
-		});
-	});
 
 
 	// Add event to twitter button
@@ -177,11 +164,10 @@ export function share_btn() {
 	const content = [];
 
 	// Create components
-	const btn = create('button', {
+	const btn = create('a', {
 		class: 'adorn-icon-share',
-		target: '_blank',
-		rel: 'noopener',
-		title: 'Share'
+		title: 'Share',
+		href: 'javascript:void(0);'
 	});
 
 	content.push(btn);
@@ -192,12 +178,10 @@ export function share_btn() {
 				title: document.title,
 				text: document.title,
 				url: location.href
-			}).then(() => {
-				btn.style.color = 'green';
 			});
 		}
 		catch (e) {
-			btn.style.color = 'red';
+			console.warn('Share API failed', e);
 		}
 	});
 
