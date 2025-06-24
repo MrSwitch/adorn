@@ -21,7 +21,7 @@ export default function contentSelect(parent) {
 		const toc = createContentSelect(content, parent);
 		parent.appendChild(toc);
 	});
-};
+}
 
 
 function createContentSelect(headings) {

@@ -90,7 +90,7 @@ export function twitter_btn(manifest) {
 	const content = [];
 
 	// TWITTER
-	const twitter_creator = manifest['twitter:creator'] || meta('twitter:creator');
+	const twitter_creator = ['twitter:creator', 'twitter-x:creator'].map(n => manifest[n] || meta(n)).filter(Boolean)[0];
 
 	// If we dont have a creator, do nothing
 	if (!twitter_creator) {
@@ -153,12 +153,13 @@ export function twitter_btn(manifest) {
 			url: window.location.href.replace(/#.*/, '')
 		};
 
-		const hashtag = meta('twitter:hashtag') || manifest['twitter:hashtag'];
+		const hashtag = ['twitter:hashtag', 'twitter-x:hashtag'].map(n => manifest[n] || meta(n)).filter(Boolean)[0];
+
 		if (hashtag) {
 			params.hashtag = hashtag;
 		}
 
-		popup(`https://twitter.com/intent/tweet?${querystringify(params)}`, 'twitter', options);
+		popup(`https://x.com/intent/post?${querystringify(params)}`, 'x', options);
 	});
 
 	return fragment(...content);

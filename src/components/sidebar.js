@@ -68,7 +68,7 @@ export default function sidebar() {
 
 	});
 
-};
+}
 
 function getParentUL(ul, i, j) {
 	if (i < j) {

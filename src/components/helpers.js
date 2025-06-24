@@ -40,7 +40,7 @@ export default function helpers() {
 			});
 		}
 	});
-};
+}
 
 function tryitButton(pre, func) {
 
@@ -63,8 +63,4 @@ function tryitButton(pre, func) {
 	if (!func) {
 		pre.setAttribute('contenteditable', true);
 	}
-}
-
-function nonDirectVal(val) {
-	return val.replace(/[\n\t]/g, '');
 }
