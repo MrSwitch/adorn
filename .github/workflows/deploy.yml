@@ -25,13 +25,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
+      - name: Build
+        uses: actions/jekyll-build-pages@v1
       - name: Install dependencies & build
         run: |
           npm install
           npm run build
+          sudo cp -r ./adorn* ./_site/
       - uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./
 
   deploy:
     needs:
