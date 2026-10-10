@@ -1,0 +1,18 @@
+{
+	"compilerOptions": {
+		"composite": true,
+		"target": "ES2020",
+		"module": "ESNext",
+		"moduleResolution": "Bundler",
+		"lib": ["ES2020", "WebWorker"],
+		"strict": true,
+		"declaration": true,
+		"emitDeclarationOnly": true,
+		"outDir": "node_modules/.cache/tsc-sw",
+		"tsBuildInfoFile": "node_modules/.cache/tsc-sw/tsconfig.sw.tsbuildinfo",
+		"isolatedModules": true,
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true
+	},
+	"include": ["src/adorn_sw.ts", "src/lib/indexdb.ts"]
+}

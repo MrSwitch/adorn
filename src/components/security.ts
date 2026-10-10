@@ -1,5 +1,5 @@
-import ready from 'tricks/events/ready.js';
-import attr from 'tricks/dom/attr.js';
+import ready from 'tricks/events/ready';
+import attr from 'tricks/dom/attr';
 
 // Wait for the DOM to load
 ready(() => {

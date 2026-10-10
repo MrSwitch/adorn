@@ -1,17 +1,17 @@
-import each from 'tricks/dom/each.js';
-import until from 'tricks/dom/until.js';
-import addClass from 'tricks/dom/addClass.js';
-import on from 'tricks/events/on.js';
-import create from 'tricks/dom/create.js';
-import findPos from 'tricks/dom/findPos.js';
-import id from 'tricks/dom/id.js';
-import ready from 'tricks/events/ready.js';
-import onhashchange from 'tricks/window/onhashchange.js';
-import Defer from 'tricks/object/Defer.js';
-import sleep from 'tricks/time/sleep.js';
+import each from 'tricks/dom/each';
+import until from 'tricks/dom/until';
+import addClass from 'tricks/dom/addClass';
+import on from 'tricks/events/on';
+import create from 'tricks/dom/create';
+import findPos from 'tricks/dom/findPos';
+import id from 'tricks/dom/id';
+import ready from 'tricks/events/ready';
+import onhashchange from 'tricks/window/onhashchange';
+import Defer from 'tricks/object/Defer';
+import sleep from 'tricks/time/sleep';
 
 // Pending
-const defer = new Defer();
+const defer = new Defer<HTMLElement[]>();
 
 // Once the DOM has loaded we can get all the h1,h2 elements in the page
 ready(() => {
@@ -75,14 +75,14 @@ ready(() => {
 // Navigation
 // ///////////////////////////////////
 
-export default callback => {
+export default (callback: (headings: HTMLElement[]) => void) => {
 
 	defer.push(callback);
 
 };
 
 
-function updateHashLocation(headings) {
+function updateHashLocation(headings: HTMLElement[]) {
 
 	// Are properties which affect the position of elements on the page are still loading...
 	if (document.readyState !== 'complete') {
@@ -95,9 +95,9 @@ function updateHashLocation(headings) {
 	const T = window.scrollY || window.pageYOffset;
 	const H = window.innerHeight;
 
-	const toolbar = document.querySelector('.adorn-toolbar');
+	const toolbar = document.querySelector<HTMLElement>('.adorn-toolbar');
 
-	let tag;
+	let tag: HTMLElement | undefined;
 
 	const toolbar_height = (toolbar && toolbar.offsetHeight) || 50;
 
@@ -105,7 +105,7 @@ function updateHashLocation(headings) {
 	const hash = window.location.hash;
 
 	if (hash) {
-		const anchor = document.querySelector(hash);
+		const anchor = document.querySelector<HTMLElement>(hash);
 
 		if (anchor) {
 			const t = findPos(anchor)[1];
@@ -136,10 +136,11 @@ function updateHashLocation(headings) {
 	// Has a tag been set?
 	if (tag) {
 		// Set as the current selected one
-		let ref = tag.getElementsByTagName('a')[0];
+		const anchor = tag.getElementsByTagName('a')[0];
+		let ref: string | undefined;
 
-		if (ref) {
-			ref = ref.getAttribute('href').replace(/^#/, '');
+		if (anchor) {
+			ref = (anchor.getAttribute('href') || '').replace(/^#/, '');
 		}
 
 		// Change the current window hash
