@@ -6,6 +6,7 @@ export default [
 
 	prettier,
     {
+        files: ["**/*.ts"],
         languageOptions: {
 
             globals: {
