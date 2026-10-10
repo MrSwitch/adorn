@@ -9,7 +9,7 @@ import {twitter_btn, github_btn, share_btn} from './social';
 // TOOLBAR
 // ///////////////////////////////////
 
-export default manifest => {
+export default (manifest: Manifest) => {
 
 	//
 	// Build toolbar
@@ -17,7 +17,8 @@ export default manifest => {
 
 	// Tidy the path
 	let path = (window.location.pathname || '');
-	const root_path = URL(manifest.root).pathname;
+	const root = manifest.root || '';
+	const root_path = URL(root).pathname;
 
 	// Remove the root path from the path
 	path = ltrim(path, root_path);
@@ -28,8 +29,8 @@ export default manifest => {
 	const paths = path.split(/([^/]+\/?)/).filter(s => !!s);
 	manifest.paths = paths;
 
-	const crumbs = [
-		create('a', {href: manifest.root},
+	const crumbs: Array<Node | string> = [
+		create('a', {href: root},
 			[
 				create('img', {src: manifest.favicon, alt: window.location.hostname, title: manifest.name})
 			])
@@ -37,7 +38,7 @@ export default manifest => {
 
 	paths.forEach((val, index) => {
 
-		const href = manifest.root + paths.slice(0, index + 1).join('');
+		const href = root + paths.slice(0, index + 1).join('');
 		const text = val.replace(/\.(html?)$/, '');
 
 		crumbs.push(
@@ -52,7 +53,7 @@ export default manifest => {
 	const links = [
 		github_btn(manifest),
 		twitter_btn(manifest),
-		share_btn(manifest)
+		share_btn()
 	].reduce((a, btn) => {
 		// Intersperse span elements
 		if (!btn) {
@@ -63,7 +64,7 @@ export default manifest => {
 		}
 		a.push(btn);
 		return a;
-	}, []);
+	}, [] as Array<Node>);
 
 	// Get Social Buttons
 	const social_btns = create('div', {class: 'adorn-links'}, links);

@@ -59,7 +59,7 @@ cordovaLinks();
 
 
 // Setup function to be called when the body and the manifest exist.
-function setup(base, manifest) {
+function setup(base: string, manifest?: Manifest | null) {
 
 	// Is the manifest link missing?
 	if (manifest && !(meta('manifest') || link('manifest'))) {
@@ -93,7 +93,7 @@ function setup(base, manifest) {
 		toolbar(manifest);
 
 		// Toolbar
-		sidebar(manifest);
+		sidebar();
 
 		// Footer
 		footer(manifest);
@@ -109,7 +109,7 @@ function setup(base, manifest) {
 	// Fill missing <Title>
 	if (!document.title) {
 		// Get it from the first H1 Element
-		document.title = query('h1,h2').textContent || '';
+		document.title = query('h1,h2')?.textContent || '';
 	}
 
 	// Analytics
@@ -154,17 +154,17 @@ function setup(base, manifest) {
 						const type = 'fallover';
 						const {mode} = item;
 						let {fallover} = item;
-						fallover = fullpath(fallover, base);
+						fallover = fullpath(fallover, base) || fallover;
 
 						// Post to the service workers
-						serviceWorker.controller.postMessage({type, fallover, mode});
+						serviceWorker.controller?.postMessage({type, fallover, mode});
 					});
 				}
 			});
 
 			serviceWorker.register(sw).catch(err => {
 				// registration failed :(
-				console.error('Adorn: SW registration failed: ', err); // eslint-disable-line
+				console.error('Adorn: SW registration failed: ', err);
 			});
 
 		}
@@ -175,7 +175,7 @@ function setup(base, manifest) {
  * Resolves when the service worker is ready
  * @returns {Promise} - service worker is available for communication
  */
-async function serviceWorkerReady() {
+async function serviceWorkerReady(): Promise<void> {
 
 	const serviceWorker = navigator.serviceWorker;
 
@@ -184,7 +184,7 @@ async function serviceWorkerReady() {
 
 	// But is it really ready?
 	// From https://github.com/w3c/ServiceWorker/issues/799#issuecomment-165499718
-	return new Promise(r => {
+	return new Promise<void>(r => {
 		if (serviceWorker.controller) return r();
 		serviceWorker.addEventListener('controllerchange', () => r());
 	});

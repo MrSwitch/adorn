@@ -1,8 +1,8 @@
 /*global tryit*/
-import each from 'tricks/dom/each.js';
-import on from 'tricks/events/on.js';
-import create from 'tricks/dom/create.js';
-import insertAfter from 'tricks/dom/insertAfter.js';
+import each from 'tricks/dom/each';
+import on from 'tricks/events/on';
+import create from 'tricks/dom/create';
+import insertAfter from 'tricks/dom/insertAfter';
 
 export default function helpers() {
 
@@ -19,30 +19,32 @@ export default function helpers() {
 		const func = script.getAttribute('data-tryit');
 		if (func) {
 			// Create a button and insert it after the pre tag
-			tryitButton(script, window[func]);
+			tryitButton(script, (window as any)[func]);
 		}
 
-		if (script.getAttribute('src')) {
+		const src = script.getAttribute('src');
+		if (src) {
 
 			// Add click event to open in new window
 			on(script, 'click', () => {
-				window.open(script.getAttribute('src'), '_blank');
+				window.open(src, '_blank');
 			});
 		}
 	});
 
 	each('link', script => {
-		if (script.getAttribute('href')) {
+		const href = script.getAttribute('href');
+		if (href) {
 
 			// Add click event to open in new window
 			on(script, 'click', () => {
-				window.open(script.getAttribute('href'), '_blank');
+				window.open(href, '_blank');
 			});
 		}
 	});
 }
 
-function tryitButton(pre, func) {
+function tryitButton(pre: HTMLElement, func?: () => void) {
 
 	const btn = create('button', {class: 'tryit'}, ['tryit']);
 
@@ -61,6 +63,6 @@ function tryitButton(pre, func) {
 	});
 
 	if (!func) {
-		pre.setAttribute('contenteditable', true);
+		pre.setAttribute('contenteditable', 'true');
 	}
 }

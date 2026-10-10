@@ -1,20 +1,22 @@
-import ready from 'tricks/events/ready.js';
-import create from 'tricks/dom/create.js';
+import ready from 'tricks/events/ready';
+import create from 'tricks/dom/create';
 
-export default function footer(manifest) {
+export default function footer(manifest: Manifest) {
 	// ///////////////////////////////////
 	// FOOTER
 	// ///////////////////////////////////
 
 	if (manifest.author) {
 
+		const authorField = manifest.author;
+
 		ready(() => {
 
-			const author = manifest.author.split(/\s*, \s*/);
+			const author = authorField.split(/\s*, \s*/);
 
 			if (author) {
 
-				const children = ['Authored by '];
+				const children: Array<Node | string> = ['Authored by '];
 
 				if (author[1]) {
 					children.push(

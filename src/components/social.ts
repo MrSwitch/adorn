@@ -1,13 +1,13 @@
 // Social controls
-import jsonp from 'tricks/http/jsonp.js';
-import on from 'tricks/events/on.js';
-import create from 'tricks/dom/create.js';
-import fragment from 'tricks/dom/fragment.js';
-import querystringify from 'tricks/string/querystringify.js';
-import meta from 'tricks/dom/meta.js';
-import query from 'tricks/dom/query.js';
-import popup from 'tricks/window/popup.js';
-import fullpath from 'tricks/string/fullpath.js';
+import jsonp from 'tricks/http/jsonp';
+import on from 'tricks/events/on';
+import create from 'tricks/dom/create';
+import fragment from 'tricks/dom/fragment';
+import querystringify from 'tricks/string/querystringify';
+import meta from 'tricks/dom/meta';
+import query from 'tricks/dom/query';
+import popup from 'tricks/window/popup';
+import fullpath from 'tricks/string/fullpath';
 
 function link() {
 	const a = query('link[rel=source]');
@@ -16,7 +16,7 @@ function link() {
 	}
 }
 
-function numberFormat(num) {
+function numberFormat(num: number): string | number {
 	try {
 		return new Intl.NumberFormat().format(num);
 	}
@@ -25,10 +25,10 @@ function numberFormat(num) {
 	}
 }
 
-export function github_btn(manifest) {
+export function github_btn(manifest: Manifest) {
 
-	const content = [];
-	const paths = manifest.paths;
+	const content: Array<Node | string> = [];
+	const paths = manifest.paths || [];
 
 	// GITHUB
 	if (!manifest.github) {
@@ -42,10 +42,10 @@ export function github_btn(manifest) {
 		repo += `/${ paths[0].replace(/\/$/, '')}`;
 	}
 
-	let speechBubble;
+	let speechBubble: HTMLElement | undefined;
 	// Get the location of this file in the repo
 	const repo_path = `https://github.com/${repo}`;
-	const repo_file = link('source') || (window.location.pathname || '').replace(/^\/?([^/]+)/g, '').replace(/\/$/, 'index.html').replace(/^\//, '');
+	const repo_file = link() || (window.location.pathname || '').replace(/^\/?([^/]+)/g, '').replace(/\/$/, 'index.html').replace(/^\//, '');
 
 	if (repo.match('/')) {
 		content.push(
@@ -60,7 +60,8 @@ export function github_btn(manifest) {
 			create('span')
 		);
 
-		speechBubble = create('span', {class: 'adorn-speech-bubble'});
+		const bubble = create('span', {class: 'adorn-speech-bubble'});
+		speechBubble = bubble;
 
 		// Grab Github Data
 		jsonp(`https://api.github.com/repos/${repo}?callback=?`, r => {
@@ -69,8 +70,8 @@ export function github_btn(manifest) {
 
 			if (stars) {
 				// Add value to bubble icon
-				speechBubble.innerHTML = `${numberFormat(stars)}⭐️`;
-				speechBubble.title = `${numberFormat(stars)} Github ⭐️gazers`;
+				bubble.innerHTML = `${numberFormat(stars)}⭐️`;
+				bubble.title = `${numberFormat(stars)} Github ⭐️gazers`;
 			}
 
 		});
@@ -94,7 +95,7 @@ export function github_btn(manifest) {
 	return fragment(...content);
 }
 
-export function twitter_btn(manifest) {
+export function twitter_btn(manifest: Manifest) {
 
 	// Content
 	const content = [];
@@ -134,7 +135,7 @@ export function twitter_btn(manifest) {
 			height: 250
 		};
 
-		const params = {
+		const params: Record<string, string> = {
 			text: document.title,
 			via: twitter_creator.replace('@', ''),
 			url: window.location.href.replace(/#.*/, '')

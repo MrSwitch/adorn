@@ -1,15 +1,28 @@
 // Service Worker
 // Caches pages visited by agent for viewing offline
 
+import {DB, DBCallable} from './lib/indexdb';
+
+declare const self: ServiceWorkerGlobalScope;
+
+interface FalloverRecord {
+	mode?: RequestMode;
+	url?: string;
+	fallover: string;
+}
+
+type FalloverMessage =
+	| {type: 'fallover'; mode?: RequestMode; url?: string; fallover: string}
+	| {type: 'add'; url: string};
+
 const CACHE_NAME = 'adorn_sw';
 const VERSION = 1;
 
-const DB = require('./lib/indexdb');
 const db = new DB('adorn_sw', VERSION, {
 	falloverStore: {
 		autoIncrement: true
 	}
-});
+}) as DBCallable;
 
 const falloverStore = db('falloverStore');
 
@@ -28,12 +41,12 @@ self.addEventListener('fetch', event => {
 		const target = new URL(event.request.url);
 		// Only handle requests which belong to the current host.
 		if (self.location.host !== target.host) {
-			return false;
+			return;
 		}
 	}
 
 	const request = event.request;
-	let status;
+	let status: string | undefined;
 	event.respondWith((async () => {
 		const fromCache = caches.match(request)
 			.then(b => {
@@ -61,7 +74,7 @@ self.addEventListener('fetch', event => {
 		// Save
 		fromFetch.then(cacheUpdate.bind(null, request));
 
-		return promise.catch(offlineFallback.bind(null, request));
+		return promise.catch(offlineFallback.bind(null, request)) as Promise<Response>;
 
 	})());
 
@@ -70,28 +83,28 @@ self.addEventListener('fetch', event => {
 
 // https://developers.google.com/web/fundamentals/instant-and-offline/offline-cookbook/
 
-function promiseAny(promises) {
+function promiseAny<T>(promises: Array<Promise<T | undefined>>): Promise<T> {
 	return new Promise((resolve, reject) => {
 		// make sure promises are all promises
-		promises = promises.map(p => Promise.resolve(p).then(emptyHandler));
+		const all = promises.map(p => Promise.resolve(p).then(emptyHandler));
 		// resolve this promise as soon as one resolves
-		promises.forEach(p => p.then(resolve));
+		all.forEach(p => p.then(resolve));
 		// reject if all promises reject
-		promises
+		all
 			.reduce((a, b) => a.catch(() => b))
 			.catch(() => reject(Error('All failed')));
 	});
 }
 
 
-function emptyHandler(r) {
+function emptyHandler<T>(r: T | undefined): T {
 	if (!r) {
 		throw new Error('not found');
 	}
 	return r;
 }
 
-function cacheUpdate(request, response) {
+function cacheUpdate(request: Request, response: Response): Response {
 
 	// Check if we received a valid response
 	if (!response || response.status !== 200 || response.type !== 'basic') {
@@ -109,11 +122,11 @@ function cacheUpdate(request, response) {
 	return response;
 }
 
-async function offlineFallback(request) {
+async function offlineFallback(request: Request): Promise<Response | undefined> {
 
 	const fallover = await falloverStore.all();
 
-	const match = fallover.filter(item => (
+	const match = fallover.filter((item: FalloverRecord) => (
 		(!item.mode || item.mode === request.mode)
 		&& (!item.url || request.url.match(item.url))
 	))[0];
@@ -128,7 +141,7 @@ async function offlineFallback(request) {
 
 self.addEventListener('message', event => {
 
-	const data = event.data;
+	const data = event.data as FalloverMessage;
 
 	// Open cache for actions
 	caches.open(CACHE_NAME).then(cache => {
@@ -136,7 +149,7 @@ self.addEventListener('message', event => {
 
 			case 'fallover': {
 				// Has this already been added?
-				falloverStore.all().then(fallover => {
+				falloverStore.all().then((fallover: FalloverRecord[]) => {
 					const match = fallover.filter(item => item.mode === data.mode && item.url === data.url)[0];
 					if (match) {
 						// does this need

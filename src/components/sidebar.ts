@@ -1,12 +1,12 @@
-import each from 'tricks/dom/each.js';
-import addClass from 'tricks/dom/addClass.js';
-import create from 'tricks/dom/create.js';
-import prepend from 'tricks/dom/prepend.js';
-import parent from 'tricks/dom/parent.js';
-import removeClass from 'tricks/dom/removeClass.js';
-import onhashchange from 'tricks/window/onhashchange.js';
-import getContent from './content.js';
-import id from 'tricks/dom/id.js';
+import each from 'tricks/dom/each';
+import addClass from 'tricks/dom/addClass';
+import create from 'tricks/dom/create';
+import prepend from 'tricks/dom/prepend';
+import parent from 'tricks/dom/parent';
+import removeClass from 'tricks/dom/removeClass';
+import onhashchange from 'tricks/window/onhashchange';
+import getContent from './content';
+import id from 'tricks/dom/id';
 
 
 // ///////////////////////////////////
@@ -27,13 +27,13 @@ export default function sidebar() {
 
 		// Create elements
 		let i = 0;
-		let prev = aside;
-		const items = {};
+		let prev: HTMLElement = aside;
+		const items: Record<string, HTMLElement> = {};
 
 		each(content, item => {
 
 			// New depth
-			const j = +item.tagName.match(/[0-9]/)[0];
+			const j = +(item.tagName.match(/[0-9]/) as RegExpMatchArray)[0];
 
 			// Get parent UL
 			const ul = getParentUL(prev, i, j);
@@ -70,7 +70,7 @@ export default function sidebar() {
 
 }
 
-function getParentUL(ul, i, j) {
+function getParentUL(ul: HTMLElement, i: number, j: number): HTMLElement {
 	if (i < j) {
 		return create('ul', {}, [], ul);
 	}
