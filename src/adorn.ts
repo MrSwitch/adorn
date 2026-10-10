@@ -164,7 +164,7 @@ function setup(base: string, manifest?: Manifest | null) {
 
 			serviceWorker.register(sw).catch(err => {
 				// registration failed :(
-				console.error('Adorn: SW registration failed: ', err); // eslint-disable-line
+				console.error('Adorn: SW registration failed: ', err);
 			});
 
 		}

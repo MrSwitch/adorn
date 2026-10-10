@@ -24,6 +24,7 @@ export default [
 
         rules: {
             "no-eval": 0,
+            "no-console": [2, { "allow": ["warn", "error"] }],
         },
     }
 ];
