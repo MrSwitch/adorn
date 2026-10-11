@@ -54,17 +54,7 @@ export default (manifest: Manifest) => {
 		github_btn(manifest),
 		twitter_btn(manifest),
 		share_btn()
-	].reduce((a, btn) => {
-		// Intersperse span elements
-		if (!btn) {
-			return a;
-		}
-		if (a.length) {
-			a.push(create('span'));
-		}
-		a.push(btn);
-		return a;
-	}, [] as Array<Node>);
+	].filter(Boolean);
 
 	// Get Social Buttons
 	const social_btns = create('div', {class: 'adorn-links'}, links);

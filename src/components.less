@@ -134,14 +134,11 @@ a.adorn-anchor{
 
 .adorn-links{
 	white-space: nowrap;
-	> span{
-		margin:0 20px;
-		&:after{
-			content: "\022C5";
-		}
-		@media @mobile{
-			margin:0 2px;
-		}
+	gap: 1em;
+	display: flex;
+	justify-content: flex-end;
+	@media @mobile{
+		gap: 0.5em;
 	}
 }
 
@@ -274,14 +271,23 @@ a.adorn-anchor{
 
 
 .adorn-icon-github{
-	color: inherit;
+	background: data-uri('./images/github.svg') no-repeat center center;
+	background-size: 1em;
+	width:1em;
+	height:1em;
+	font-size:1.5em;
+	vertical-align: middle;
 	display: inline-block;
-	font-style: normal;
-	text-decoration: inherit;
+}
 
-	&:after{
-		content:"GitHub";
-	}
+.adorn-icon-edit{
+	background: data-uri('./images/pencil.svg') no-repeat center center;
+	background-size: 1em;
+	width:1em;
+	height:1em;
+	font-size:1.5em;
+	vertical-align: middle;
+	display: inline-block;
 }
 
 .adorn-icon-twitter{
