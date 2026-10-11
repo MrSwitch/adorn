@@ -53,9 +53,10 @@ export function github_btn(manifest: Manifest) {
 				href: fullpath(repo_file, `${repo_path}/blob/master/`),
 				target: '_blank',
 				rel: 'noopener',
+				title: 'Suggest an edit',
 				id: 'adorn-edit'
 			}, [
-				'Suggest an edit'
+				create('i', {class: 'adorn-icon-edit'})
 			]),
 			create('span')
 		);
@@ -83,7 +84,7 @@ export function github_btn(manifest: Manifest) {
 			href: `${repo_path}`,
 			target: '_blank',
 			rel: 'noopener',
-			title: 'Github',
+			title: 'View on Github',
 			id: 'adorn-github-button'
 		}, [
 			create('i', {class: 'adorn-icon-github'}),
@@ -166,10 +167,12 @@ export function share_btn() {
 
 	// Create components
 	const btn = create('a', {
-		class: 'adorn-icon-share',
+		class: 'adorn-share-button',
 		title: 'Share',
 		href: 'javascript:void(0);'
-	});
+	}, [
+		create('i', {class: 'adorn-icon-share'})
+	]);
 
 	content.push(btn);
 

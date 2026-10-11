@@ -42,7 +42,7 @@ ready(helpers);
 import footer from './components/footer';
 import sidebar from './components/sidebar';
 import toolbar from './components/toolbar';
-
+import selectionShare from './components/selectionShare';
 
 // Get the manifest
 {
@@ -97,6 +97,9 @@ function setup(base: string, manifest?: Manifest | null) {
 
 		// Footer
 		footer(manifest);
+
+		// Share highlighted text
+		selectionShare(manifest);
 	}
 
 	// Set Lang
