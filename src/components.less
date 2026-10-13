@@ -322,6 +322,35 @@ a.adorn-anchor{
 /* close commented backslash hack */
 
 
+/* Copy code button */
+pre.adorn-copyable{
+	position: relative;
+}
+.adorn-copy-code{
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	margin: 0;
+	padding: 2px 8px;
+	font-size: 1em;
+	line-height: 1.5;
+	color: inherit;
+	background: none;
+	border: 0;
+	border-radius: 3px;
+	cursor: pointer;
+	opacity: 0;
+	.transition(opacity 0.3s);
+
+	pre:hover > &,
+	&:focus{
+		opacity: 1;
+	}
+	&:hover{
+		background-color: rgba(255,255,255,0.1);
+	}
+}
+
 .adorn-icon-github{
 	background: data-uri('./images/github.svg') no-repeat center center;
 	background-size: 1em;

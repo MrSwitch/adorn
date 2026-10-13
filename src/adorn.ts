@@ -32,6 +32,9 @@ import ga from 'tricks/services/googleanalytics';
 // Components
 import './components/security';
 
+// Copy code button on pre > code blocks
+import './components/copyCode';
+
 // Components
 import helpers from './components/helpers';
 
