@@ -57,8 +57,7 @@ export function github_btn(manifest: Manifest) {
 				id: 'adorn-edit'
 			}, [
 				create('i', {class: 'adorn-icon-edit'})
-			]),
-			create('span')
+			])
 		);
 
 		const bubble = create('span', {class: 'adorn-speech-bubble'});
