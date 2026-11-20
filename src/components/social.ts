@@ -42,7 +42,6 @@ export function github_btn(manifest: Manifest) {
 		repo += `/${ paths[0].replace(/\/$/, '')}`;
 	}
 
-	let speechBubble: HTMLElement | undefined;
 	// Get the location of this file in the repo
 	const repo_path = `https://github.com/${repo}`;
 	const repo_file = link() || (window.location.pathname || '').replace(/^\/?([^/]+)/g, '').replace(/\/$/, 'index.html').replace(/^\//, '');
@@ -59,9 +58,27 @@ export function github_btn(manifest: Manifest) {
 				create('i', {class: 'adorn-icon-edit'})
 			])
 		);
+	}
+
+	const github_btn = create('a', {
+		href: `${repo_path}`,
+		target: '_blank',
+		rel: 'noopener',
+		title: 'View on Github',
+		id: 'adorn-github-button'
+	}, [
+		create('i', {class: 'adorn-icon-github'}),
+	]);
+
+
+	content.push(
+		github_btn
+	);
+
+
+	if (repo.match('/')) {
 
 		const bubble = create('span', {class: 'adorn-speech-bubble'});
-		speechBubble = bubble;
 
 		// Grab Github Data
 		jsonp(`https://api.github.com/repos/${repo}?callback=?`, r => {
@@ -69,28 +86,17 @@ export function github_btn(manifest: Manifest) {
 			const stars = r?.data?.stargazers_count;
 
 			if (stars) {
+
 				// Add value to bubble icon
 				bubble.innerHTML = `${numberFormat(stars)}⭐️`;
 				bubble.title = `${numberFormat(stars)} Github ⭐️gazers`;
+
+				// Append the bubble to the GitHub button
+				github_btn.appendChild(bubble);
 			}
 
 		});
 	}
-
-
-	content.push(
-		create('a', {
-			href: `${repo_path}`,
-			target: '_blank',
-			rel: 'noopener',
-			title: 'View on Github',
-			id: 'adorn-github-button'
-		}, [
-			create('i', {class: 'adorn-icon-github'}),
-			speechBubble
-		])
-	);
-
 
 	return fragment(...content);
 }
